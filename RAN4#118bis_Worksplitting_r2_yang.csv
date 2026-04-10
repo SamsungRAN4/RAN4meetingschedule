@@ -1,0 +1,88 @@
+﻿118,Title,Topic title,WI,Topic areas,AI covered in the topic thread,Summary agenda,6G Feature lead/5G Moderator,Notes,Samsung Major Responsibility,Work Level if monitoring
+100,Main Session,[118][100] Main Session,N.A,N.A,N.A,"2, 3",Yang Tang,"Chair announcements for main session, such as meeting report update, meeting schedule and etc.", ,
+6G SI,,,,,,,,,,
+101-A,6G system parameter (part I),[118][101-A] 6G system parameter (part I),FS_6G_Radio,"6G system parameter: waveform (including PA model), channel bandwidth, others",8.2,8.1,Leo Liu, ,Taekhoon / Jackson / Lili,
+101-B,6G system parameter (part II),[118][101-B] 6G system parameter (part II),FS_6G_Radio,"6G system parameter: modulation, channel arrangement, min max CBW for device type",8.2,8.1,"Jinqiang Xing
+", ,Taekhoon / Jackson / Lili,
+102-A,6G general RF and UE RF (part I),[118][102-A] 6G general RF and UE RF (part I),FS_6G_Radio,"6G general RF and UE RF: output power requirements, Tx/Rx requirements",8.3,8.1,Toni Laehteensuo , ,Tina / Bozhi / Taekhoon,
+102-B,6G general RF and UE RF (part II),[118][102-B] 6G general RF and UE RF (part II),FS_6G_Radio,"6G general RF and UE RF: joint UE-BS RF, spectrum aggregation, others",8.3,8.1,"Haijie Qiu
+", ,Tina / Bozhi / Taekhoon,
+104-A,6G spectrum (part I),[118][104-A] 6G spectrum (part I),FS_6G_Radio,"6G spectrum: definition of frequency range, band and band combination defintion and simplification",8.5,8.1,"Johannes Hejselbaek
+", ,Tina / Taekhoon,
+104-B,6G spectrum (part II),[118][104-B] 6G spectrum (part II),FS_6G_Radio,"6G spectrum: band group concept study, spectrum related regulatory survey ",8.5,8.1,"Bo Liu
+", ,Tina / Taekhoon,
+105-A,6G RRM (part I),[118][105-A] 6G RRM (part I),FS_6G_Radio,"6G RRM: RRM framework, others",8.6,8.1,Jerry Cui, ,Yanze / Dong / Xinyan,
+105-B,6G RRM (part II),[118][105-B] 6G RRM (part II),FS_6G_Radio,6G RRM: measuremeng gap,8.6,8.1,Jinyup Hwang, ,Yanze / Dong / Xinyan,
+107,6G AI,[118][107] 6G AI,FS_6G_Radio,6G AI,8.8,8.1,Jackson Wang, ,Jackson / Tina / Xiaoming / Yanze / Dong / Lili,
+108,6G spectrum sharing,[118][108] 6G spectrum sharing,FS_6G_Radio,6G spectrum sharing,8.9,8.1,Jingjing Chen, ,Bozhi,
+111,6G operation efficiency,[118][111] 6G operation efficiency,FS_6G_Radio,6G operation efficiency,8.12,8.1,Aijun Cao, ,Jackson,
+R19 AI for air interface,,,,,,,,,,
+112,R19 AI for air interface,[118][112] R19 AI for air interface,NR_AIML_air,"6.1 Artificial Intelligence (AI)/Machine Learning (ML) for NR Air Interface [NR_AIML_air]
+",6.1,6.1.1,Valentin Gheorghiu, ,Jackson,
+R19 Spectrum WI maintenance,,,,,,,,,,
+113,R19_spectrum_maintenance,[118][113] R19_spectrum_maintenance,Closed  Rel-19 Wis,"4.2 Rel-19 spectrum related WI maintenance [WI code] （4.2.7 will be treated in Gene session）
+","4.2
+
+5.25.1
+5.26.1
+5.27.1
+5.28.1
+
+5.30.1
+",4.1.1, ,, ,
+Rel-19 non-spectrum WI maintenance,,,,,,,,,,
+114,R19_UERF_maintenance_Part1,[118][114] R19_UERF_maintenance_Part1,"Closed  Rel-19 Wis, TEI19","4.3 NR sidelink Intra-band Carrier Aggregation in ITS band [NR_SL_intraB_CA_ITS]
+4.4.1 UE RF requirements maintenance for inter-band NR CA/DC with 3MHz CBW
+4.5 NR power class 2 RedCap (Reduced Capability) UE in FR1 [NR_PC2_RedCap_UE-Core]
+4.6 UE RF enhancements for NR FR1/FR2 and EN-DC, Phase 4 [NR_ENDC_RF_Ph4]
+4.6.1 UE RF requirements [NR_ENDC_RF_Ph4-Core]
+4.6.1.1 High power UE (HPUE) for CA in terrestrial network (TN) [NR_ENDC_RF_Ph4-Core]
+4.6.1.2 Power domain enhancement for NR single carrier and NR intra-band UL CA for PC2 and PC3 [NR_ENDC_RF_Ph4-Core]
+4.6.1.3 6Rx UE
+4.7 Support of intra-band non-collocated EN-DC/NR-CA deployment Phase2: new receiver type(s) [NonCol_intraB_ENDC_NR_CA_Ph2]
+4.7.1 UE RF requirements [NonCol_intraB_ENDC_NR_CA_Ph2-Core]
+4.8 Low band carrier aggregation via switching [NR_LBCA_Sw]
+4.8.1 UE RF requirements [NR_LBCA_Sw-Core]
+4.33.1 TEI19 UE RF related topics","4.3
+4.4.1
+4.5
+4.6(except4.6.2)
+4.7.1
+4.8.1
+4.33.1",4.1.1, ,,"NWM
+",
+115,R19_UERF_maintenance_Part2,[118][115] R19_UERF_maintenance_Part2,"Closed  Rel-19 Wis, TEI19","4.9 NR FR1 7 MHz Channel Bandwidth [NR_FR1_7MHz_BW]
+4.9.1 UE RF requirements and system parameters [NR_FR1_7MHz_BW-Core]
+4.10 New LTE band for 5G broadcast for region 3 utilizing a geosynchronous satellite [LTE_band_5G_bcast_GSO]
+4.10.1 Band definition and system parameters [LTE_band_5G_bcast_GSO-Core]
+4.10.2 UE RF core requirements [LTE_band_5G_bcast_GSO-Core]
+4.12 Enhancements for Air-to-ground network for NR [NR_ATG_enh]
+4.12.1 UE RF requirements [NR_ATG_enh-Core]
+4.18 NR MIMO Phase 5 [NR_MIMO_Ph5]
+4.18.1 UE RF requirements [NR_MIMO_Ph5-Core]
+4.22 Low-power wake-up signal and receiver for NR (LP-WUS/WUR) [NR_LPWUS]
+4.22.1 UE RF requirements for LP-WUS/WUR [NR_LPWUS-Core]","4.9.1
+4.10.1
+4.10.2
+4.12.1
+4.18.1
+4.22.1
+",4.1.1, ,,NWM,
+116,R18_UERF_maintenance,[118][116] R18_UERF_maintenance,Closed Rel-18 Wis,"10.2.3 Rel-18 maintenance
+10.7 Rel-18 Spectrum related WI maintenance
+10.9.1 TEI18 UE RF related topics (other than NTN)","10.2.3
+10.7
+10.9",10.1, ,,NWM,
+117,Upto_R17_UERF_maintenance,[118][117] Upto_R17_UERF_maintenance,"Closed WIs upto Rel-17
+","10.2.1 Up to Rel-16 maintenance
+10.2.2 Rel-17 maintenance
+10.8 Rel-16/17 TEI and others (EMC, OTA, and TRP/TRS)
+
+","10.2.1
+10.2.2
+10.8
+
+",10.1, ,,"NWM
+",
+R20 basket WI,,,,,,,,,,
+118,R19 feature list,,,,,,Jingjing Chen,,Jackson,
