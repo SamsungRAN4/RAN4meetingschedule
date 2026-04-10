@@ -1,0 +1,37 @@
+﻿#,Title,Email title,WI,Topic areas,AI covered in the topic thread,Moderator,Summary agenda,Samsung Major Responsibility,Work Level
+200,RRM_Demod_OTA_Session,[118bis][200] RRM_Demod_OTA_Session,N.A.,N.A.,N.A.,Shan Yang, , ,
+Rel-20 RRM,,,,,,,,,
+201,NR_RRM_Ph6,[118bis][201] NR_RRM_Ph6,NR Radio Resource Management (RRM) Phase 6,"General aspects and work plan
+RRM core requirements","7.4.2
+7.4.3.2",Zhixun Tang,7.4.1,Xinyan / Yanze,
+202,NR_UAV_req_RRM,[118bis][202] NR_UAV_req_RRM,Enhancement of NR RF and RRM requirements for uncrewed aerial vehicle (UAV),RRM core requirements,7.7.5 ,Shiyuan Wang,7.7.1,N/A,Monitoring
+203,NR_LBCA_Sw_enh_RRM,[118bis][203] NR_LBCA_Sw_enh_RRM,Enhancement of low NR band carrier aggregation via switching,RRM core requirements,7.8.4,Yanze Fu,7.8.1,Yanze,
+204,NR_MIMO_Ph6_RRM,[118bis][204] NR_MIMO_Ph6_RRM,NR MIMO Phase 6,"1) General aspects and workplan 
+2) RRM core requirement ",7.11,Ada (Miao) Wang,7.11.1,Yanze,
+205,NR_AIML_Mob_RRM,[118bis][205] NR_AIML_Mob_RRM,Artificial Intelligence (AI)/Machine Learning (ML) for mobility,"1) General aspects and workplan 
+2) RRM core requirement ",7.12,Qiuge Guo,7.12.1,Dong / Yanze / Jackson,
+206,NR_Mob_Ph5_RRM,[118bis][206] NR_Mob_Ph5_RRM,NR mobility enhancements Phase 5,"1) General aspects and workplan 
+2) RRM core requirement ",7.13,Roy Hu,7.13.1,Yanze,Monitoring
+207,Ambient_IoT_Ph2_RRM,[118bis][207] Ambient_IoT_Ph2_RRM,Solutions for Ambient IoT (Internet of Things) in NR Phase 2,RRM Core requirement,7.17.3,Li Zhang,7.17.1,N/A,Monitoring
+Rel-20 Demod,,,,,,,,,
+208,NR_demod_Ph6,[118bis][208] NR_demod_Ph6,NR demodulation performance: Phase 6,"1) General aspects and work plan
+2) Performance requirements for FR1 SU-MIMO with spatial channel model 
+3) Performance requirements for 6Rx UE with interference
+",7.5,Jingzhou Wu,7.5.1,Lili,
+209,FS_NR_demod_SCM,[118bis][209] FS_NR_demod_SCM,Study on spatial channel model for demodulation performance requirements for NR: MultiUser-MIMO,"1) General aspects and work plan
+2) Study practical spatial channel modelling methodology for MU-MIMO",7.9,Alexander Hamilton,7.9.1,Lili,
+6G Demod,,,,,,,,,
+210,6G_Demod_Part1,[118bis][210] 6G_Demod_Part1,FS_6G_Radio,6G Demod,8.7,Hannu Vesala,8.1.1,Lili,
+211,6G_Demod_Part2,[118bis][211] 6G_Demod_Part2,FS_6G_Radio,6G Demod,8.7,Karsten Petersen ,8.1.1,Lili,
+Rel-20 OTA,,,,,,,,,
+212,NR_UE_OTA_Enh,[118bis][212] NR_UE_OTA_Enh,Enhancement of UE OTA test method and requirements for NR,"1) General aspects and work plan
+2) Enhanced test methodologies to cover NTN Ka and Ku bands ",7.3,Moray,7.3.1,Bozhi,
+Rel-20 OTA,,,,,,,,,
+213,6G_testability_OTA,[118bis][213] 6G_testability_OTA,FS_6G_Radio,6G testability and OTA,8.11,Ruixin Wang,8.1.1,Bozhi,
+Rel-20 OTA,,,,,,,,,
+214,NR_AIML_air_Ph2,[118bis][214] NR_AIML_air_Ph2,Artificial Intelligence (AI)/Machine Learning (ML) for NR Air Interface,"1) General aspects and workplan  
+2) Inter-vendor training collaboration and interoperability for two-sided AI/ML models  
+3) RRM core requirement
+",7.1,Thomas Chapman,7.10.1,Xiaoming / Jackson / Yanze,
+LS reply,,,,,,,,,
+[215],[Reply_LS],[118][[215]] [Reply_LS],"Reply LS discussions on related RRM, domod and OTA topics",Session Related,11.3,TBA if needed,11.1,Yanze,
