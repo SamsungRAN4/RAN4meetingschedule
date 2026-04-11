@@ -6,7 +6,6 @@
     <title>RAN4 #118bis Meeting Schedule Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Ensures the table fills the screen height optimally */
         body, html { height: 100%; margin: 0; display: flex; flex-direction: column; }
         .table-container { flex: 1; overflow-y: auto; }
         td { vertical-align: top; }
@@ -38,8 +37,7 @@
         </div>
     </div>
 
-    <div class="flex gap-1 mb-4 border-b border-gray-300 shrink-0" id="tabs-container">
-        </div>
+    <div class="flex gap-1 mb-4 border-b border-gray-300 shrink-0" id="tabs-container"></div>
 
     <div class="table-container bg-white rounded shadow border border-gray-200 overflow-x-auto">
         <div id="schedule-container" class="min-w-[1000px] h-full"></div>
@@ -74,9 +72,9 @@
             "340": ["Tina", "Bozhi"], "341": ["Tina", "Bozhi"],
             "342": ["Taekhoon"],
             "345": ["Xin", "Jackson"],
-            "346": ["Bozhi"], "347": ["Bozhi"],
+            "346": ["Dong"], "347": ["Dong"],
             "348": ["Bozhi", "Yanze"],
-            "349": ["Bozhi"], "350": ["Bozhi"],
+            "349": ["Dong"], "350": ["Dong"],
             "351": ["Bozhi (Monitoring)"],
             "352": ["Tina (Monitoring)"],
             "353": ["Tina (Monitoring)"],
@@ -174,7 +172,7 @@
                         main: [ { text: "Main Ad hoc", isHeader: true }, { text: "[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)", topics: ["102-B"] } ],
                         br1: [ { text: "RRM Ad-hoc:", isHeader: true }, { text: "[205] NR_AIML_Mob_RRM, Chaired by Qiuge Guo (OPPO)", topics: ["205"] } ],
                         br2: [ { text: "BDaT Ad-hoc: 6G coexistence", isHeader: true }, { text: "[361] 6G_BSRF_coexistence_AAS, coexistence part, chaired by Michal (Huawei)", topics: ["361"] } ],
-                        adhoc: [ { text: "Main Ad-hoc: TBD", isHeader: true } ]
+                        adhoc: [ { text: "Main Ad-hoc: TBD", topics: [] } ]
                     }
                 ]
             },
@@ -244,34 +242,33 @@
                     { time: "10:30-11:00", fullRow: "Coffee break" },
                     { time: "11:00-13:00",
                         main: [ { text: "EARLY RETURN TO (in the following order)\n6G system parameter\n6G UE RF\n6G spectrum\n6G spectrum sharing\n6G RRM\n6G AI\n6G operation efficiency\n5GA R19 AI", topics: ["101", "102", "104", "108", "105", "107", "111", "112"] } ],
-                        br1: [ { text: "Ad-hoc or Early Return-to", isHeader: true } ],
+                        br1: [ { text: "Ad-hoc or Early Return-to", topics: [] } ],
                         br2: [ { text: "5G Basket and spectrum (cont)", topics: ["320","321","322","323","324","325","326","327","328"] } ],
                         adhoc: [ { text: "BR1 Ad-hoc:\nR20 RRM", isHeader: true }, { text: "[204] NR_MIMO_Ph6_RRM, Chaired by Miao Wang (MediaTek)\n---12:00---", topics: ["204"] }, { text: "[206] NR_Mob_Ph5_RRM, Chaired by Roy Hu (OPPO)", topics: ["206"] } ]
                     },
                     { time: "13:00-14:30", fullRow: "Lunch break" },
                     { time: "14:30-16:30",
-                        main: [ { text: "EARLY RETURN TO", isHeader: true } ],
-                        br1: [ { text: "Ad-hoc or Early Return-to", isHeader: true } ],
+                        main: [ { text: "EARLY RETURN TO", topics: [] } ],
+                        br1: [ { text: "Ad-hoc or Early Return-to", topics: [] } ],
                         br2: [
                             { text: "BR2 Ad-hoc: NTN (14:30 – 16:30)", isHeader: true },
                             { text: "[347] NR_IoT_NTN_Ph2\n[346] NR_IoT_NTN_Ph2\nChaired by Jeffery (MTK) and Tank (CHTTL)", topics: ["347", "346"] }
                         ],
                         adhoc: [
-                            { text: "BR2 Ad-hoc: TBD (14:30 – 15:30)", isHeader: true },
-                            { text: "BR2 Ad-hoc:  Rel-20 UAV (15:30 – 16:30)", isHeader: true },
-                            { text: "[351] NR_UAV chaired by Bin (Qualcomm)", topics: ["351"] }
+                            { text: "BR2 Ad-hoc: TBD (14:30 – 15:30)", topics: [] },
+                            { text: "BR2 Ad-hoc:  Rel-20 UAV (15:30 – 16:30)\n[351] NR_UAV chaired by Bin (Qualcomm)", topics: ["351"] }
                         ]
                     },
                     { time: "16:30-17:00", fullRow: "Coffee break" },
                     { time: "17:00-18:00",
                         main: [ { text: "Main Ad-hoc:", isHeader: true }, { text: "[107] 6G AI, Chaired by Jackson (Samsung)", topics: ["107"] } ],
-                        br1: [ { text: "Early Return-to", isHeader: true } ],
-                        br2: [ { text: "BR2 Ad-hoc: TBD", isHeader: true } ],
+                        br1: [ { text: "Early Return-to", topics: [] } ],
+                        br2: [ { text: "BR2 Ad-hoc: TBD", topics: [] } ],
                         adhoc: [ { text: "Main Ad hoc:", isHeader: true }, { text: "[104] Spectrum, Chaired by Johannes(Nokia)", topics: ["104"] } ]
                     },
                     { time: "18:00-19:30",
                         main: [ { text: "Main Ad-hoc:", isHeader: true }, { text: "[107] 6G AI, Chaired by Jackson (Samsung)", topics: ["107"] } ],
-                        br1: [ { text: "Ad-hoc or Early Return-to", isHeader: true } ],
+                        br1: [ { text: "Ad-hoc or Early Return-to", topics: [] } ],
                         br2: [ { text: "BR2 Ad-hoc: 6G Sensing", isHeader: true }, { text: "[362] 6G_Sensing, chaired by Fei (ZTE)", topics: ["362"] } ],
                         adhoc: [ { text: "Main Ad hoc:", isHeader: true }, { text: "[102-B] System Parameter, Chaired by Jinqiang (OPPO)", topics: ["102-B"] } ]
                     }
@@ -282,22 +279,22 @@
                 slots: [
                     { time: "08:00-10:30",
                         main: [ { text: "Return to\n6G system parameter\n6G UE RF\n6G spectrum\n6G spectrum sharing", topics: ["101", "102", "104", "108"] } ],
-                        br1: [ { text: "Return to", isHeader: true } ],
-                        br2: [ { text: "Return to", isHeader: true } ],
+                        br1: [ { text: "Return to", topics: [] } ],
+                        br2: [ { text: "Return to", topics: [] } ],
                         adhoc: []
                     },
                     { time: "10:30-11:00", fullRow: "Coffee break" },
                     { time: "11:00-12:45",
                         main: [ { text: "6G RRM\n6G AI\n6G operation efficiency\n5GA R19 AI\n13 Any other business\n14 Close of the meeting (main session)", topics: ["105", "107", "111", "112"] } ],
                         br1: [ { text: "Return to\nOTA", topics: ["212", "213"] } ],
-                        br2: [ { text: "Return to", isHeader: true } ],
+                        br2: [ { text: "Return to", topics: [] } ],
                         adhoc: []
                     },
                     { time: "12:45-13:45", fullRow: "Lunch break" },
                     { time: "14:00-EOM",
-                        main: [ { text: "Joint RAN1/RAN4 session on 6G in RAN1 main session", isHeader: true } ],
-                        br1: [ { text: "Return to (final round)", isHeader: true } ],
-                        br2: [ { text: "Return to (final round)", isHeader: true } ],
+                        main: [ { text: "Joint RAN1/RAN4 session on 6G in RAN1 main session", topics: [] } ],
+                        br1: [ { text: "Return to (final round)", topics: [] } ],
+                        br2: [ { text: "Return to (final round)", topics: [] } ],
                         adhoc: []
                     }
                 ]
@@ -348,7 +345,6 @@
                     return;
                 }
 
-                // Pre-compute delegate positions in this time slot for collision detection
                 let slotDelegates = {};
                 ['main', 'br1', 'br2', 'adhoc'].forEach(room => {
                     (slot[room] || []).forEach(block => {
@@ -382,17 +378,14 @@
                                     if (topicOwners[t]) owners.push(...topicOwners[t]);
                                 });
                             }
-                            owners = [...new Set(owners)]; // Deduplicate
+                            owners = [...new Set(owners)];
 
                             let hasRealOwner = owners.some(o => o !== "(Monitoring)" && o !== "N/A (Monitoring)" && o !== "N/A");
-                            
-                            // Highlight filtering
                             let isGrayedOut = !hasRealOwner;
                             if (selectedDelegate !== 'All' && !owners.some(o => o.includes(selectedDelegate))) {
                                 isGrayedOut = true;
                             }
 
-                            // Theming Rules
                             let bgClass = "bg-gray-100 text-gray-400 border-gray-200 opacity-75"; 
                             if (!isGrayedOut) {
                                 if (room === 'main') bgClass = "bg-blue-50 border-blue-200 text-blue-900";
@@ -414,13 +407,11 @@
                                     const cleanName = o.replace(' (Monitoring)', '').replace(' (Home Support)', '');
                                     const isMonitoring = o.includes('(Monitoring)');
                                     
-                                    // Home Support logic
                                     let dispName = o;
                                     if (owners.length === 1 && (cleanName === 'Xinyan' || cleanName === 'Hongjun')) {
                                         dispName = cleanName + ' (Home Support)';
                                     }
 
-                                    // Collision Check logic
                                     let isConflict = slotDelegates[cleanName] && slotDelegates[cleanName].size > 1;
                                     let showConflict = isConflict && (selectedDelegate === 'All' || selectedDelegate === cleanName);
 
@@ -445,7 +436,6 @@
             container.innerHTML = html;
         }
 
-        // Initialize App
         setupTabs();
         renderSchedule();
     </script>
