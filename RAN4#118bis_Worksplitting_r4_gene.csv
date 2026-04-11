@@ -1,0 +1,61 @@
+#,Title,Topic title,WI,Topic areas,AI,Moderator,Company,Summary AI,Notes,Samsung Major Responsibility,Work Level
+300,BDaT_Session,[118bis][300] BDaT_Session,N.A.,N.A.,N.A.,Gene Fong,Session chair,?,"Session chair announcements for BDaT session, such as meeting report update, meeting schedule and etc.",?,?
+Rel-15/16/17/18 Legacy Maintenance and TEI,?,?,?,?,?,?,?,?,?,?,?
+?,?,?,?,?,?,?,?,?,?,?,?
+Rel-19 Maintenance and TEI,?,?,?,?,?,?,?,?,?,?,?
+?,?,?,?,?,?,?,?,?,?,?,?
+Rel-20 5G-A Spectrum and baskets,?,?,?,?,?,?,?,?,?,?,?
+320,NR_LTE_combos_Features,[118bis][320] NR_LTE_combos_Features,NR_LTE_combos_Features_R20-Core,?,"5.2.1, 5.2.2, 5.2.3, 5.2.4",Bo Liu,China Telecom,5.1,NWM or equivalent to be used,Bozhi,?
+321,DC_xBLTE_yBNR,[118bis][321] DC_xBLTE_yBNR,DC_xBLTE_yBNR_R20_HPUE-Core,?,"5.3.1, 5.3.2, 5.3.3, 5.3.4, 5.3.5, 5.3.6, 5.3.7","Basaier Jialade
+",China Unicom,5.1,NWM or equivalent to be used,Tina,?
+322,NR_bands_xFeature,[118bis][322] NR_bands_xFeature,NR_bands_xFeature_R20-Core,?,"5.4.1, 5.4.2, 5.4.3, 5.4.4, 5.4.5","Wubin Zhou
+",ZTE,5.1,NWM or equivalent to be used,Bozhi,?
+323,NTN_bands_Features,[118bis][323] NTN_bands_Features,NTN_bands_Features_R20-Core,?,"5.5.1, 5.5.2, 5.5.3, 5.5.4, 5.5.5, 5.5.6","Daniel Popp
+",Apple,5.1,NWM or equivalent to be used,Bozhi,?
+324,NR_CADC_SUL,[118bis][324] NR_CADC_SUL,NR_CADC_SUL_R20_HPUE-Core,?,"5.6.1, 5.6.2, 5.6.3, 5.6.4, 5.6.5, 5.6.6, 5.6.7, 5.6.8, 5.6.9","Per Lindell
+",Ericsson,5.1,NWM or equivalent to be used,Tina,?
+325,NR_Bands_BW_PC_BC_RedCap,[118bis][325] NR_Bands_BW_PC_BC_RedCap,NR_Bands_BW_PC_BC_Redcap_R20-Core,?,"5.7.1, 5.7.2, 5.7.3, 5.7.4, 5.7.5","Alok Sethi
+",Nokia,5.1,NWM or equivalent to be used,Bozhi,?
+326,LTE_CA_xBDL_yBUL,[118bis][326] LTE_CA_xBDL_yBUL,LTE_CA _R20_xBDL_yBUL-Core,?,"5.8.1, 5.8.2",Mohammad Abdi Abyaneh,Huawei,5.1,NWM or equivalent to be used,Tina,?
+327,NR_1.5GHz_Japan,[118bis][327] NR_1.5GHz_Japan,NR_1500MHz_JP-Core,?,"5.10.1, 5.10.2, 5.10.3","Yasuki Suzuki
+",KDDI,5.1,NWM or equivalent to be used,Bozhi,?
+328,NR_EESS_PC1_40GHz,[118bis][328] NR_EESS_PC1_40GHz,NR_40GHz_EESSprot_PC1-Core,?,"5.11.1, 5.11.2, 5.11.3, 5.11.4","Ryu Kitagawa
+",NTT DoCoMo,5.1,NWM or equivalent to be used,Bozhi,?
+?,?,?,?,?,?,?,?,?,?,?,?
+Rel-20 UE RF,?,?,?,?,?,?,?,?,?,?,?
+340,NR_UE_RF_Ph5,[118bis][340] NR_UE_RF_Ph5,NR_UE_RF_Ph5-Core,"Rel-20 UE RF:? General aspects, HPUE requirements","7.1.2, 7.1.4","Alok Sethi
+",Nokia,7.1.1,?,Tina / Bozhi,?
+341,NR_UE_RF_Ph5_Part2,[118bis][341] NR_UE_RF_Ph5_Part2,NR_UE_RF_Ph5-Core,"Rel-20 UE RF:? HPUE coexistence, 6 MHz CBW","7.1.3, 7.1.5.1, 7.1.5.2",Tina Zhang,Samsung,7.1.1,?,Tina / Bozhi,?
+342,NR_low_band_CA_switching,[118bis][342] NR_low_band_CA_switching,NR_LBCA_Sw_enh-Core,"Rel-20 LBCA: General aspects, UE RF","7.8.2, 7.8.3",James Wang,Apple,7.8.1,"
+RRM part 7.8.4 is handled in RRM session",Taekhoon,?
+343,NR_TDD_4.9GHz_band,[118bis][343] NR_TDD_4.9GHz_band,NR_TDD_band_4900MHz_US-Core,4.9 GHz band for US,5.9,Masashi Fushiki?,Fujitsu,5.1,Work item on hold pending FCC feedback,?,?
+344,NR_less_than_5MHz_RedCap_UERF,[118bis][344] NR_less_than_5MHz_RedCap_UERF,NR_RRM_Ph6-Core,Less than 5 MHz for (e)Redcap UERF,7.4.3.1,Kun Zhao,Sony,7.4.1,No contributions expected at RAN4 #118bis,?,?
+?,?,?,?,?,?,?,?,?,?,?,?
+Rel-20 BS RF,?,?,?,?,?,?,?,?,?,?,?
+345,NR_BS_RF_Ph2,[118bis][345] NR_BS_RF_Ph2,NR_BS_RF_req_evo_Ph2-Core,"Rel-20 BS RF: General aspects, Co-location, SBFD to SBFD coex","7.2.2, 7.2.3, 7.2.4",Torbj?rn Elfstr?m,Ericsson,7.2.1,?,Xin / Jackson,?
+?,?,?,?,?,?,?,?,?,?,?,?
+Rel-20 NTN related,?,?,?,?,?,?,?,?,?,?,?
+346,NR_IoT_NTN_Ph2,[118bis][346] NR_IoT_NTN_Ph2,NR_IoT_NTN_req_Ph2-Core,"Rel-20 NTN: General aspects, IoT NTN PC1.5","7.6.2, 7.6.3",Tank Taaank,CHTTL,7.6.1,?,Bozhi,?
+347,NR_IoT_NTN_Ph2_Part2,[118bis][347] NR_IoT_NTN_Ph2_Part2,NR_IoT_NTN_req_Ph2-Core,Rel-20 NTN: HD-FDD?,"7.6.4.1, 7.6.4.2",Jeffery Chi,MediaTek,7.6.1,?,Bozhi,?
+348,Study_NR_NTN_GNSS_resilient,[118bis][348] Study_NR_NTN_GNSS_resilient,FS_NR_NTN_GNSS_resilient,Study on GNSS resilient NR-NTN operation,"7.14.2, 7.14.3.1, 7.14.3.2, 7.14.4","Dorin Panaitopol
+",Thales,7.14.1,?,Yanze / Xinyan,?
+349,LTE_TN_NR_NTN_handover,[118bis][349] LTE_TN_NR_NTN_handover,LTE_TN_NR_NTN_HO-Core,E-UTRA TN to NR NTN handover enhancements,"7.15.2, 7.15.3, 7.15.4",Lingyu Gao,CATT,7.15.1,?,Xinyan,?
+350,LTE_IoT_NTN_high_power,[118bis][350] LTE_IoT_NTN_high_power,IoT_NTN_Ph4-Core,Higher than PC1 for IoT NTN UE,"7.16.2, 7.16.3",Ruixin Wang,vivo,7.16.1,?,Bozhi,?
+?,?,?,?,?,?,?,?,?,?,?,?
+Rel-20 Other verticals,?,?,?,?,?,?,?,?,?,?,?
+351,NR_UAV,[118bis][351] NR_UAV,NR_UAV_req-Core,"Rel-20 UAV: General aspects, coexistence, UE RF requirements","7.7.2, 7.7.3, 7.7.4",Bin Han,Qualcomm,7.7.1,"
+RRM part 7.7.5 is handled in RRM session.",Bozhi,Monitoring
+352,A-IoT_sys_outdoor,[118bis][352] A-IoT_sys_outdoor,Ambient_IoT_Solutions_Ph2-Core,"System parameters, D4T1","7.17.2, 7.17.4, 7.17.5.1, 7.17.5.2, 7.17.5.3",Lin Ling,Huawei,7.17.1,RRM part 7.17.3 is handled in RRM session,Tina,Monitoring
+352,A-IoT_indoor_test,[118bis][352] A-IoT_indoor_test,Ambient_IoT_Solutions_Ph2-Core,"D2T2 requirements, testing active devices","7.17.6.1, 7.17.6.2, 7.17.6.3, 7.17.6.4, 7.17.7",Huiping Shan,Xiaomi,7.17.1,RRM part 7.17.3 is handled in RRM session,Tina,Monitoring
+?,?,?,?,?,?,?,?,?,?,?,?
+6G SI,?,?,?,?,?,?,?,?,?,?,?
+360,6G_BSRF_requirements,[118bis][360] 6G_BSRF_requirements,FS_6G_Radio,"6G BSRF: BS RF requirements, SAN RF requirements","8.4.1.1, 8.4.1.2, 8.4.1.3, 8.4.2.1, 8.4.2.2","Dominique Everaere
+",Ericsson,8.1.1,?,Xin,?
+361,6G_BSRF_coexistence_AAS,[118bis][361] 6G_BSRF_coexistence_AAS,FS_6G_Radio,"6G BSRF: Coexistence
+AAS modeling below 1 GHz","8.4.3.1, 8.4.3.2, 8.4.3.3, 8.4.4, 8.4.5",Michal Szydelko,Huawei,8.1.1,?,Xin,?
+362,6G_Sensing,[118bis][362] 6G_Sensing,FS_6G_Radio,6G BSRF: Sensing,"8.10.1, 8.10.2, 8.10.3, 8.10.4, 8.10.5, 8.10.6","Fei Xue
+",ZTE,8.1.1,?,Xin,?
+?,?,?,?,?,?,?,?,?,?,?,?
+LS and RAN task,?,?,?,?,?,?,?,?,?,?,?
+370,LS_BDaT,[118bis][370] LS_BDaT,BDaT LS,"LS response for BDaT
+R18 related, R17, R16, R15 related, R19 related","11.2, 11.3 (BDaT related)",Aijun Cao,CATT,11.1,?,Jackson,?
