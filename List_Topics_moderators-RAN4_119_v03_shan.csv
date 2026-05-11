@@ -1,0 +1,60 @@
+﻿#,Title,Email title,WI,Topic areas,AI covered in the topic thread,Moderator,Summary agenda,Notes ,Samsung Major Responsibility,Work level
+200,RRM_Demod_OTA_Session,[119][200] RRM_Demod_OTA_Session,N.A.,N.A.,N.A.,Shan Yang,,,,
+Up to Rel-20 RRM,,,,,,,,,,
+201,NR_RRM_Ph6,[119][201] NR_RRM_Ph6,NR Radio Resource Management (RRM) Phase 6,"General aspects and work plan
+RRM core requirements","7.4.2
+7.4.3.2",Zhixun Tang,7.4.1,,Xinyan / Yanze,
+202,NR_UAV_req_RRM,[119][202] NR_UAV_req_RRM,Enhancement of NR RF and RRM requirements for uncrewed aerial vehicle (UAV),RRM core requirements,7.7.5 ,Shiyuan Wang,7.7.1,,N/A,
+203,NR_LBCA_Sw_enh_RRM,[119][203] NR_LBCA_Sw_enh_RRM,Enhancement of low NR band carrier aggregation via switching,RRM core requirements,7.8.4,Yanze Fu,7.8.1,,Yanze,
+204,NR_MIMO_Ph6_RRM,[119][204] NR_MIMO_Ph6_RRM,NR MIMO Phase 6,"1) General aspects and workplan 
+2) RRM core requirement ",7.11,Ada (Miao) Wang,7.11.1,,Yanze,
+205,NR_AIML_Mob_RRM,[119][205] NR_AIML_Mob_RRM,Artificial Intelligence (AI)/Machine Learning (ML) for mobility,"1) General aspects and workplan 
+2) RRM core requirement ",7.12,Qiuge Guo,7.12.1,,Dong / Yanze,
+206,NR_Mob_Ph5_RRM,[119][206] NR_Mob_Ph5_RRM,NR mobility enhancements Phase 5,"1) General aspects and workplan 
+2) RRM core requirement ",7.13,Roy Hu,7.13.1,,Yanze,Monitoring
+207,Ambient_IoT_Ph2_RRM,[119][207] Ambient_IoT_Ph2_RRM,Solutions for Ambient IoT (Internet of Things) in NR Phase 2,RRM Core requirement,7.17.3,Li Zhang,7.17.1,,N/A,
+215,RRM_Maintenance_Up_to_R17,[119][215] RRM_Maintenance_Up_to_R17,Misc,"RRM maintenance and TEI up to Rel-17
+","10.4.1
+10.4.2
+10.8 (RRM part)",Hua Li,10.1.2,"NWM flag process for CRs
+",Yanze,
+216,RRM_Maintenance_R18_R19,[119][216] RRM_Maintenance_R18_R19,Misc,RRM maintenance and TEI Rel-18 & Rel-19,"4.5.3
+4.6.2
+10.4.3
+10.9.2 (RRM part)",Li Zhang,4.1.2,"NWM flag process for CRs
+",Yanze,
+Up to Rel-20 Demod,,,,,,,,,,
+208,NR_demod_Ph6,[119][208] NR_demod_Ph6,NR demodulation performance: Phase 6,"1) General aspects and work plan
+2) Performance requirements for FR1 SU-MIMO with spatial channel model 
+3) Performance requirements for 6Rx UE with interference
+",7.5,Jingzhou Wu,7.5.1,,Lili / Xiaoming,
+209,FS_NR_demod_SCM,[119][209] FS_NR_demod_SCM,Study on spatial channel model for demodulation performance requirements for NR: MultiUser-MIMO,"1) General aspects and work plan
+2) Study practical spatial channel modelling methodology for MU-MIMO",7.9,Ryan ,7.9.1,,Lili / Xiaoming,
+217,Demod_Maintenance_up_to_R17,[119][217] Demod_Maintenance_up_to_R17,Misc,"Demod maintenance and TEI  up to Rel-17
+","10.5.1
+10.8 (Demod part)",Axel Mueller,10.1.2,NWM flag process for CRs,Lili / Xiaoming,
+218,Demod_Maintenance_R18_R19,[119][218] Demod_Maintenance_R18_R19,Misc,Demod maintenance and TEI Rel-18 & Rel-19,"4.5.4
+4.6.4
+10.5.2
+10.9.2 (Demod part)",Manasa Raghavan,4.1.2,NWM flag process for CRs,Lili / Xiaoming,
+6G Demod,,,,,,,,,,
+210,6G_Demod_Part1,[119][210] 6G_Demod_Part1,FS_6G_Radio,"1) Demodulation and CSI reporting test framework
+2) Receiver assumptions",8.7,Hannu Vesala,8.1.1,,Lili / Xiaoming,
+211,6G_Demod_Part2,[119][211] 6G_Demod_Part2,FS_6G_Radio,"1) Channel model
+2) Interference profile/modelling and TxEVM assumptions",8.7,Karsten Petersen ,8.1.1,,Lili / Xiaoming,
+Up to Rel-20 OTA,,,,,,,,,,
+212,NR_UE_OTA_Enh,[119][212] NR_UE_OTA_Enh,Enhancement of UE OTA test method and requirements for NR,"1) General aspects and work plan
+2) Enhanced test methodologies to cover NTN Ka and Ku bands 
+3) Specify FR1 TRP and TRS requirements for new bands
+4) Specify FR1 MIMO OTA requirements for new bands based on static test method
+",7.3,Moray Rumney,7.3.1,,Bozhi,
+219,OTA_Maintenance,[119][219] OTA_Maintenance,Misc,OTA maintenance,"4.5.6
+10.8 (OTA part)
+10.9 (OTA part)",Ruixin Wang,4.1.2,NWM flag process for CRs,Bozhi,
+6G OTA,,,,,,,,,,
+213,6G_testability_OTA,[119][213] 6G_testability_OTA,FS_6G_Radio,6G testability and OTA,8.11,Ruixin Wang,8.1.1,,Bozhi,
+Rel-20 PHY AI,,,,,,,,,,
+214,NR_AIML_air_Ph2,[119][214] NR_AIML_air_Ph2,Artificial Intelligence (AI)/Machine Learning (ML) for NR Air Interface,"1) General aspects and workplan  
+2) Inter-vendor training collaboration and interoperability for two-sided AI/ML models  
+3) RRM core requirement
+",7.1,Thomas Chapman,7.10.1,,Xiaoming / Jackson,

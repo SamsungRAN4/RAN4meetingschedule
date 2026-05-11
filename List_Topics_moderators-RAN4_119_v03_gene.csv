@@ -1,0 +1,68 @@
+﻿#,Title,Topic title,WI,Topic areas,AI,Moderator,Company,Summary AI,Notes,Moderator Summary,Samsung Major Responsibility,Work Level
+300,BDaT_Session,[119][300] BDaT_Session,N.A.,N.A.,N.A.,Gene Fong,Session chair,,"Session chair announcements for BDaT session, such as meeting report update, meeting schedule and etc.",,,
+Rel-15/16/17/18 Legacy Maintenance and TEI,,,,,,,,,,,,
+301,NR_IoT_NTN_Maint_Legacy_RF,[119][301] NR_IoT_NTN_Maint_Legacy_RF,Various,"UE RF maintenance
+SAN RF maintenance","10.6.1, 10.6.2, 10.6.5",Daniel Hsieh,MediaTek,10.1.3,"NWM to be used.  
+Papers related to segmented precompensation to be submitted to 10.6.1 and coordinated by Rafhael (Nokia)",R4-2607213,Bozhi,Monitoring
+302,NR_IoT_NTN_Maint_Legacy_Demod_TEI,[119][302] NR_IoT_NTN_Maint_Legacy_Demod_TEI,Various,"Demodulation maintenance
+NTN TEI","10.6.3, 10.8 (NTN), 10.9.3 (NTN)",Ojas Choksi,Viasat,10.1.3,NWM to be used,R4-2607214,Bozhi,Monitoring
+303,BSRF_Maintenance_Legacy_TEI,[119][303] BSRF_Maintenance_Legacy_TEI,Various,BSRF maintenance and TEI,"10.3, 10.8 (BSRF), 10.9.3 (BSRF)",Aurelian Bria,Ericsson,10.1.3,NWM to be used,R4-2607215,Xin,Monitoring
+,,,,,,,,,,,,
+Rel-19 Maintenance and TEI,,,,,,,,,,,,
+304,BSRF_Maintenance_TEI,[119][304] BSRF_Maintenance_TEI,,Rel-19 BS RF related maintenance,"4.5.2, 4.6.3
+",Bing Li,Ericsson,4.1.3,NWM to be used,R4-2607216,Xin,Monitoring
+305,NR_IoT_NTN_Maintenance,[119][305] NR_IoT_NTN_Maintenance,,Rel-19 NR and IoT NTN related maintenance ,"4.2.3, 4.5.5 (non RRM), 4.6.5 (non RRM)",Daniel Hsieh,MediaTek,4.1.3,NWM to be used,R4-2607217,Bozhi,Monitoring
+306,NR_IoT_NTN_Maintenance_RRM,[119][306] NR_IoT_NTN_Maintenance_RRM,,"Rel-19 NR and IoT NTN related maintenance (RRM part)
+Rel-18 NR and IoT NTN RRM maintenance","4.5.5 (RRM), 4.6.5 (RRM), 4.2.1.4, 10.6.4",Derrick Chao,ZTE,4.1.3,NWM to be used,R4-2607218,Xinyan,Monitoring
+307,Ku_band_Maintenance,[119][307] Ku_band_Maintenance,NR_NTN_Ku_bands,Rel-19 Ku band maintenance,"4.2.1.1, 4.2.1.2, 4.2.1.3",Moray Rumney,Eutelsat,4.1.3,NWM to be used,R4-2607219,Bozhi,Monitoring
+308,Ambient_IoT_maintenance,[119][308] Ambient_IoT_maintenance,Ambient_IoT_Solutions,Rel-19 Ambient IoT maintenance,4.5.7,Ziwei Chen,CMCC,4.1.3,NWM to be used,R4-2607220,,
+,,,,,,,,,,,,
+Rel-20 5G-A Spectrum and baskets,,,,,,,,,,,,
+320,NR_LTE_combos_Features,[119][320] NR_LTE_combos_Features,NR_LTE_combos_Features_R20-Core,Rel-20 Additional NR and LTE band combinations for features in Rel-20,"5.2.1, 5.2.2, 5.2.3, 5.2.4",Bo Liu,China Telecom,5.1,NWM or equivalent to be used,R4-2607221,Tina / Bozhi,Monitoring
+321,DC_xBLTE_yBNR,[119][321] DC_xBLTE_yBNR,DC_xBLTE_yBNR_R20_HPUE-Core,"Rel-20 Dual connectivity (DC) of x LTE band(s), y NR band(s) (1<=x<6, 1<=y<6, x+y<=6) and single or two NR Supplementary Uplink (SUL) bands","5.3.1, 5.3.2, 5.3.3, 5.3.4, 5.3.5, 5.3.6, 5.3.7","Basaier Jialade
+",China Unicom,5.1,NWM or equivalent to be used,R4-2607222,Tina / Bozhi,Monitoring
+322,NR_bands_xFeature,[119][322] NR_bands_xFeature,NR_bands_xFeature_R20-Core,Additional NR bands for NR features in Rel-20,"5.4.1, 5.4.2, 5.4.3, 5.4.4, 5.4.5",Wubin Zhou,ZTE,5.1,NWM or equivalent to be used,#N/A,Tina / Bozhi,Monitoring
+323,NTN_bands_Features,[119][323] NTN_bands_Features,NTN_bands_Features_R20-Core,"Introduction of the higher power classes, 3MHz channel	bandwidth and eRedCap for the existing NR/IoT NTN bands","5.5.1, 5.5.2, 5.5.3, 5.5.4, 5.5.5, 5.5.6",Daniel Popp,Apple,5.1,NWM or equivalent to be used,R4-2607223,Tina / Bozhi,Monitoring
+324,NR_CADC_SUL,[119][324] NR_CADC_SUL,NR_CADC_SUL_R20_HPUE-Core,"Rel-20 NR Carrier Aggregation (CA)/Dual Connectivity 	(DC) for x bands DL with y bands UL (x<7, y<3) and Supplementary 	Uplink (SUL) band combinations/CA band combinations with a single SUL or two SUL cells","5.6.1, 5.6.2, 5.6.3, 5.6.4, 5.6.5, 5.6.6, 5.6.7, 5.6.8, 5.6.9",Per Lindell,Ericsson,5.1,NWM or equivalent to be used,R4-2607224,Tina / Bozhi,Monitoring
+325,NR_Bands_BW_PC_BC_RedCap,[119][325] NR_Bands_BW_PC_BC_RedCap,NR_Bands_BW_PC_BC_Redcap_R20-Core,"New WID for Rel-20 Addition of channel bandwidths and power classes to existing NR bands and CA/DC combinations, and bands with PC2 for RedCap UEs","5.7.1, 5.7.2, 5.7.3, 5.7.4, 5.7.5",Alok Sethi,Nokia,5.1,NWM or equivalent to be used,R4-2607225,Tina / Bozhi,Monitoring
+326,LTE_CA_xBDL_yBUL,[119][326] LTE_CA_xBDL_yBUL,LTE_CA _R20_xBDL_yBUL-Core,"basket WI on Rel-20 LTE-Advanced Carrier	Aggregation for x bands (1<=x<= 6) DL with y bands (y=1, 2) UL","5.8.1, 5.8.2",Mohammad Abdi Abyaneh,Huawei,5.1,NWM or equivalent to be used,#N/A,Tina / Bozhi,Monitoring
+327,NR_1.5GHz_Japan,[119][327] NR_1.5GHz_Japan,NR_1500MHz_JP-Core,Introduction of a new band for 1.5GHz Japanese allocation,"5.10.1, 5.10.2, 5.10.3",Yasuki Suzuki,KDDI,5.1,NWM or equivalent to be used,R4-2607226,Bozhi / Jackson / Hongjun,
+328,NR_EESS_PC1_40GHz,[119][328] NR_EESS_PC1_40GHz,NR_40GHz_EESSprot_PC1-Core,Introduction of EESS protection and PC1 for 40GHz,"5.11.1, 5.11.2, 5.11.3, 5.11.4","Ryu Kitagawa
+",NTT DoCoMo,5.1,NWM or equivalent to be used,R4-2607227,Bozhi / Hongjun,
+329,New_CBW_5G_broadcast_over_GSO,[119][329] New_CBW_5G_broadcast_over_GSO,LTE_band_246_5G_bcast_GSO_BWs,Adding channel bandwidth support to existing LTE band for 5G broadcast for region 3 utilizing geosynchronous satellite,"5.12.1, 5.12.2, 5.12.3",Li Lu,ZTE,5.1,NWM or equivalent to be used,R4-2607228,N/A,
+,,,,,,,,,,,,
+Rel-20 UE RF,,,,,,,,,,,,
+340,NR_UE_RF_Ph5,[119][340] NR_UE_RF_Ph5,NR_UE_RF_Ph5-Core,"Rel-20 UE RF:  General aspects, HPUE requirements","7.1.2, 7.1.4",Alok Sethi,Nokia,7.1.1,,R4-2607229,Tina / Bozhi,
+341,NR_UE_RF_Ph5_Part2,[119][341] NR_UE_RF_Ph5_Part2,NR_UE_RF_Ph5-Core,"Rel-20 UE RF:  HPUE coexistence, 6 MHz CBW","7.1.3, 7.1.5.1, 7.1.5.2",Tina Zhang,Samsung,7.1.1,,R4-2607230,Tina / Bozhi,
+342,NR_low_band_CA_switching,[119][342] NR_low_band_CA_switching,NR_LBCA_Sw_enh-Core,"Rel-20 LBCA: General aspects, UE RF","7.8.2, 7.8.3",James Wang,Apple,7.8.1,"
+RRM part 7.8.4 is handled in RRM session",R4-2607231,Taekhoon,
+343,NR_TDD_4.9GHz_band,[119][343] NR_TDD_4.9GHz_band,NR_TDD_band_4900MHz_US-Core,4.9 GHz band for US,5.9,Tsuyoshi Shimomura,1Finity,5.1,Work item on hold pending FCC feedback,#N/A,N/A,
+344,NR_less_than_5MHz_RedCap_UERF,[119][344] NR_less_than_5MHz_RedCap_UERF,NR_RRM_Ph6-Core,Less than 5 MHz for (e)Redcap UERF,7.4.3.1,Kun Zhao,Sony,7.4.1,Only the formal CR is expected.  To be submitted at the same time RRM CR is ready for agreement.,#N/A,N/A,
+,,,,,,,,,,,,
+Rel-20 BS RF,,,,,,,,,,,,
+345,NR_BS_RF_Ph2,[119][345] NR_BS_RF_Ph2,NR_BS_RF_req_evo_Ph2-Core,"Rel-20 BS RF: General aspects, Co-location, SBFD to SBFD coex","7.2.2, 7.2.3, 7.2.4",Torbjörn Elfström,Ericsson,7.2.1,,R4-2607232,Xin,
+,,,,,,,,,,,,
+Rel-20 NTN related,,,,,,,,,,,,
+346,NR_IoT_NTN_Ph2,[119][346] NR_IoT_NTN_Ph2,NR_IoT_NTN_req_Ph2-Core,"Rel-20 NTN: General aspects, IoT NTN PC1.5","7.6.2, 7.6.3",Tank Taaank,CHTTL,7.6.1,,R4-2607233,Bozhi,
+347,NR_IoT_NTN_Ph2_Part2,[119][347] NR_IoT_NTN_Ph2_Part2,NR_IoT_NTN_req_Ph2-Core,Rel-20 NTN: HD-FDD ,"7.6.4.1, 7.6.4.2",Jeffery Chi,MediaTek,7.6.1,,R4-2607234,Bozhi,
+348,Study_NR_NTN_GNSS_resilient,[119][348] Study_NR_NTN_GNSS_resilient,FS_NR_NTN_GNSS_resilient,Study on GNSS resilient NR-NTN operation,"7.14.2, 7.14.3","Dorin Panaitopol
+",Thales,7.14.1,,R4-2607235,Xinyan / Yanze,
+349,LTE_TN_NR_NTN_handover,[119][349] LTE_TN_NR_NTN_handover,LTE_TN_NR_NTN_HO-Core,E-UTRA TN to NR NTN handover enhancements,"7.15.2, 7.15.3, 7.15.4",Lingyu Gao,CATT,7.15.1,,R4-2607236,Xinyan / Yanze,
+350,LTE_IoT_NTN_high_power,[119][350] LTE_IoT_NTN_high_power,IoT_NTN_Ph4-Core,Higher than PC1 for IoT NTN UE,"7.16.2, 7.16.3, 7.16.4",Runsen Tang,vivo,7.16.1,,R4-2607237,Bozhi,
+,,,,,,,,,,,,
+Rel-20 Other verticals,,,,,,,,,,,,
+351,NR_UAV,[119][351] NR_UAV,NR_UAV_req-Core,"Rel-20 UAV: General aspects, coexistence, UE RF requirements","7.7.2, 7.7.3, 7.7.4",Bin Han,Qualcomm,7.7.1,"
+RRM part 7.7.5 is handled in RRM session.",R4-2607238,N/A,
+352,A-IoT_sys_outdoor,[119][352] A-IoT_sys_outdoor,Ambient_IoT_Solutions_Ph2-Core,"System parameters, D4T1","7.17.2, 7.17.4, 7.17.5.1, 7.17.5.2, 7.17.5.3",Ling Lin,Huawei,7.17.1,RRM part 7.17.3 is handled in RRM session,R4-2607239,N/A,
+353,A-IoT_indoor_test,[119][353] A-IoT_indoor_test,Ambient_IoT_Solutions_Ph2-Core,"D2T2 requirements, testing active devices","7.17.6.1, 7.17.6.2, 7.17.6.3, 7.17.6.4, 7.17.7",Huiping Shan,Xiaomi,7.17.1,RRM part 7.17.3 is handled in RRM session,R4-2607240,N/A,
+,,,,,,,,,,,,
+6G SI,,,,,,,,,,,,
+360,6G_BSRF_requirements,[119][360] 6G_BSRF_requirements,FS_6G_Radio,"6G BSRF: BS RF requirements, SAN RF requirements","8.4.1.1, 8.4.1.2, 8.4.1.3, 8.4.2.1, 8.4.2.2",Dominique Everaere,Ericsson,8.1.1,,R4-2607241,Xin / Jackson,
+361,6G_BSRF_coexistence_AAS,[119][361] 6G_BSRF_coexistence_AAS,FS_6G_Radio,"6G BSRF: Coexistence
+AAS modeling below 1 GHz","8.4.3.1, 8.4.3.2, 8.4.3.3, 8.4.4, 8.4.5",Michal Szydelko,Huawei,8.1.1,,R4-2607242,Xin / Jackson,
+362,6G_Sensing_coex_test_req,[119][362] 6G_Sensing_coex_test_req,FS_6G_Radio,"6G Sensing: coexistence, testing, and impacted requirements","8.10.4, 8.10.5, 8.10.6","Fei Xue
+",ZTE,8.1.1,,R4-2607243,Xin / Dong,
+363,6G_Sensing_feasiblity_general,[119][363] 6G_Sensing_feasiblity_general,FS_6G_Radio,6G Sensing: Feasibility and general,"8.10.1, 8.10.2, 8.10.3",Mustafa Emara,Qualcomm,8.1.1,,R4-2607244,Xin / Dong,
+,,,,,,,,,,,,
+LS and RAN task,,,,,,,,,,,,
+370,LS_BDaT,[119][370] LS_BDaT,BDaT LS,LS response for BDaT,"11.2, 11.3, 11.4 (BDaT related)",Aijun Cao,CATT,11.1,Summary is not needed,#N/A,N/A,
