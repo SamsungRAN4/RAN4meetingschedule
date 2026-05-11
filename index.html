@@ -3,197 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3GPP RAN4 Meeting Schedule</title>
+    <title>Samsung 3GPP RAN4 #119 Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .gray-out { background-color: #f3f4f6; color: #9ca3af; border: 1px solid #e5e7eb; }
-        .bg-Main { background-color: #bfdbfe; color: #1e3a8a; border: 1px solid #93c5fd; }
-        .bg-Shan { background-color: #99f6e4; color: #115e59; border: 1px solid #5eead4; }
-        .bg-Gene { background-color: #e9d5ff; color: #581c87; border: 1px solid #d8b4fe; }
-        .bg-Adhoc { background-color: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
-        .bg-BR4 { background-color: #fecdd3; color: #881337; border: 1px solid #fda4af; }
-        .bg-break { background-color: #e5e7eb; color: #374151; font-weight: bold; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .grid-schedule {
+            display: grid;
+            grid-template-columns: 120px repeat(4, minmax(250px, 1fr));
+            gap: 8px;
+        }
+        .break-row { grid-column: 1 / -1; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans p-4 md:p-8">
-    <div class="max-w-[1600px] mx-auto">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-900 shadow-sm bg-white py-4 rounded border border-gray-200">3GPP RAN4 Meeting Schedule Dashboard</h1>
-        
-        <div class="mb-6 flex flex-wrap justify-center items-center gap-4 bg-white p-4 rounded shadow border border-gray-200">
-            <label for="delegateSelect" class="font-semibold text-lg">Highlight Delegate / View Collisions:</label>
-            <select id="delegateSelect" class="border border-gray-300 rounded p-2 text-lg focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
-                <option value="ALL">Show All (Default - Show all collisions)</option>
-                <option value="Jackson">Jackson</option>
-                <option value="Tina">Tina</option>
-                <option value="Bozhi">Bozhi</option>
-                <option value="Taekhoon">Taekhoon</option>
-                <option value="Xin">Xin</option>
-                <option value="Lili">Lili</option>
-                <option value="Yanze">Yanze</option>
-                <option value="Dong">Dong</option>
-                <option value="Xiaoming">Xiaoming</option>
-                <option value="Xinyan">Xinyan</option>
-                <option value="Hongjun">Hongjun</option>
-            </select>
-        </div>
+<body class="bg-gray-50 text-gray-800 p-4">
 
-        <div id="tabs" class="flex flex-wrap mb-4 gap-2">
+    <div class="max-w-[1400px] mx-auto">
+        <header class="mb-6 flex flex-col md:flex-row justify-between items-end gap-4 border-b pb-4 border-gray-200">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-900">3GPP TSG RAN4 #119 Schedule</h1>
+                <p class="text-sm text-gray-500 mt-1">Dalian, China | May 18-22, 2026 | Interactive Dashboard</p>
+            </div>
+            
+            <div class="flex flex-col gap-1 w-full md:w-64">
+                <label for="delegateFilter" class="text-sm font-semibold text-gray-700">Filter by Delegate:</label>
+                <select id="delegateFilter" class="border border-gray-300 rounded p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                    <option value="All">All Delegates</option>
+                    <option value="Jackson">Jackson</option>
+                    <option value="Tina">Tina</option>
+                    <option value="Bozhi">Bozhi</option>
+                    <option value="Taekhoon">Taekhoon</option>
+                    <option value="Xin">Xin</option>
+                    <option value="Lili">Lili</option>
+                    <option value="Yanze">Yanze</option>
+                    <option value="Dong">Dong</option>
+                    <option value="Xiaoming">Xiaoming</option>
+                    <option value="Xinyan">Xinyan</option>
+                    <option value="Hongjun">Hongjun</option>
+                    <option value="Yunchuan">Yunchuan</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="mb-4 flex space-x-2 overflow-x-auto pb-2" id="dayTabs">
             </div>
 
-        <div class="overflow-x-auto bg-white rounded-b shadow border border-gray-200">
-            <div id="scheduleContainer" class="min-w-[1000px] w-full">
-                </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto p-4">
+                <div id="scheduleGrid" class="grid-schedule min-w-[1000px]">
+                    <div class="font-bold text-gray-600 bg-gray-100 p-3 rounded-t text-center shadow-sm">Time</div>
+                    <div class="font-bold text-blue-800 bg-blue-100 p-3 rounded-t text-center shadow-sm">Main (Yang)</div>
+                    <div class="font-bold text-green-800 bg-green-100 p-3 rounded-t text-center shadow-sm">BR1 (Shan)</div>
+                    <div class="font-bold text-yellow-800 bg-yellow-100 p-3 rounded-t text-center shadow-sm">BR2 (Gene)</div>
+                    <div class="font-bold text-purple-800 bg-purple-100 p-3 rounded-t text-center shadow-sm">Ad Hoc</div>
+                    </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const scheduleData = {"Monday":{"rooms":["RAN4 Main (Yang Session)","RAN4  Breakout 1(BR1) (Shan Session)","RAN4 Breakout 2 (BR2)(Gene Session)","Ad hoc room"],"schedule":[{"time":"9:00-09:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"1. Opening of the meeting\n2. Approval of the agenda\n3. Letters / reports from other groups / meetings\n4. Incoming LS","owners":[],"raw_delegates":[]}],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[]}},{"time":"9:30-10:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[111] 6G RAN4 operation efficiency","owners":["Jackson"],"raw_delegates":["Jackson"]},{"text":"[101] System Parameter()","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM\n[201] NR_RRM_Ph6","owners":["Yanze","Xinyan"],"raw_delegates":["Yanze","Xinyan"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"5G UE RF\n[340] NR_UE_RF_Ph5 (11)","owners":["Tina","Bozhi"],"raw_delegates":["Tina","Bozhi"]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\nRel-20 OTA\n[212] NR_UE_OTA_Enh, chaired by Ruixin Wang (vivo)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}]}},{"time":"10:30-11:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[]}},{"time":"11:00-13:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[101] System Parameter()","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM\n[202] NR_UAV_req_RRM","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"5G UE RF (cont)\n[341] NR_UE_RF_Ph5_Part2 (24)","owners":["Tina","Bozhi"],"raw_delegates":["Tina","Bozhi"]},{"text":"[342] NR_low_band_CA_switching (14)","owners":["Taekhoon"],"raw_delegates":["Taekhoon"]}],"Ad hoc room":[{"text":"Main Ad-hoc\n[105] 6G RRM Chaired by Jerry (Apple)","owners":["Dong","Yanze","Xinyan"],"raw_delegates":["Dong","Yanze","Xinyan"]}]}},{"time":"13:00-14:30","is_break":true,"break_title":"Lunch break","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[]}},{"time":"14:30-16:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[101] System Parameter()","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]},{"text":"---3:00pm","owners":[],"raw_delegates":[]},{"text":"[102] General RF and UE RF","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 AI\n[214] NR_AIML_air_Ph2","owners":["Jackson","Xiaoming","Yanze"],"raw_delegates":["Jackson","Xiaoming","Yanze"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"NTN\n[347] NR_IoT_NTN_Ph2_Part2 (28)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[346] NR_IoT_NTN_Ph2 (11)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"Ad hoc room":[{"text":"BR2 Ad-hoc: 5G BSRF (14:30 – 15:30)\n[345] NR_BS_RF_Ph2, chaired by Torbjörn (Ericsson)","owners":["Xin","Jackson"],"raw_delegates":["Xin","Jackson"]},{"text":"BR1 Ad-hoc: 6G testability/OTA (15:30-16:30)\n[213] 6G testability and OTA, chaired by Ruixin Wang (vivo)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}]}},{"time":"16:30-17:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[]}},{"time":"17:00-18:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[102] General RF and UE RF","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]},{"text":"[108] Spectrum sharing","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM\n[204] NR_MIMO_Ph6_RRM","owners":["Yanze"],"raw_delegates":["Yanze"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BDaT LS\n[370] LS (13) (agenda item 11.3)","owners":["Jackson"],"raw_delegates":["Jackson"]}],"Ad hoc room":[{"text":"Main Ad-hoc:\n[112] R19 NR_AIML_air Chaired by Vali (Qualcomm)","owners":["Jackson"],"raw_delegates":["Jackson"]}]}},{"time":"18:00-19:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Main Ad-hoc:\n[102-A] 6G General RF and UE RF, Chaired by Toni (Qualcomm)","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"BR1 Ad-hoc:\n[214] NR_AIML_air_Ph2, Chaired by Tom (E///)","owners":["Jackson","Xiaoming","Yanze"],"raw_delegates":["Jackson","Xiaoming","Yanze"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BR2 Ad-hoc:  Ambient-IoT\n[352] A-IoT system parameters, chaired by Ling Lin (Huawei)","owners":["Tina (monitoring)"],"raw_delegates":["Tina"]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\nR20 RRM\n[201] NR_RRM_Ph6, Chaired by Zhixun Tang (E///)","owners":["Yanze","Xinyan"],"raw_delegates":["Yanze","Xinyan"]}]}}]},"Tuesday":{"rooms":["RAN4 Main (Yang Session)","RAN4  Breakout 1(BR1) (Shan Session)","RAN4 Breakout 2 (BR2)(Gene Session)","Ad hoc room","BR4 (Perellos at level 5)"],"schedule":[{"time":"8:30-10:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[107] 6G AI","owners":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"],"raw_delegates":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM\n[206] NR_Mob_Ph5_RRM","owners":["Yanze (monitoring)"],"raw_delegates":["Yanze"]},{"text":"[207] Ambient_IoT_Ph2_RRM","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BDaT Ad-hoc: 5G UE RF (8:30 – 9:30)\n[340] NR_UE_RF_Ph","owners":["Tina","Bozhi"],"raw_delegates":["Tina","Bozhi"]},{"text":"[341] NR_UE_RF_Ph5_Part2","owners":["Tina","Bozhi"],"raw_delegates":["Tina","Bozhi"]},{"text":"Chaired by Alok (Nokia) and Tina (Samsung)\nLS on linear polarization (9:30 – 10:30)\n[370] LS (6) (agenda item 11.2)","owners":["Jackson"],"raw_delegates":["Jackson"]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\n6G OTA\n[213] 6G testability and OTA, Chaired by Ruixin Wang (vivo)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"BR4 (Perellos at level 5)":[]}},{"time":"10:30-11:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[{"text":"Coffee break AH: [101-B] System Parameter, Chaired by Jingqiang (OPPO)","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"11:00-13:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[105] 6G RRM","owners":["Dong","Yanze","Xinyan"],"raw_delegates":["Dong","Yanze","Xinyan"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 Demod\n[208] NR_demod_Ph6","owners":["Lili"],"raw_delegates":["Lili"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"NTN (cont)\n[349] LTE_TN_NR_NTN_handover (12)","owners":["Xinyan (Home Support)"],"raw_delegates":["Xinyan"]},{"text":"[350] LTE_IoT_NTN_high_power (10)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"Rel-20 UAV\n[351] NR_UAV (14)","owners":["Bozhi (monitoring)"],"raw_delegates":["Bozhi"]}],"Ad hoc room":[{"text":"BR2 Ad-hoc: Spectrum basket work items\n[324] NR_CADC_SUL(including band combination database), chaired by Per (Ericsson)","owners":["Tina"],"raw_delegates":["Tina"]},{"text":"[323] NTN_bands_Features, chaired by Daniel (Apple)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"BR4 (Perellos at level 5)":[]}},{"time":"13:00-14:30","is_break":true,"break_title":"Lunch break","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"14:30-16:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[101] System Parameter()","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]},{"text":"---15:45---","owners":[],"raw_delegates":[]},{"text":"[104] Spectrum","owners":["Taekhoon","Tina"],"raw_delegates":["Taekhoon","Tina"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM\n[205] NR_AIML_Mob_RRM","owners":["Dong","Jackson","Yanze"],"raw_delegates":["Dong","Jackson","Yanze"]},{"text":"---15:30---","owners":[],"raw_delegates":[]},{"text":"Rel-20 Demod\n[209] FS_NR_demod_SCM","owners":["Lili"],"raw_delegates":["Lili"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"6G SI: BSRF\n[360] 6G_BSRF_requirements (29)","owners":["Xin"],"raw_delegates":["Xin"]},{"text":"[361] 6G_BSRF_coexistence_AAS (42)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"BR2 Ad-hoc: 1.5 GHz Japan (14:30 – 15:30)\n[118bis][327] NR_1.5GHz_Japan, chaired by Yasuki (KDDI)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"BR2 Ad-hoc: NTN (15:30 – 16:30)\n[348] GNSS resilient, chaired by Dorin (Thales)","owners":["Yanze","Xinyan"],"raw_delegates":["Yanze","Xinyan"]}],"BR4 (Perellos at level 5)":[]}},{"time":"16:30-17:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[{"text":"Coffee break: [105-B] 6G RRM Chaired by Jinyup(LGE)","owners":["Dong","Yanze","Xinyan"],"raw_delegates":["Dong","Yanze","Xinyan"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"17:00-18:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[104] Spectrum","owners":["Taekhoon","Tina"],"raw_delegates":["Taekhoon","Tina"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM Cont.\n[205] NR_AIML_Mob_RRM","owners":["Dong","Jackson","Yanze"],"raw_delegates":["Dong","Jackson","Yanze"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"6G SI BSRF (cont)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"Main Ad-hoc:\n[111] 6G operation efficiency by Aijun (CATT)","owners":["Jackson"],"raw_delegates":["Jackson"]}],"BR4 (Perellos at level 5)":[]}},{"time":"18:00-19:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Main Ad hoc\n[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"RRM Ad-hoc:\n[205] NR_AIML_Mob_RRM, Chaired by Qiuge Guo (OPPO)","owners":["Dong","Jackson","Yanze"],"raw_delegates":["Dong","Jackson","Yanze"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BDaT Ad-hoc: 6G coexistence\n[361] 6G_BSRF_coexistence_AAS, coexistence part, chaired by Michal (Huawei)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"Main Ad-hoc: TBD","owners":[],"raw_delegates":[]}],"BR4 (Perellos at level 5)":[]}}]},"Wednesday":{"rooms":["RAN4 Main (Yang Session)","RAN4  Breakout 1(BR1) (Shan Session)","RAN4 Breakout 2 (BR2)(Gene Session)","Ad hoc room","BR4 (Perellos at level 5)"],"schedule":[{"time":"8:30-10:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[107] 6G AI","owners":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"],"raw_delegates":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 and 6G OTA\n[213] 6G testability and OTA","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[212] NR_UE_OTA_Enh","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BDaT Ad-hoc: UE RF LBCA (8:30 – 9:00)\n[342] NR_low_band_CA_switching, chaired by James (Apple)","owners":["Taekhoon"],"raw_delegates":["Taekhoon"]},{"text":"5G BSRF (9:00 – 10:30)\n[345] NR_BS_RF_Ph2 (14)","owners":["Xin","Jackson"],"raw_delegates":["Xin","Jackson"]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\n[209] FS_NR_demod_SCM, Chaired by Alex (Nokia)","owners":["Lili"],"raw_delegates":["Lili"]},{"text":"---9:30---","owners":[],"raw_delegates":[]},{"text":"BR2 Ad-hoc: 40 GHz EESS protection (9:30 – 10:30)\n[328] NR_EESS_PC1_40GHz, chaired by Ryu (DCM)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"BR4 (Perellos at level 5)":[]}},{"time":"10:30-11:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[{"text":"Coffee break AH: [102-A] 6G General RF and UE RF, Chaired by Toni (Qualcomm)","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"11:00-13:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[101] System Parameter()","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"6G OTA\n[212] NR_UE_OTA_Enh","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"---12:00---","owners":[],"raw_delegates":[]},{"text":"6G demod\n[210] 6G Demod_Part1","owners":["Lili"],"raw_delegates":["Lili"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"Ambient IoT\n[352] A-IoT_sys_outdoor (32)","owners":["Tina (monitoring)"],"raw_delegates":["Tina"]},{"text":"[353] A-IoT_indoor_test (20)","owners":[],"raw_delegates":[]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\nR20 AI\n[214] NR_AIML_air_Ph2, Chaired by Tom (E///)","owners":["Jackson","Xiaoming","Yanze"],"raw_delegates":["Jackson","Xiaoming","Yanze"]}],"BR4 (Perellos at level 5)":[{"text":"[118bis][205] NR_AIML_Mob_RRM chaired by Qiuge (OPPO)","owners":["Dong","Jackson","Yanze"],"raw_delegates":["Dong","Jackson","Yanze"]}]}},{"time":"13:00-14:30","is_break":true,"break_title":"Lunch break","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"14:30-16:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[105] 6G RRM()","owners":["Dong","Yanze","Xinyan"],"raw_delegates":["Dong","Yanze","Xinyan"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"6G demod\n[210] 6G Demod_Part1 Cont.","owners":["Lili"],"raw_delegates":["Lili"]},{"text":"[211] 6G Demod_Part2","owners":["Lili"],"raw_delegates":["Lili"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"Ambient IoT (cont)  (14:30 – 15:30)\n6G SI: Sensing (15:30 – 16:30)\n[362] 6G_Sensing (52)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"Main Ad-hoc: [101-B] System Parameter, Chaired by Jingqiang (OPPO)","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]},{"text":"---15:30---","owners":[],"raw_delegates":[]},{"text":"BR2 Ad-Hoc: BDaT LS (15:30 – 16:30)\n[370] LS_BDaT, chaired by Aijun (CATT)","owners":["Jackson"],"raw_delegates":["Jackson"]}],"BR4 (Perellos at level 5)":[{"text":"[323] NTN ETSI requirements by Toni (Qualcomm)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}]}},{"time":"16:30-17:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"17:00-18:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[102] General RF and UE RF ()","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"6G demod\n[211] 6G Demod_Part2 Cont.","owners":["Lili"],"raw_delegates":["Lili"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"6G SI: Sensing (cont)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"Main Ad-hoc:\n[105] 6G RRM Chaired by Jerry (Apple)","owners":["Dong","Yanze","Xinyan"],"raw_delegates":["Dong","Yanze","Xinyan"]}],"BR4 (Perellos at level 5)":[]}},{"time":"18:00-19:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Main Ad-hoc:\n[107] 6G AI, Chaired by Jackson (Samsung)","owners":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"],"raw_delegates":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"BR1 Ad hoc:\nDemod\n[208] NR_demod_Ph6, Chaired by Jingzhou Wu (China Telecom)","owners":["Lili"],"raw_delegates":["Lili"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BDaT Adhoc: 6G BSRF requirements\n[360] 6G_BSRF_requirements, chaired by Dominique (Ericsson)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"Main Ad hoc:\n[101-A] System Parameter, Chaired by Leo (Huawei)","owners":["Taekhoon","Jackson","Lili"],"raw_delegates":["Taekhoon","Jackson","Lili"]}],"BR4 (Perellos at level 5)":[{"text":"AH on band combination AH by Johannes (Nokia)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}]}}]},"Thursday":{"rooms":["RAN4 Main (Yang Session)","RAN4  Breakout 1(BR1) (Shan Session)","RAN4 Breakout 2 (BR2)(Gene Session)","Ad hoc room","BR4 (Perellos at level 5)"],"schedule":[{"time":"8:30-10:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"[112] R19 NR_AIML_air (43)","owners":["Jackson"],"raw_delegates":["Jackson"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Rel-20 RRM\n[203] NR_LBCA_Sw_enh_RRM","owners":["Yanze"],"raw_delegates":["Yanze"]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"NTN (8:30 – 9:30)\n[348] Study_NR_NTN_GNSS_resilient (16)","owners":["Yanze","Xinyan"],"raw_delegates":["Yanze","Xinyan"]},{"text":"5G basket and spectrum WI\n[320] NR_LTE_combos_Features_R20 (6)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[321] DC_xBLTE_yBNR_R20 (4)","owners":["Tina"],"raw_delegates":["Tina"]},{"text":"[322] NR_bands_Features_R20 (1)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[323] NTN_Bands_Features_R20 (27)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[324] NR_CADC_SUL_R20 (68)","owners":["Tina"],"raw_delegates":["Tina"]},{"text":"[325] NR_Bands_BW_PC_BC_RedCap (6)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[326] LTE_CA_xBDL_yBUL (2)","owners":["Tina"],"raw_delegates":["Tina"]},{"text":"[327] NR_1.5GHz_Japan (20)","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[328] NR_EESS_PC1_40GHz (16)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\nDemod\n[210] [211] 6G Demod_Part1&Part2","owners":["Lili"],"raw_delegates":["Lili"]}],"BR4 (Perellos at level 5)":[]}},{"time":"10:30-11:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"11:00-13:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"EARLY RETURN TO (in the following order)\n6G system parameter\n6G UE RF\n6G spectrum\n6G spectrum sharing\n6G RRM\n6G AI\n6G operation efficiency\n5GA R19 AI","owners":[],"raw_delegates":[]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Ad-hoc or Early Return-to","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"5G Basket and spectrum (cont)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"Ad hoc room":[{"text":"BR1 Ad-hoc:\nR20 RRM\n[204] NR_MIMO_Ph6_RRM, Chaired by Miao Wang (MediaTek)","owners":["Yanze"],"raw_delegates":["Yanze"]},{"text":"---12:00---","owners":[],"raw_delegates":[]},{"text":"[206] NR_Mob_Ph5_RRM, Chaired by Roy Hu (OPPO)","owners":["Yanze (monitoring)"],"raw_delegates":["Yanze"]}],"BR4 (Perellos at level 5)":[]}},{"time":"13:00-14:30","is_break":true,"break_title":"Lunch break","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"14:30-16:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"EARLY RETURN TO","owners":[],"raw_delegates":[]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Ad-hoc or Early Return-to","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BR2 Ad-hoc: NTN (14:30 – 16:30)\n[347] NR_IoT_NTN_Ph2","owners":["Bozhi"],"raw_delegates":["Bozhi"]},{"text":"[346] NR_IoT_NTN_Ph2\nChaired by Jeffery (MTK) and Tank (CHTTL)","owners":["Bozhi"],"raw_delegates":["Bozhi"]}],"Ad hoc room":[{"text":"BR2 Ad-hoc: TBD (14:30 – 15:30)\nBR2 Ad-hoc:  Rel-20 UAV (15:30 – 16:30)\n[351] NR_UAV chaired by Bin (Qualcomm)","owners":[],"raw_delegates":[]}],"BR4 (Perellos at level 5)":[]}},{"time":"16:30-17:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[],"BR4 (Perellos at level 5)":[]}},{"time":"17:00-18:00","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Main Ad-hoc:\n[107] 6G AI, Chaired by Jackson (Samsung)","owners":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"],"raw_delegates":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Early Return-to","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BR2 Ad-hoc: TBD","owners":[],"raw_delegates":[]}],"Ad hoc room":[{"text":"Main Ad hoc:\n[104] Spectrum, Chaired by Johannes(Nokia)","owners":["Taekhoon","Tina"],"raw_delegates":["Taekhoon","Tina"]}],"BR4 (Perellos at level 5)":[]}},{"time":"18:00-19:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Main Ad-hoc:\n[107] 6G AI, Chaired by Jackson (Samsung)","owners":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"],"raw_delegates":["Yanze","Lili","Tina","Jackson","Xiaoming","Dong"]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Ad-hoc or Early Return-to","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"BR2 Ad-hoc: 6G Sensing\n[362] 6G_Sensing, chaired by Fei (ZTE)","owners":["Xin"],"raw_delegates":["Xin"]}],"Ad hoc room":[{"text":"Main Ad hoc:\n[102-B] System Parameter, Chaired by Jinqiang (OPPO)","owners":["Taekhoon","Tina","Bozhi"],"raw_delegates":["Taekhoon","Tina","Bozhi"]}],"BR4 (Perellos at level 5)":[]}}]},"Friday":{"rooms":["RAN4 Main (Yang Session)","RAN4  Breakout 1(BR1) (Shan Session)","RAN4 Breakout 2 (BR2)(Gene Session)","Ad hoc room"],"schedule":[{"time":"8:00-10:30","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Return to\n6G system parameter\n6G UE RF\n6G spectrum\n6G spectrum sharing","owners":[],"raw_delegates":[]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Return to","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"Return to","owners":[],"raw_delegates":[]}],"Ad hoc room":[]}},{"time":"10:30-11:00","is_break":true,"break_title":"Waqfa għall-kafè","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[]}},{"time":"11:00-12:45","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"6G RRM\n6G AI\n6G operation efficiency\n5GA R19 AI\n13 Any other business\n14 Close of the meeting (main session) by 13:30pm","owners":[],"raw_delegates":[]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Return to\nOTA","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"Return to","owners":[],"raw_delegates":[]}],"Ad hoc room":[]}},{"time":"12:45-13:45","is_break":true,"break_title":"Lunch break","rooms":{"RAN4 Main (Yang Session)":[],"RAN4  Breakout 1(BR1) (Shan Session)":[],"RAN4 Breakout 2 (BR2)(Gene Session)":[],"Ad hoc room":[]}},{"time":"15:00-EOM","is_break":false,"break_title":"","rooms":{"RAN4 Main (Yang Session)":[{"text":"Joint RAN1/RAN4 session on 6G in RAN1 main session","owners":[],"raw_delegates":[]}],"RAN4  Breakout 1(BR1) (Shan Session)":[{"text":"Return to (final round)","owners":[],"raw_delegates":[]}],"RAN4 Breakout 2 (BR2)(Gene Session)":[{"text":"Return to (final round)","owners":[],"raw_delegates":[]}],"Ad hoc room":[]}}]}};
-        let currentDay = "Monday";
+<script>
+    // Delegate Mapping Database mapped STRICTLY from provided CSVs
+    const topicDelegates = {
+        "101": ["Taekhoon", "Jackson", "Lili"],
+        "101-A": ["Taekhoon", "Jackson", "Lili"],
+        "101-B": ["Taekhoon", "Jackson", "Lili"],
+        "102": ["Tina", "Bozhi", "Taekhoon", "Hongjun", "Jackson"],
+        "102-A": ["Tina", "Bozhi", "Taekhoon", "Hongjun"],
+        "102-B": ["Tina", "Bozhi", "Taekhoon", "Hongjun", "Jackson"],
+        "104": ["Tina", "Taekhoon"],
+        "104-A": ["Tina", "Taekhoon"],
+        "104-B": ["Tina", "Taekhoon"],
+        "105": ["Yanze", "Dong", "Xinyan"],
+        "105-A": ["Yanze", "Dong", "Xinyan"],
+        "105-B": ["Yanze", "Dong", "Xinyan"],
+        "107": ["Jackson", "Tina", "Xiaoming", "Yunchuan", "Lili", "Yanze", "Dong"],
+        "107-A": ["Jackson", "Tina", "Xiaoming", "Yunchuan", "Lili"],
+        "107-B": ["Jackson", "Yanze", "Dong"],
+        "108": ["Bozhi"],
+        "111": ["Jackson"],
+        "112": ["Jackson", "Yunchuan"],
+        "113": ["Tina", "Bozhi"],
+        "114": ["Tina", "Bozhi"],
+        "115": ["Tina", "Bozhi"],
+        "116": ["Tina", "Bozhi"],
+        "117": ["Tina", "Bozhi"],
+        "118": ["Jackson"],
+        "119": ["Jackson", "Yunchuan"],
         
-        function getRoomColorClass(roomName) {
-            const lower = roomName.toLowerCase();
-            if (lower.includes("main")) return "bg-Main";
-            if (lower.includes("shan")) return "bg-Shan";
-            if (lower.includes("gene")) return "bg-Gene";
-            if (lower.includes("ad hoc") || lower.includes("ad-hoc")) return "bg-Adhoc";
-            if (lower.includes("br4")) return "bg-BR4";
-            return "bg-gray-200";
-        }
+        "201": ["Xinyan", "Yanze"],
+        "202": [],
+        "203": ["Yanze"],
+        "204": ["Yanze"],
+        "205": ["Dong", "Yanze"],
+        "206": ["Yanze (monitoring)"],
+        "207": [],
+        "208": ["Lili", "Xiaoming"],
+        "209": ["Lili", "Xiaoming"],
+        "210": ["Lili", "Xiaoming"],
+        "211": ["Lili", "Xiaoming"],
+        "212": ["Bozhi"],
+        "213": ["Bozhi"],
+        "214": ["Xiaoming", "Jackson"],
+        "215": ["Yanze"],
+        "216": ["Yanze"],
+        "217": ["Lili", "Xiaoming"],
+        "218": ["Lili", "Xiaoming"],
+        "219": ["Bozhi"],
         
-        function initTabs() {
-            const tabsDiv = document.getElementById("tabs");
-            tabsDiv.innerHTML = "";
-            const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-            days.forEach(day => {
-                if (!scheduleData[day]) return;
-                const btn = document.createElement("button");
-                btn.className = `px-6 py-3 font-semibold text-lg focus:outline-none rounded-t-lg transition-colors ${day === currentDay ? 'bg-blue-500 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border-t border-x border-gray-200'}`;
-                btn.innerText = day;
-                btn.onclick = () => {
-                    currentDay = day;
-                    initTabs();
-                    renderSchedule();
-                };
-                tabsDiv.appendChild(btn);
-            });
-        }
-        
-        function getCollisions(timeSlot, selectedDelegate) {
-            const delegateRooms = {};
-            const collisions = new Set();
-            
-            for (const [room, cards] of Object.entries(timeSlot.rooms)) {
-                cards.forEach(card => {
-                    card.raw_delegates.forEach(d => {
-                        if (!delegateRooms[d]) delegateRooms[d] = new Set();
-                        delegateRooms[d].add(room);
-                    });
-                });
+        "301": ["Bozhi (monitoring)"],
+        "302": ["Bozhi (monitoring)"],
+        "303": ["Xin (monitoring)"],
+        "304": ["Xin (monitoring)"],
+        "305": ["Bozhi (monitoring)"],
+        "306": ["Xinyan (monitoring)"],
+        "307": ["Bozhi (monitoring)"],
+        "308": [],
+        "320": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "321": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "322": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "323": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "324": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "325": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "326": ["Tina (monitoring)", "Bozhi (monitoring)"],
+        "327": ["Bozhi", "Jackson", "Hongjun"],
+        "328": ["Bozhi", "Hongjun"],
+        "329": [],
+        "340": ["Tina", "Bozhi"],
+        "341": ["Tina", "Bozhi"],
+        "342": ["Taekhoon"],
+        "343": [],
+        "344": [],
+        "345": ["Xin"],
+        "346": ["Bozhi"],
+        "347": ["Bozhi"],
+        "348": ["Xinyan", "Yanze"],
+        "349": ["Xinyan", "Yanze"],
+        "350": ["Bozhi"],
+        "351": [],
+        "352": [],
+        "353": [],
+        "360": ["Xin", "Jackson"],
+        "361": ["Xin", "Jackson"],
+        "362": ["Xin", "Dong"],
+        "363": ["Xin", "Dong"],
+        "370": []
+    };
+
+    // Compiled Schedule Data mapped STRICTLY from PPTX
+    const scheduleData = {
+        "Monday": [
+            { time: "9:00-09:30", type: "regular", cols: [
+                { room: "Main", content: "1. Opening of the meeting\n2. Approval of the agenda\n3. Letters / reports from other groups / meetings\n4. Incoming LS\n5. On 6G TR\n6. On spectrum and non-spectrum WI", topics: [] },
+                { room: "BR1", content: "", topics: [] },
+                { room: "BR2", content: "", topics: [] },
+                { room: "AdHoc", content: "", topics: [] }
+            ]},
+            { time: "9:30-10:30", type: "regular", cols: [
+                { room: "Main", content: "[111] 6G RAN4 operation efficiency", topics: ["111"] },
+                { room: "BR1", content: "Rel-20 RRM\n[201] NR_RRM_Ph6\n5G UE RF\n[340] NR_UE_RF_Ph5 ()\n[341] NR_UE_RF_Ph5_Part2 ()", topics: ["201", "340", "341"] },
+                { room: "BR2", content: "", topics: [] },
+                { room: "AdHoc", content: "BR1 Ad-hoc:\nRel-20 OTA\n[212] NR_UE_OTA_Enh, chaired by Ruixin Wang (vivo)", topics: ["212"] }
+            ]},
+            { time: "10:30-11:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "11:00-13:00", type: "regular", cols: [
+                { room: "Main", content: "[101] System Parameter()", topics: ["101"] },
+                { room: "BR1", content: "Rel-20 RRM\n[202] NR_UAV_req_RRM\n5G UE RF (cont)", topics: ["202"] },
+                { room: "BR2", content: "NTN\n[346] NR_IoT_NTN_Ph2 ()", topics: ["346"] },
+                { room: "AdHoc", content: "Main Ad-hoc\n[105] 6G RRM Chaired by Jerry (Apple)", topics: ["105"] }
+            ]},
+            { time: "13:00-14:30", type: "break", text: "Lunch break" },
+            { time: "14:30-16:30", type: "regular", cols: [
+                { room: "Main", content: "[101] System Parameter()\n---3:00pm\n[102] General RF and UE RF", topics: ["101", "102"] },
+                { room: "BR1", content: "Rel-20 AI\n[214] NR_AIML_air_Ph2", topics: ["214"] },
+                { room: "BR2", content: "NTN (cont)\n[347] NR_IoT_NTN_Ph2_Part2 ()\n[348] Study_NR_NTN_GNSS_resilient ()", topics: ["347", "348"] },
+                { room: "AdHoc", content: "BR2 Ad-hoc: 5G BSRF (14:30 – 15:30)\n[345] NR_BS_RF_Ph2, chaired by Torbjörn (Ericsson)\n\nBR1 Ad-hoc: 6G testability/OTA (15:30-16:30)\n[213] 6G testability and OTA, chaired by Ruixin Wang (vivo)", topics: ["345", "213"] }
+            ]},
+            { time: "16:30-17:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "17:00-18:00", type: "regular", cols: [
+                { room: "Main", content: "[102] General RF and UE RF\n[108] Spectrum sharing", topics: ["102", "108"] },
+                { room: "BR1", content: "Rel-20 RRM\n[204] NR_MIMO_Ph6_RRM", topics: ["204"] },
+                { room: "BR2", content: "NTN (cont)\n[349] LTE_TN_NR_NTN_handover ()\n[350] LTE_IoT_NTN_high_power ()", topics: ["349", "350"] },
+                { room: "AdHoc", content: "Main Ad-hoc:\n[112] R19 NR_AIML_air and [119] R19 NR AIML air maintenance Chaired by Vali (Qualcomm)", topics: ["112", "119"] }
+            ]},
+            { time: "18:00-19:30", type: "regular", cols: [
+                { room: "Main", content: "Main Ad-hoc:\n[102-A] 6G General RF and UE RF, Chaired by Toni (Qualcomm)", topics: ["102-A"] },
+                { room: "BR1", content: "BR1 Ad-hoc:\n[214] NR_AIML_air_Ph2, Chaired by Tom (E///)", topics: ["214"] },
+                { room: "BR2", content: "BR2 Ad-hoc: Sensing coexistence\n[362] 6G_Sensing, chaired by Fei (ZTE)", topics: ["362"] },
+                { room: "AdHoc", content: "BR1 Ad-hoc:\nRRM Maintenance\n[215][216] RRM_Maintenance_Up_to_R17 & RRM_Maintenance_R18_R19, Chaired by Zhang Li (Huawei)", topics: ["215", "216"] }
+            ]}
+        ],
+        "Tuesday": [
+            { time: "8:30-10:30", type: "regular", cols: [
+                { room: "Main", content: "[107] 6G AI", topics: ["107"] },
+                { room: "BR1", content: "Rel-20 RRM\n[206] NR_Mob_Ph5_RRM\n[207] Ambient_IoT_Ph2_RRM", topics: ["206", "207"] },
+                { room: "BR2", content: "UE RF\n[342] NR_low_band_CA_switching ()", topics: ["342"] },
+                { room: "AdHoc", content: "BDaT Ad-hoc: 5G UE RF (8:30 – 9:30)\n[340] NR_UE_RF_Ph\n[341] NR_UE_RF_Ph5_Part2\nChaired by Alok (Nokia) and Tina (Samsung)\n\nBR1 Ad-hoc:\n6G OTA\n[213] 6G testability and OTA, Chaired by Ruixin Wang (vivo)", topics: ["340", "341", "213"] }
+            ]},
+            { time: "10:30-11:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "11:00-13:00", type: "regular", cols: [
+                { room: "Main", content: "[105] 6G RRM", topics: ["105"] },
+                { room: "BR1", content: "Rel-20 Demod\n[208] NR_demod_Ph6", topics: ["208"] },
+                { room: "BR2", content: "BDaT LS\n[370] BDaT LS ()\n\nRel-20 UAV\n[351] NR_UAV (14)", topics: ["370", "351"] },
+                { room: "AdHoc", content: "BR2 Ad-hoc: Spectrum basket work items\n[324] NR_CADC_SUL(including band combination database), chaired by Per (Ericsson)\n[323] NTN_bands_Features, chaired by Daniel (Apple)", topics: ["324", "323"] }
+            ]},
+            { time: "13:00-14:30", type: "break", text: "Lunch break" },
+            { time: "14:30-16:30", type: "regular", cols: [
+                { room: "Main", content: "[101] System Parameter()\n---15:45---\n[104] Spectrum", topics: ["101", "104"] },
+                { room: "BR1", content: "Rel-20 RRM\n[205] NR_AIML_Mob_RRM\n---15:30---\nRel-20 Demod\n[209] FS_NR_demod_SCM", topics: ["205", "209"] },
+                { room: "BR2", content: "6G SI: BSRF\n[360] 6G_BSRF_requirements (29)\n[361] 6G_BSRF_coexistence_AAS (42)", topics: ["360", "361"] },
+                { room: "AdHoc", content: "BR2 Ad-hoc: 1.5 GHz Japan (14:30 – 15:30)\n[118bis][327] NR_1.5GHz_Japan, chaired by Yasuki (KDDI)\n\nBR2 Ad-hoc: NTN (15:30 – 16:30)\n[348] GNSS resilient, chaired by Dorin (Thales)", topics: ["327", "348"] }
+            ]},
+            { time: "16:30-17:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "17:00-18:00", type: "regular", cols: [
+                { room: "Main", content: "[104] Spectrum\n\nMain Ad-hoc:\n[111] 6G operation efficiency by Aijun (CATT)", topics: ["104", "111"] },
+                { room: "BR1", content: "Rel-20 RRM Cont.\n[205] NR_AIML_Mob_RRM", topics: ["205"] },
+                { room: "BR2", content: "6G SI BSRF (cont)", topics: ["360", "361"] },
+                { room: "AdHoc", content: "TBD", topics: [] }
+            ]},
+            { time: "18:00-19:30", type: "regular", cols: [
+                { room: "Main", content: "Main Ad hoc:\n[101-A] System Parameter, Chaired by Leo (Huawei)", topics: ["101-A"] },
+                { room: "BR1", content: "RRM Ad-hoc:\n[205] NR_AIML_Mob_RRM, Chaired by Qiuge Guo (OPPO)", topics: ["205"] },
+                { room: "BR2", content: "BDaT Adhoc: 6G BSRF requirements\n[360] 6G_BSRF_requirements, chaired by Dominique (Ericsson)", topics: ["360"] },
+                { room: "AdHoc", content: "Main Ad-hoc:\n[111] 6G operation efficiency by Aijun (CATT)\n---18:15----\nTBD", topics: ["111"] }
+            ]}
+        ],
+        "Wednesday": [
+            { time: "8:30-10:30", type: "regular", cols: [
+                { room: "Main", content: "[107] 6G AI\nRel-20 and 6G OTA\n[213] 6G testability and OTA\n[212] NR_UE_OTA_Enh", topics: ["107", "213", "212"] },
+                { room: "BR1", content: "BDaT Ad-hoc: UE RF LBCA (8:30 – 9:00)\n[342] NR_low_band_CA_switching, chaired by James (Apple)\n\n5G BSRF (9:00 – 10:30)\n[345] NR_BS_RF_Ph2 (14)", topics: ["342", "345"] },
+                { room: "BR2", content: "BR1 Ad-hoc:\n[209] FS_NR_demod_SCM, Chaired by Alex (Nokia)", topics: ["209"] },
+                { room: "AdHoc", content: "BR2 Ad-hoc: 40 GHz EESS protection (9:30 – 10:30)\n[328] NR_EESS_PC1_40GHz, chaired by Ryu (DCM)", topics: ["328"] }
+            ]},
+            { time: "10:30-11:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "11:00-13:00", type: "regular", cols: [
+                { room: "Main", content: "[101] System Parameter()\n\n6G OTA\n[212] NR_UE_OTA_Enh", topics: ["101", "212"] },
+                { room: "BR1", content: "6G demod\n[210] 6G Demod_Part1", topics: ["210"] },
+                { room: "BR2", content: "Ambient IoT\n[352] A-IoT_sys_outdoor (32)\n[353] A-IoT_indoor_test (20)", topics: ["352", "353"] },
+                { room: "AdHoc", content: "BR1 Ad-hoc:\nR20 AI\n[214] NR_AIML_air_Ph2, Chaired by Tom (E///)", topics: ["214"] }
+            ]},
+            { time: "13:00-14:30", type: "break", text: "Lunch break" },
+            { time: "14:30-16:30", type: "regular", cols: [
+                { room: "Main", content: "[105] 6G RRM()", topics: ["105"] },
+                { room: "BR1", content: "6G demod\n[210] 6G Demod_Part1 Cont.\n[211] 6G Demod_Part2", topics: ["210", "211"] },
+                { room: "BR2", content: "6G SI: Sensing\n[362] 6G_Sensing ()\n[363] 6G_Sensing ()", topics: ["362", "363"] },
+                { room: "AdHoc", content: "Main Ad-hoc: [101-B] System Parameter, Chaired by Jinqiang (OPPO)\n\nBR2 Ad-Hoc: Ambient IoT system parameters (15:30 – 16:30)\n[352] A-IoT system parameters, chaired by Ling Lin (Huawei)", topics: ["101-B", "352"] }
+            ]},
+            { time: "16:30-17:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "17:00-18:00", type: "regular", cols: [
+                { room: "Main", content: "[102] General RF and UE RF ()", topics: ["102"] },
+                { room: "BR1", content: "6G demod\n[211] 6G Demod_Part2 Cont.", topics: ["211"] },
+                { room: "BR2", content: "6G SI: Sensing (cont)", topics: ["362", "363"] },
+                { room: "AdHoc", content: "Main Ad-hoc:\n[105] 6G RRM Chaired by Jinyup (LGE)", topics: ["105"] }
+            ]},
+            { time: "18:00-19:00", type: "regular", cols: [
+                { room: "Main", content: "Main Ad-hoc:\nTBD", topics: [] },
+                { room: "BR1", content: "BR1 Ad hoc:\nDemod\n[208] NR_demod_Ph6, Chaired by Jingzhou Wu (China Telecom)", topics: ["208"] },
+                { room: "BR2", content: "BDaT Ad-hoc: 6G coexistence\n[361] 6G_BSRF_coexistence_AAS, coexistence part, chaired by Michal (Huawei)", topics: ["361"] },
+                { room: "AdHoc", content: "Main Ad hoc\n[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)", topics: ["102-B"] }
+            ]},
+            { time: "19:30-22:00", type: "break", text: "RAN4 Dinner and Social Event" }
+        ],
+        "Thursday": [
+            { time: "8:30-10:30", type: "regular", cols: [
+                { room: "Main", content: "[112] R19 NR_AIML_air (43)", topics: ["112"] },
+                { room: "BR1", content: "Rel-20 RRM\n[203] NR_LBCA_Sw_enh_RRM\nRRM Maintenance\n[215] RRM_Maintenance_Up_to_R17\n[216] RRM_Maintenance_R18_R19", topics: ["203", "215", "216"] },
+                { room: "BR2", content: "5G basket and spectrum WI\n[320] NR_LTE_combos_Features_R20 ()\n[321] DC_xBLTE_yBNR_R20 ()\n[322] NR_bands_Features_R20 ()\n[323] NTN_Bands_Features_R20 ()\n[324] NR_CADC_SUL_R20 ()\n[325] NR_Bands_BW_PC_BC_RedCap ()\n[326] LTE_CA_xBDL_yBUL ()\n[327] NR_1.5GHz_Japan ()\n[328] NR_EESS_PC1_40GHz ()\n[329] New_CBW_5G_broadcast_over_GSO ()", topics: ["320", "321", "322", "323", "324", "325", "326", "327", "328", "329"] },
+                { room: "AdHoc", content: "BR1 Ad-hoc:\nDemod\n[210] [211] 6G Demod_Part1&Part2", topics: ["210", "211"] }
+            ]},
+            { time: "10:30-11:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "11:00-13:00", type: "regular", cols: [
+                { room: "Main", content: "Maintenance\n\n[113] R19_spectrum_maintenance ()\n[114] R19_UERF_maintenance_Part1()\n[115] R19_UERF_maintenance_Part2 ()\n[116] Upto_R17_UERF_maintenance()\n[117] R18_UERF_maintenance ()\n[119] R19 NR AIML air maintenance", topics: ["113", "114", "115", "116", "117", "119"] },
+                { room: "BR1", content: "Demod and OTA Maintenance\n[217] Demod_Maintenance_up_to_R17\n[218] Demod_Maintenance_R18_R19\n[219] OTA_Maintenance", topics: ["217", "218", "219"] },
+                { room: "BR2", content: "Maintenance\n[301] NR_IoT_NTN_Maint_Legacy_RF ()\n[302] NR_IoT_NTN_Maint_Legacy_Demod_TEI ()\n[303] BSRF_Maintenance_Legacy_TEI ()\n[304] BSRF_Maintenance_TEI ()\n[305] NR_IoT_NTN_Maintenance ()\n[306] NR_IoT_NTN_Maintenance_RRM ()\n[307] Ku_band_Maintenance ()\n[308] Ambient_IoT_Maintenance ()", topics: ["301", "302", "303", "304", "305", "306", "307", "308"] },
+                { room: "AdHoc", content: "BR1 Ad-hoc:\nR20 RRM\n[204] NR_MIMO_Ph6_RRM, Chaired by Miao Wang (MediaTek)\n---12:00---\n[206] NR_Mob_Ph5_RRM, Chaired by Roy Hu (OPPO)", topics: ["204", "206"] }
+            ]},
+            { time: "13:00-14:30", type: "break", text: "Lunch break" },
+            { time: "14:30-16:30", type: "regular", cols: [
+                { room: "Main", content: "EARLY RETURN TO", topics: [] },
+                { room: "BR1", content: "Maintenance (cont)", topics: [] },
+                { room: "BR2", content: "BR2 Ad-hoc: NTN\n[347] NR_IoT_NTN_Ph2\n[346] NR_IoT_NTN_Ph2\nChaired by Jeffery (MTK) and Tank (CHTTL)", topics: ["346", "347"] },
+                { room: "AdHoc", content: "", topics: [] }
+            ]},
+            { time: "16:30-17:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "17:00-18:00", type: "regular", cols: [
+                { room: "Main", content: "Main Ad-hoc:\n[107-A] 6G AI, Chaired by Jackson (Samsung)", topics: ["107-A"] },
+                { room: "BR1", content: "Ad-hoc or Early Return-to", topics: [] },
+                { room: "BR2", content: "BR2 Ad-hoc: Rel-20 UAV (15:30 – 16:30)\n[351] NR_UAV chaired by Bin (Qualcomm)", topics: ["351"] },
+                { room: "AdHoc", content: "Main Ad hoc:\n[104] Spectrum, Chaired by Johannes(Nokia)", topics: ["104"] }
+            ]},
+            { time: "18:00-19:30", type: "regular", cols: [
+                { room: "Main", content: "Main Ad-hoc:\n[107-A] 6G AI, Chaired by Jackson (Samsung)\n---18:15\n[107-B] 6G AI, Chaired by Santhan (Ericsson)", topics: ["107-A", "107-B"] },
+                { room: "BR1", content: "Ad-hoc or Early Return-to", topics: [] },
+                { room: "BR2", content: "BR2 Ad-hoc: 6G Sensing feasibility\n[363] 6G_Sensing, chaired by Mustafa (Qualcomm)", topics: ["363"] },
+                { room: "AdHoc", content: "Main Ad hoc:\nPlaceholder for maintenance", topics: [] }
+            ]}
+        ],
+        "Friday": [
+            { time: "8:00-10:30", type: "regular", cols: [
+                { room: "Main", content: "Return to\n6G system parameter\n6G UE RF\n6G spectrum\n6G spectrum sharing", topics: [] },
+                { room: "BR1", content: "Return to", topics: [] },
+                { room: "BR2", content: "Return to", topics: [] },
+                { room: "AdHoc", content: "", topics: [] }
+            ]},
+            { time: "10:30-11:00", type: "break", text: "茶歇 (Coffee Break)" },
+            { time: "11:00-12:45", type: "regular", cols: [
+                { room: "Main", content: "6G RRM\n6G AI\n6G operation efficiency\n5GA R19 AI\n5GA spectrum and RF maintenance", topics: [] },
+                { room: "BR1", content: "Return to\nOTA", topics: [] },
+                { room: "BR2", content: "Return to", topics: [] },
+                { room: "AdHoc", content: "", topics: [] }
+            ]},
+            { time: "12:45-13:45", type: "break", text: "Lunch break" },
+            { time: "15:00-EOM", type: "regular", cols: [
+                { room: "Main", content: "13 Any other business\n14 Close of the meeting", topics: [] },
+                { room: "BR1", content: "Return to (final round)", topics: [] },
+                { room: "BR2", content: "Return to (final round)", topics: [] },
+                { room: "AdHoc", content: "", topics: [] }
+            ]}
+        ]
+    };
+
+    let activeDay = "Monday";
+
+    const bgMap = {
+        "Main": "bg-blue-50 border-blue-200",
+        "BR1": "bg-green-50 border-green-200",
+        "BR2": "bg-yellow-50 border-yellow-200",
+        "AdHoc": "bg-purple-50 border-purple-200"
+    };
+
+    function extractDelegatesForTopics(topics) {
+        let owners = new Set();
+        topics.forEach(t => {
+            if(topicDelegates[t]) {
+                topicDelegates[t].forEach(owner => owners.add(owner));
             }
-            
-            for (const [d, rooms] of Object.entries(delegateRooms)) {
-                if (rooms.size > 1) {
-                    if (selectedDelegate === "ALL" || selectedDelegate === d) {
-                        collisions.add(d);
+        });
+        return Array.from(owners);
+    }
+
+    function renderTabs() {
+        const tabsContainer = document.getElementById('dayTabs');
+        tabsContainer.innerHTML = '';
+        Object.keys(scheduleData).forEach(day => {
+            const btn = document.createElement('button');
+            btn.className = `px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 transition-colors ${activeDay === day ? 'border-blue-600 text-blue-600 bg-blue-50' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100'}`;
+            btn.innerText = day;
+            btn.onclick = () => { activeDay = day; renderTabs(); renderGrid(); };
+            tabsContainer.appendChild(btn);
+        });
+    }
+
+    function renderGrid() {
+        const grid = document.getElementById('scheduleGrid');
+        // Clear old rows, keep header (first 5 elements)
+        while (grid.children.length > 5) {
+            grid.removeChild(grid.lastChild);
+        }
+
+        const filterVal = document.getElementById('delegateFilter').value;
+        const currentSlots = scheduleData[activeDay];
+
+        currentSlots.forEach(slot => {
+            // Render Time
+            const timeDiv = document.createElement('div');
+            timeDiv.className = "flex items-center justify-center p-3 text-sm font-semibold bg-gray-50 border-b border-gray-200 text-center";
+            timeDiv.innerText = slot.time;
+            grid.appendChild(timeDiv);
+
+            if (slot.type === "break") {
+                const breakDiv = document.createElement('div');
+                breakDiv.className = "break-row bg-gray-200 text-gray-600 font-bold p-3 text-center border-b border-gray-300 flex items-center justify-center uppercase tracking-wide text-sm";
+                breakDiv.innerText = slot.text;
+                breakDiv.style.gridColumn = "2 / span 4";
+                grid.appendChild(breakDiv);
+                return; // skip rendering regular columns
+            }
+
+            // Find Collisions across rooms for this timeslot
+            let allAssignedInSlot = [];
+            slot.cols.forEach(col => {
+                let owners = extractDelegatesForTopics(col.topics);
+                // Strip tags for pure name collision tracking
+                allAssignedInSlot = allAssignedInSlot.concat(owners.map(o => o.split(' (')[0])); 
+            });
+            const collisions = allAssignedInSlot.filter((item, index) => allAssignedInSlot.indexOf(item) !== index);
+
+            slot.cols.forEach(col => {
+                const cellDiv = document.createElement('div');
+                cellDiv.className = "h-full flex flex-col gap-2 p-2 border-b border-r border-gray-200";
+                
+                if (!col.content.trim() || col.content === "TBD" || col.content.includes("EARLY RETURN TO") || col.content.includes("Return to") || col.content.includes("Placeholder")) {
+                    // Empty or admin cell - inherit rule exception applied
+                    cellDiv.classList.add("bg-gray-50");
+                    if (col.content.trim()) {
+                        const card = document.createElement('div');
+                        card.className = "flex-1 p-3 rounded border border-gray-200 bg-gray-100 text-gray-400 text-sm font-medium flex items-center justify-center text-center";
+                        card.innerText = col.content;
+                        cellDiv.appendChild(card);
+                    }
+                    grid.appendChild(cellDiv);
+                    return;
+                }
+
+                let owners = extractDelegatesForTopics(col.topics);
+                
+                const card = document.createElement('div');
+                card.className = `flex-1 p-3 rounded border text-sm flex flex-col justify-between shadow-sm transition-opacity duration-200`;
+
+                let isRelevantToFilter = false;
+                if (filterVal === "All") isRelevantToFilter = true;
+                else {
+                    isRelevantToFilter = owners.some(o => o.includes(filterVal));
+                }
+
+                if (owners.length === 0) {
+                    // No internal owner => strictly grayed out
+                    card.classList.add("bg-gray-100", "border-gray-200", "text-gray-500");
+                } else {
+                    if (!isRelevantToFilter && filterVal !== "All") {
+                        // Not the filtered user
+                        card.classList.add("bg-gray-50", "border-gray-200", "opacity-40", "text-gray-400");
+                    } else {
+                        // Colored room based
+                        card.classList.add(...bgMap[col.room].split(" "));
                     }
                 }
-            }
-            return collisions;
-        }
 
-        function renderSchedule() {
-            const container = document.getElementById("scheduleContainer");
-            const delegateSelect = document.getElementById("delegateSelect").value;
-            const data = scheduleData[currentDay];
-            
-            if (!data) {
-                container.innerHTML = "<p class='text-center text-gray-500 p-8'>No schedule data for this day.</p>";
-                return;
-            }
-            
-            const rooms = data.rooms;
-            const totalCols = rooms.length + 1; 
-            
-            let html = `<div class="grid" style="grid-template-columns: 120px repeat(${rooms.length}, minmax(0, 1fr));">`;
-            
-            // Headers
-            html += `<div class="bg-gray-100 font-bold p-3 border-r border-b border-gray-200 flex items-center justify-center text-center">Time</div>`;
-            rooms.forEach(room => {
-                html += `<div class="bg-gray-100 font-bold p-3 border-r border-b border-gray-200 flex items-center justify-center text-center leading-snug">${room.replace(/\n/g, '<br>')}</div>`;
-            });
-            
-            // Rows
-            data.schedule.forEach(slot => {
-                let hasItems = false;
-                if (slot.is_break) {
-                    Object.values(slot.rooms).forEach(cards => {
-                        if (cards && cards.length > 0) hasItems = true;
-                    });
-                }
-
-                // Time Cell
-                const timeCellSpan = (slot.is_break && !hasItems) ? 1 : 1;
-                html += `<div class="p-3 border-r border-b border-gray-200 flex items-center justify-center font-semibold text-center whitespace-nowrap bg-white" style="grid-column: span ${timeCellSpan};">${slot.time}</div>`;
+                let innerHTML = `<div class="whitespace-pre-wrap mb-3 font-medium leading-relaxed">${col.content}</div>`;
                 
-                if (slot.is_break && !hasItems) {
-                    html += `<div class="p-3 border-r border-b border-gray-200 bg-break flex items-center justify-center text-lg" style="grid-column: span ${rooms.length};">${slot.break_title}</div>`;
-                } else {
-                    const collisions = getCollisions(slot, delegateSelect);
-                    
-                    rooms.forEach(room => {
-                        html += `<div class="p-2 border-r border-b border-gray-200 h-full flex flex-col gap-2 bg-white">`;
-                        const cards = slot.rooms[room] || [];
-                        
-                        if (slot.is_break && cards.length === 0) {
-                             html += `<div class="bg-break flex-1 flex items-center justify-center rounded p-2 text-center shadow-sm">${slot.break_title}</div>`;
-                        } else {
-                            cards.forEach(card => {
-                                const hasOwner = card.raw_delegates && card.raw_delegates.length > 0;
-                                let baseClass = hasOwner ? getRoomColorClass(room) : "gray-out";
-                                let extraClass = "";
-                                
-                                if (delegateSelect !== "ALL" && card.raw_delegates.includes(delegateSelect)) {
-                                    extraClass += " ring-4 ring-red-500 shadow-lg scale-[1.02] transform transition-transform z-10 ";
-                                }
-                                
-                                const hasCollision = card.raw_delegates.some(d => collisions.has(d));
-                                if (hasCollision) {
-                                    extraClass += " border-[3px] border-red-600 shadow-md ";
-                                }
-                                
-                                const textHtml = card.text.replace(/\n/g, '<br>');
-                                
-                                html += `<div class="p-3 rounded-lg shadow-sm flex-1 flex flex-col ${baseClass} ${extraClass}">`;
-                                html += `<div class="font-medium mb-3 whitespace-pre-wrap flex-grow leading-snug">${textHtml}</div>`;
-                                
-                                if (hasOwner) {
-                                    let ownerHtml = card.owners.map(o => {
-                                        const rawName = o.split(' ')[0];
-                                        const isCol = collisions.has(rawName);
-                                        const colBadge = isCol ? `<span class="bg-red-600 text-white text-[10px] uppercase font-bold px-1.5 py-0.5 rounded ml-2 align-middle">Conflict</span>` : '';
-                                        const lowlight = o.includes('monitoring') ? 'opacity-60 italic font-normal' : 'font-semibold';
-                                        return `<div class="text-sm mt-1 text-gray-900 bg-white/50 px-2 py-1 rounded inline-block w-full ${lowlight}">👤 ${o} ${colBadge}</div>`;
-                                    }).join('<div class="h-1"></div>');
-                                    html += `<div>${ownerHtml}</div>`;
-                                }
-                                
-                                html += `</div>`;
-                            });
-                        }
-                        
-                        html += `</div>`;
-                    });
-                }
-            });
-            
-            html += `</div>`; 
-            container.innerHTML = html;
-        }
+                if (owners.length > 0) {
+                    let ownerHTML = `<div class="mt-auto space-y-1.5 border-t border-black/5 pt-2">`;
+                    owners.forEach(owner => {
+                        let baseName = owner.split(' (')[0];
+                        let isCollision = collisions.includes(baseName);
+                        let isMonitored = owner.includes("monitoring");
 
-        document.getElementById("delegateSelect").addEventListener("change", renderSchedule);
-        
-        initTabs();
-        renderSchedule();
-    </script>
+                        let textStyle = isMonitored ? "italic opacity-70 font-normal" : "font-semibold";
+                        let badgeHtml = "";
+
+                        if (isCollision && (filterVal === "All" || filterVal === baseName)) {
+                            badgeHtml = `<span class="ml-auto text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded shadow-sm uppercase tracking-wider font-bold">Collision</span>`;
+                        }
+
+                        ownerHTML += `
+                            <div class="flex flex-wrap items-center text-xs text-gray-800 bg-white/70 rounded px-2 py-1.5 shadow-sm border border-black/10">
+                                <span class="mr-1.5 text-blue-600">👤</span>
+                                <span class="${textStyle}">${owner}</span>
+                                ${badgeHtml}
+                            </div>
+                        `;
+                    });
+                    ownerHTML += `</div>`;
+                    innerHTML += ownerHTML;
+                }
+
+                card.innerHTML = innerHTML;
+                cellDiv.appendChild(card);
+                grid.appendChild(cellDiv);
+            });
+        });
+    }
+
+    document.getElementById('delegateFilter').addEventListener('change', renderGrid);
+
+    // Initial render setup
+    renderTabs();
+    renderGrid();
+
+</script>
 </body>
 </html>
