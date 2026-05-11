@@ -51,33 +51,32 @@
 </div>
 
 <script>
-    // Task-1 & Task-2 Output: Mapped Owners for Topics
-    // Note: A-IoT topics (207, 308, 352, 353) have been removed based on CSV "N/A"
+    // Mapped Owners for Topics with Xinyan updated to standard delegate
     const topicOwners = {
         "101": ["Taekhoon", "Jackson", "Lili"], "101-A": ["Taekhoon", "Jackson", "Lili"], "101-B": ["Taekhoon", "Jackson", "Lili"],
         "102": ["Tina", "Bozhi", "Taekhoon", "Hongjun (Home Support)"], "102-A": ["Tina", "Bozhi", "Taekhoon", "Hongjun (Home Support)"], "102-B": ["Tina", "Bozhi", "Taekhoon", "Hongjun (Home Support)", "Jackson"],
         "104": ["Tina", "Taekhoon"], "104-A": ["Tina", "Taekhoon"], "104-B": ["Tina", "Taekhoon"],
-        "105": ["Yanze", "Dong", "Xinyan (Home Support)"], "105-A": ["Yanze", "Dong", "Xinyan (Home Support)"], "105-B": ["Yanze", "Dong", "Xinyan (Home Support)"],
+        "105": ["Yanze", "Dong", "Xinyan"], "105-A": ["Yanze", "Dong", "Xinyan"], "105-B": ["Yanze", "Dong", "Xinyan"],
         "107": ["Jackson", "Tina", "Xiaoming", "Yunchuan", "Lili"], "107-A": ["Jackson", "Tina", "Xiaoming", "Yunchuan", "Lili"], "107-B": ["Jackson", "Yanze", "Dong"],
         "108": ["Bozhi"],
         "111": ["Jackson"],
         "112": ["Jackson", "Yunchuan"],
         "113": ["Tina", "Bozhi"], "114": ["Tina", "Bozhi"], "115": ["Tina", "Bozhi"], "116": ["Tina", "Bozhi"], "117": ["Tina", "Bozhi"],
         "119": ["Jackson", "Yunchuan"],
-        "201": ["Xinyan (Home Support)", "Yanze"],
+        "201": ["Xinyan", "Yanze"],
         "203": ["Yanze"], "204": ["Yanze"], "205": ["Dong", "Yanze"], "206": ["Yanze (monitoring)"],
         "208": ["Lili", "Xiaoming"], "209": ["Lili", "Xiaoming"], "210": ["Lili", "Xiaoming"], "211": ["Lili", "Xiaoming"],
         "212": ["Bozhi"], "213": ["Bozhi"], "214": ["Xiaoming", "Jackson"],
         "215": ["Yanze"], "216": ["Yanze"],
         "217": ["Lili", "Xiaoming"], "218": ["Lili", "Xiaoming"], "219": ["Bozhi"],
         "301": ["Bozhi (monitoring)"], "302": ["Bozhi (monitoring)"], "303": ["Xin (monitoring)"], "304": ["Xin (monitoring)"],
-        "305": ["Bozhi (monitoring)"], "306": ["Xinyan (Home Support) (monitoring)"], "307": ["Bozhi (monitoring)"],
+        "305": ["Bozhi (monitoring)"], "306": ["Xinyan (monitoring)"], "307": ["Bozhi (monitoring)"],
         "320": ["Tina (monitoring)", "Bozhi (monitoring)"], "321": ["Tina (monitoring)", "Bozhi (monitoring)"], "322": ["Tina (monitoring)", "Bozhi (monitoring)"],
         "323": ["Tina (monitoring)", "Bozhi (monitoring)"], "324": ["Tina (monitoring)", "Bozhi (monitoring)"], "325": ["Tina (monitoring)", "Bozhi (monitoring)"], "326": ["Tina (monitoring)", "Bozhi (monitoring)"],
         "327": ["Bozhi", "Jackson", "Hongjun (Home Support)"], "328": ["Bozhi", "Hongjun (Home Support)"],
         "340": ["Tina", "Bozhi"], "341": ["Tina", "Bozhi"], "342": ["Taekhoon"],
         "345": ["Xin"], "346": ["Bozhi"], "347": ["Bozhi"],
-        "348": ["Xinyan (Home Support)", "Yanze"], "349": ["Xinyan (Home Support)"], "350": ["Bozhi"],
+        "348": ["Xinyan", "Yanze"], "349": ["Xinyan"], "350": ["Bozhi"],
         "360": ["Xin", "Jackson"], "361": ["Xin", "Jackson"], "362": ["Xin", "Dong"], "363": ["Xin", "Dong"]
     };
 
@@ -193,10 +192,10 @@
                             
                             roomObj.owners.forEach(o => {
                                 let baseName = o.split(' ')[0];
-                                if(baseName !== "Hongjun" && baseName !== "Xinyan") {
+                                if(baseName !== "Hongjun") {
                                     delegatesSet.add(baseName);
                                 } else if (o.includes("Home Support")) {
-                                    delegatesSet.add(baseName);
+                                    delegatesSet.add(baseName); // Keep Hongjun in the filter
                                 }
                             }); 
                         }
@@ -266,7 +265,6 @@
                 let timeCell = `<div class="bg-white p-3 border-r border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-700 shadow-sm">${slot.time}</div>`;
                 grid.innerHTML += timeCell;
 
-                // Collision detection prep
                 let userOccurrences = {};
                 slot.rooms.forEach(room => {
                     room.owners.forEach(owner => {
@@ -299,7 +297,6 @@
                             let bgClass = isCollision ? "collision-badge" : "bg-white text-gray-800 border border-gray-300";
                             let icon = isCollision ? "⚠️" : "👤";
                             
-                            // Visual highlighting for specific selected user
                             if(selectedUser !== "All" && baseName !== selectedUser) {
                                 styleClass += " opacity-40";
                                 bgClass = "bg-transparent border-transparent text-gray-500";
