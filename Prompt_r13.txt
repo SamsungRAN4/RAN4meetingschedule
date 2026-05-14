@@ -1,0 +1,79 @@
+Act as an expert Data Analyst and Frontend Developer.
+
+
+
+General explanation for the work (separated into three Tasks below): 
+ Task-1: Analyze two data sources (1. 3GPP RAN4 meeting schedule information (provided by pptx file), 2. Samsung RAN4 team's internal responsibility information (provided by spreadsheet file(s)))
+ Task-2: Use the outcome from Task-1, to find Samsung delegate who is responsible for each topics in the meeting schedule, and add that information to the meeting schedule information. 
+ Task-3: Use the outcome from Task-2, to generate a single-file interactive HTML dashboard (based on the provided https://github.com/SamsungRAN4/RAN4meetingschedule/blob/main/index_ref.html).
+
+
+
+Most important rule:
+ All the relevant information generated to the html file should ONLY be based on pptx and cvs files provided, and don't use any history chat log or other information, e.g, if some thread's Samsung responsible delegate is not know, then set to N/A (CRITICAL). 
+
+
+
+### Task-1
+ In Task-1: How to use the attached pptx file for 3GPP RAN4 meeting schedule information: 
+ 1. The PPTX file containing the official 3GPP RAN4 meeting schedule. 
+ 2. For a certain workday (from Monday to Friday), one table is provided in one page. 
+ 3. For one table, the table row means "timeslot" and the table column means "4 or 5 physical meeting rooms". The corresponding column and row designate the time and location for the topic(s). 
+ 4. Every cell may contain (1) explanation information, e.g., "Rel-20 RRM"; (2) topic information (e.g, "[202] NR_UAV_req_RRM"); (3) other information (e.g., "chaired by someone"). All information (1) (2) (3) must be contained in the output. 
+ 5. Some cells have explanation information which is not the topic name. Keep the explanation information as it is. 
+ 6. The cell's row and column information is critical, don't merge or move to other row or column. 
+ 7. Topic Inheritance: Information like "6G SI: Sensing (cont)" means the previous topic in this room continues. If there is no topic index in that cell, inherit the previous topic index.
+ 8. The timeslot and room information for every cell is ONLY decided by the row and column of the table (CRITICAL).
+ 9. Explanation information like "BR1 Ad-hoc: xxx" should not be interpreted as changing the room. Location is only decided by the row/column. 
+ 10. If in a cell there is "Coffee break AH" followed by a specific topic number, move this item into the adjacent coffee break timeslot, keeping it in the same column.  
+ 11. If a table row contains a 5th distinct column/cell for a timeslot, it must be mapped exclusively to the 5th room (BR4) array.
+ 12. Global Breaks (CRITICAL): If any cell in a row contains break keywords like "Lunch", "break", "Waqfa", "茶歇", or "kafè", treat the *entire timeslot* as a global break, regardless of which column the text appears in.
+ 13. Inheritance Exceptions (CRITICAL): While Rule 7 dictates inheriting previous topics if no index is present, you MUST NOT inherit topics or delegates for: (A) Break timeslots, (B) Administrative text like "TBD", "Early Return-to", or "Main session", and (C) Empty cells. These must strictly have NO internal owner (`owner: null`).
+ 14. It is possible that one cell contains multiple topics, e.g. [211] and [212] in the same cell, it means these topics will be treated sequentially in the time slot in that room. 
+ 15. Retain original sub-topic indices (e.g., [101-A], [101-B]) with their specific delegates  in the data map, while also generating a consolidated base index (e.g., [101]) that merges all unique delegates from its related sub-topics.
+
+
+In Task-1: How to use the attached spreadsheet file(s): 
+ 1. The spreadsheet file(s) maps the topic index to specific Samsung delegate(s).
+ 2. One topic may have the work level as "monitoring" in the column of "if monitoring". This information is useful and should be used in Task-2 and Task-3. 
+ 3. One topic may have multiple Samsung delegates. Consider ALL mentioned delegates for this topic. Don't remove anyone. (CRITICAL)
+ 4. Current Samsung delegates are: Jackson, Tina, Bozhi, Taekhoon, Xin, Lili, Yanze, Dong, Xiaoming, Xinyan and Hongjun (Home Support). Note: Xinyan and Xin are two delegates.
+ 5. If some topic have "N/A" or blank in the column of "Samsung Responsible Delegate", then it means no one is assigned for that topic. 
+ 
+In Task-1: if you can't parse these files successfully, stop this task.
+
+
+
+### Task-2
+ 1. Use the outcome from two data sources.
+ 2. Use the topic index to find the Samsung delegate(s) responsible for that topic and add the corresponding delegate name(s) after every topic. 
+ 3. Identify colliding schedules. Colliding schedule means: one delegate is assigned to topics in different rooms but the SAME timeslot. 
+ 4. If a cell has no assigned internal delegate, leave it as "null".
+ 5. Some topics have multiple sub-topic indices. Corresponding delegates for all sub-topics should be added. 
+
+
+
+### Task-3
+ Generate a single-file HTML dashboard using Vanilla JavaScript and Tailwind CSS (via CDN). Do not use React or external frameworks.
+
+
+
+**UI Requirements:**
+ 1. **Tabs:** Create a top navigation bar with tabs for each day of the meeting.
+ 2. **Strict CSS Grid Architecture (CRITICAL):** Do not use HTML `<table>`. Create a responsive layout using CSS Grid (`display: grid`). Dynamically set `grid-template-columns` based on the time column plus the number of active rooms for that day. Wrap the grid in an `overflow-x-auto` container for mobile scrolling.
+ 3. **Uniform Row Heights & Flex Cards (CRITICAL):** Because you are using CSS Grid, rows will naturally match the height of the tallest cell. Inside the grid cells, use Flexbox (`h-full flex flex-col gap-2`) and apply `flex-1` to the individual topic cards so they stretch vertically to fill the cell perfectly.
+ 4. **Per person highlighted view:** Provide a selection box for all delegates at the top. Highlight relevant topics. Show conflicting agendas for everyone by default, or just for the selected person if filtered. 
+ 5. **Break Spanning (CRITICAL):** Pure break items (like "Lunch", "Waqfa", or "Coffee Break") must use `grid-column: span [total_columns]` to stretch across the entire grid row as a single grayed-out bar. If a break timeslot *also* contains an Ad-hoc topic, render the grid cells normally so the Ad-hoc topic stays in its correct column.
+ 6. **Color-Coding & Gray-out Logic:**
+  - Topics with NO internal owner (`owner: null`) MUST be visually grayed-out.
+  - Topics WITH an internal owner must have a specific color theme based on its room.
+  - Display the session name clearly and put the owner's name below it with a 👤 icon. Highlight collisions visually (e.g., red borders/badges).
+ 7. **Combined topics:** If multiple topic identifiers are used together (like "[208][209]"), treat them together without splitting into a "topic by topic" manner. 
+ 8. **Monitoring:** When one topic is marked as "monitoring", mark the delegate as "name (monitoring)" and visually lowlight the text (e.g., italic, lower opacity). 
+ 9. **Content Checking:** Keep all original text from the PPTX (explanations, topic names, chairs). Do not add other text besides the assigned delegate names.
+
+
+
+### Output:
+ First, briefly confirm that you have successfully parsed the provided files and mapped the delegates. Then, output ONLY the complete, working HTML code inside a single code block. Ensure the schedule data is embedded as a structured JavaScript object (`const scheduleData = {...}`) within the file.
+Use index_ref.html as example for the output format, but NOT for content (CRITICAL!)
