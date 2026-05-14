@@ -1,0 +1,38 @@
+﻿Index,Topic title,Samsung Major Responsibility,Work Level
+301,[119][301] NR_IoT_NTN_Maint_Legacy_RF,Bozhi,Monitoring
+302,[119][302] NR_IoT_NTN_Maint_Legacy_Demod_TEI,Bozhi,Monitoring
+303,[119][303] BSRF_Maintenance_Legacy_TEI,Xin,Monitoring
+304,[119][304] BSRF_Maintenance_TEI,Xin,Monitoring
+305,[119][305] NR_IoT_NTN_Maintenance,Bozhi,Monitoring
+306,[119][306] NR_IoT_NTN_Maintenance_RRM,Xinyan,Monitoring
+307,[119][307] Ku_band_Maintenance,Bozhi,Monitoring
+308,[119][308] Ambient_IoT_maintenance,N/A,
+320,[119][320] NR_LTE_combos_Features,Tina / Bozhi,Monitoring
+321,[119][321] DC_xBLTE_yBNR,Tina / Bozhi,Monitoring
+322,[119][322] NR_bands_xFeature,Tina / Bozhi,Monitoring
+323,[119][323] NTN_bands_Features,Tina / Bozhi,Monitoring
+324,[119][324] NR_CADC_SUL,Tina / Bozhi,Monitoring
+325,[119][325] NR_Bands_BW_PC_BC_RedCap,Tina / Bozhi,Monitoring
+326,[119][326] LTE_CA_xBDL_yBUL,Tina / Bozhi,Monitoring
+327,[119][327] NR_1.5GHz_Japan,Bozhi / Jackson / Hongjun,
+328,[119][328] NR_EESS_PC1_40GHz,Bozhi / Hongjun,
+329,[119][329] New_CBW_5G_broadcast_over_GSO,N/A,
+340,[119][340] NR_UE_RF_Ph5,Tina / Bozhi,
+341,[119][341] NR_UE_RF_Ph5_Part2,Tina / Bozhi,
+342,[119][342] NR_low_band_CA_switching,Taekhoon,
+343,[119][343] NR_TDD_4.9GHz_band,N/A,
+344,[119][344] NR_less_than_5MHz_RedCap_UERF,N/A,
+345,[119][345] NR_BS_RF_Ph2,Xin,
+346,[119][346] NR_IoT_NTN_Ph2,Bozhi,
+347,[119][347] NR_IoT_NTN_Ph2_Part2,Bozhi,
+348,[119][348] Study_NR_NTN_GNSS_resilient,Xinyan / Yanze,
+349,[119][349] LTE_TN_NR_NTN_handover,Xinyan / Yanze,
+350,[119][350] LTE_IoT_NTN_high_power,Bozhi,
+351,[119][351] NR_UAV,N/A,
+352,[119][352] A-IoT_sys_outdoor,N/A,
+353,[119][353] A-IoT_indoor_test,N/A,
+360,[119][360] 6G_BSRF_requirements,Xin / Jackson,
+361,[119][361] 6G_BSRF_coexistence_AAS,Xin / Jackson,
+362,[119][362] 6G_Sensing_coex_test_req,Xin / Dong,
+363,[119][363] 6G_Sensing_feasiblity_general,Xin / Dong,
+370,[119][370] LS_BDaT,N/A,
