@@ -7,7 +7,6 @@
     <title>Samsung RAN4 Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 核心网格布局 */
         .schedule-grid {
             display: grid;
             grid-template-columns: 120px repeat(4, minmax(280px, 1fr));
@@ -26,21 +25,18 @@
             align-items: flex-start;
         }
 
-        /* 房间基础样式 */
         .room-yang { border-left: 6px solid #3b82f6; background-color: #f0f7ff; border-color: #e2e8f0; }
         .room-shan { border-left: 6px solid #10b981; background-color: #f0fdf4; border-color: #e2e8f0; }
         .room-gene { border-left: 6px solid #8b5cf6; background-color: #f5f3ff; border-color: #e2e8f0; }
         .room-adhoc { border-left: 6px solid #f59e0b; background-color: #fffbeb; border-color: #e2e8f0; }
         .unowned-cell { border: 1px dashed #cbd5e1; background-color: #f8fafc; color: #94a3b8; }
         
-        /* 未选中卡片深度暗化 */
         .is-dimmed {
             opacity: 0.15 !important;
             filter: grayscale(100%);
             pointer-events: none;
         }
 
-        /* 休息行跨列 */
         .break-row {
             grid-column: 2 / -1;
             background-color: #f1f5f9;
@@ -1369,13 +1365,10 @@ const scheduleData = {
                             
                             let cardClass = "p-5 rounded-2xl flex flex-col gap-3 flex-card transition-all shadow-sm ";
                             cardClass += (owners.length > 0) ? "room-" + room.name.toLowerCase().replace(' ', '') : "unowned-cell ";
-                            
                             if (isDimmed) cardClass += "is-dimmed ";
 
-                            // --- 修复: 将每一行包裹在独立 div 中，防止粘连 ---
                             let lines = room.text.split('<br>');
                             let formattedLines = lines.map(line => {
-                                // 如果是空行，用带高度的空 div 占位，保持原有间距
                                 if (!line.trim()) return '<div class="h-2"></div>';
 
                                 let topicMatches = [...line.matchAll(/\[([0-9]+(?:-[A-Z])?)\]/g)];
@@ -1399,30 +1392,25 @@ const scheduleData = {
                                         return `<div class="opacity-50 grayscale mb-1">${line}</div>`;
                                     }
                                 } else {
-                                    // Default All (显示所有人)
+                                    // Logic for 'All' view
                                     if (topicMatches.length > 0) {
-                                        let hasMonitoring = false;
                                         let hasActive = false;
                                         topicMatches.forEach(match => {
                                             let tOwners = DELEGATE_MAP[match[1]] || [];
-                                            if (tOwners.length > 0) {
-                                                if (tOwners.every(o => o.includes('monitoring'))) {
-                                                    hasMonitoring = true;
-                                                } else {
-                                                    hasActive = true;
-                                                }
+                                            // Topic is 'Active' if it has at least one non-monitoring owner
+                                            if (tOwners.length > 0 && tOwners.some(o => !o.includes('monitoring'))) {
+                                                hasActive = true;
                                             }
                                         });
-                                        // 纯 Monitoring 议题置灰
-                                        if (hasMonitoring && !hasActive) {
+
+                                        // Lowlight if there are NO active representatives driving the topic
+                                        if (!hasActive) {
                                             return `<div class="text-slate-400 opacity-60 font-medium mb-1">${line}</div>`;
                                         }
                                     }
-                                    // 正常的议题（非高亮，非 monitoring）
                                     return `<div class="mb-1">${line}</div>`;
                                 }
                             });
-                            // 因为已经全部用 div 包裹，直接 join('') 即可完美换行
                             let formattedText = formattedLines.join('');
 
                             html += `
