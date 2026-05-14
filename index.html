@@ -8,11 +8,11 @@
     <style>
         .grid-schedule {
             display: grid;
-            gap: 0.5rem;
-            min-width: 800px;
+            gap: 0.75rem;
+            min-width: 1000px; /* Ensures mobile users can scroll rather than squishing cards */
         }
         .break-cell {
-            grid-column: 1 / -1;
+            grid-column: 1 / -1; /* Spans across the entire row */
         }
         .lowlight {
             opacity: 0.6;
@@ -24,17 +24,18 @@
             background-color: #fee2e2;
             padding: 0 4px;
             border-radius: 4px;
+            border: 1px solid #fca5a5;
         }
     </style>
 </head>
 <body class="bg-gray-100 p-4 font-sans text-sm">
 
-<div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[90vh]">
+<div class="max-w-screen-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[90vh]">
     <div class="bg-blue-800 text-white p-4 flex justify-between items-center shrink-0">
         <h1 class="text-xl font-bold">RAN4 #119 Meeting Schedule (Dalian, China)</h1>
         <div class="flex items-center gap-2">
             <label for="delegateFilter" class="font-medium text-blue-100">Highlight Delegate:</label>
-            <select id="delegateFilter" class="text-black rounded px-2 py-1 outline-none">
+            <select id="delegateFilter" class="text-black rounded px-2 py-1 outline-none font-semibold shadow-sm cursor-pointer">
                 <option value="All">All Delegates</option>
                 <option value="Jackson">Jackson</option>
                 <option value="Tina">Tina</option>
@@ -51,10 +52,10 @@
         </div>
     </div>
 
-    <div class="bg-gray-200 flex border-b border-gray-300 shrink-0" id="tabs">
+    <div class="bg-gray-200 flex border-b border-gray-300 shrink-0 overflow-x-auto" id="tabs">
         </div>
 
-    <div class="flex-1 overflow-auto p-4" id="schedule-container">
+    <div class="flex-1 overflow-auto p-4 bg-gray-50" id="schedule-container">
         </div>
 </div>
 
@@ -163,7 +164,7 @@
         tabsContainer.innerHTML = '';
         Object.keys(scheduleData).forEach(day => {
             const btn = document.createElement('button');
-            btn.className = `flex-1 py-3 text-center font-semibold transition-colors focus:outline-none ${activeDay === day ? 'bg-white text-blue-800 border-b-2 border-blue-800' : 'text-gray-600 hover:bg-gray-300'}`;
+            btn.className = `flex-1 py-3 text-center font-bold transition-colors focus:outline-none whitespace-nowrap px-4 ${activeDay === day ? 'bg-white text-blue-800 border-b-4 border-blue-800 shadow-sm' : 'text-gray-600 hover:bg-gray-300 border-b-4 border-transparent'}`;
             btn.innerText = day;
             btn.onclick = () => { activeDay = day; renderSchedule(); renderTabs(); };
             tabsContainer.appendChild(btn);
@@ -181,20 +182,23 @@
         
         const grid = document.createElement('div');
         grid.className = 'grid-schedule';
-        grid.style.setProperty('--cols', maxCols);
+        
+        // CRITICAL FIX: Set the grid-template-columns inline so the CSS Grid actually functions
+        // 120px for the Time column, then equal fr units for the remaining physical rooms
+        grid.style.gridTemplateColumns = `120px repeat(${maxCols}, minmax(0, 1fr))`;
 
         // Header Row
-        grid.innerHTML += `<div class="font-bold text-gray-500 text-center pb-2 border-b-2 border-gray-300">Time</div>`;
+        grid.innerHTML += `<div class="font-extrabold text-gray-500 text-center pb-2 border-b-2 border-gray-300 flex items-end justify-center uppercase tracking-wider text-xs">Time</div>`;
         for (let i = 0; i < maxCols; i++) {
-            grid.innerHTML += `<div class="font-bold text-gray-700 text-center pb-2 border-b-2 border-gray-300">${roomNames[i] || `Room ${i+1}`}</div>`;
+            grid.innerHTML += `<div class="font-extrabold text-gray-700 text-center pb-2 border-b-2 border-gray-300 flex items-end justify-center uppercase tracking-wider text-xs">${roomNames[i] || `Room ${i+1}`}</div>`;
         }
 
         dayData.forEach(row => {
             if (row.type === 'break') {
                 grid.innerHTML += `
-                    <div class="break-cell bg-gray-200 text-gray-600 font-bold text-center py-2 rounded shadow-inner my-1 flex items-center justify-center space-x-2">
-                        <span>☕</span>
-                        <span>${row.time} - ${row.text}</span>
+                    <div class="break-cell bg-gray-200/80 text-gray-600 font-bold text-center py-2 rounded-md shadow-inner my-1 flex items-center justify-center space-x-2 border border-gray-300 border-dashed">
+                        <span class="text-lg">☕</span>
+                        <span class="uppercase tracking-widest text-sm">${row.time} - ${row.text}</span>
                     </div>
                 `;
             } else {
@@ -209,13 +213,13 @@
                     });
                 });
 
-                // Render Time
-                grid.innerHTML += `<div class="font-medium text-gray-600 flex items-center justify-center p-2 bg-white rounded shadow-sm border border-gray-100">${row.time}</div>`;
+                // Render Time Cell
+                grid.innerHTML += `<div class="font-bold text-gray-700 flex items-center justify-center p-2 bg-white rounded shadow-sm border border-gray-200 tracking-tight text-center">${row.time}</div>`;
                 
-                // Render Cells
+                // Render Room Cells
                 row.cells.forEach((cellText, i) => {
                     if (cellText === "") {
-                        grid.innerHTML += `<div class="bg-gray-50 border border-dashed border-gray-200 rounded p-2 flex-1"></div>`;
+                        grid.innerHTML += `<div class="bg-transparent border-2 border-dashed border-gray-200 rounded p-2 flex-1"></div>`;
                         return;
                     }
 
@@ -223,44 +227,44 @@
                     
                     let bgClass = "bg-white border-gray-200";
                     if (isGray) bgClass = "bg-gray-100 border-gray-300 text-gray-500";
-                    else if (i === 0) bgClass = "bg-blue-50 border-blue-200";
-                    else if (i === 1) bgClass = "bg-green-50 border-green-200";
-                    else if (i === 2) bgClass = "bg-purple-50 border-purple-200";
-                    else if (i === 3) bgClass = "bg-orange-50 border-orange-200";
-                    else bgClass = "bg-teal-50 border-teal-200";
+                    else if (i === 0) bgClass = "bg-blue-50 border-blue-200 shadow-sm";
+                    else if (i === 1) bgClass = "bg-green-50 border-green-200 shadow-sm";
+                    else if (i === 2) bgClass = "bg-purple-50 border-purple-200 shadow-sm";
+                    else if (i === 3) bgClass = "bg-orange-50 border-orange-200 shadow-sm";
+                    else bgClass = "bg-teal-50 border-teal-200 shadow-sm";
 
                     // Apply filter logic
                     if (selectedDelegate !== "All" && delegates.length > 0) {
                         const hasSelected = delegates.some(d => d.includes(selectedDelegate));
-                        if (!hasSelected) bgClass = "bg-gray-50 border-gray-200 opacity-40 grayscale";
+                        if (!hasSelected) bgClass = "bg-gray-50 border-gray-200 opacity-40 grayscale shadow-none";
                     }
 
-                    let contentHtml = `<div class="whitespace-pre-line text-xs font-semibold mb-2">${cellText}</div>`;
+                    let contentHtml = `<div class="whitespace-pre-line text-xs font-semibold leading-relaxed mb-2">${cellText}</div>`;
                     
                     if (delegates.length > 0) {
-                        contentHtml += `<div class="mt-auto border-t border-black/10 pt-2 flex flex-wrap gap-1">`;
+                        contentHtml += `<div class="mt-auto border-t border-black/10 pt-2 flex flex-wrap gap-1.5">`;
                         delegates.forEach(d => {
                             const cleanName = d.split(' ')[0];
                             const isCollision = rowDelegates[cleanName] && rowDelegates[cleanName].length > 1;
                             const isMonitor = d.includes("monitoring");
                             
-                            let styleClasses = "text-xs px-1.5 py-0.5 rounded border border-black/10 bg-white/50 text-gray-800 flex items-center gap-1";
+                            let styleClasses = "text-xs px-2 py-0.5 rounded border border-black/10 bg-white/70 text-gray-800 flex items-center gap-1 font-medium shadow-sm";
                             if (isCollision) styleClasses += " collision";
-                            if (isMonitor) styleClasses += " lowlight";
+                            if (isMonitor) styleClasses += " lowlight bg-gray-100";
                             
                             contentHtml += `<span class="${styleClasses}">👤 ${d} ${isCollision ? '⚠️' : ''}</span>`;
                         });
                         contentHtml += `</div>`;
                     } else if (!isGray) {
-                        contentHtml += `<div class="mt-auto border-t border-black/10 pt-2 text-xs italic text-gray-400">No Samsung owner mapped</div>`;
+                        contentHtml += `<div class="mt-auto border-t border-black/10 pt-2 text-xs font-medium italic text-gray-400">No Samsung owner mapped</div>`;
                     }
 
-                    grid.innerHTML += `<div class="${bgClass} border rounded shadow-sm p-3 h-full flex flex-col gap-2 transition-all hover:shadow-md flex-1">${contentHtml}</div>`;
+                    grid.innerHTML += `<div class="${bgClass} border rounded p-3 h-full flex flex-col gap-2 transition-all hover:shadow-md flex-1">${contentHtml}</div>`;
                 });
 
                 // Fill empty slots if row has fewer cells than maxCols
                 for (let i = row.cells.length; i < maxCols; i++) {
-                    grid.innerHTML += `<div class="bg-gray-50 border border-dashed border-gray-200 rounded p-2 flex-1"></div>`;
+                    grid.innerHTML += `<div class="bg-transparent border-2 border-dashed border-gray-200 rounded p-2 flex-1"></div>`;
                 }
             }
         });
