@@ -145,41 +145,41 @@
     ],
     "308": [],
     "320": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "321": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "322": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "323": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "324": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "325": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "326": [
-        "Tina (monitoring)",
-        "Bozhi (monitoring)"
+        "Bozhi (monitoring)",
+        "Tina (monitoring)"
     ],
     "327": [
-        "Hongjun",
+        "Bozhi",
         "Jackson",
-        "Bozhi"
+        "Hongjun"
     ],
     "328": [
-        "Hongjun",
-        "Bozhi"
+        "Bozhi",
+        "Hongjun"
     ],
     "329": [],
     "340": [
@@ -227,12 +227,12 @@
         "Jackson"
     ],
     "362": [
-        "Dong",
-        "Xin"
+        "Xin",
+        "Dong"
     ],
     "363": [
-        "Dong",
-        "Xin"
+        "Xin",
+        "Dong"
     ],
     "370": [],
     "201": [
@@ -247,8 +247,8 @@
         "Yanze"
     ],
     "205": [
-        "Dong",
-        "Yanze"
+        "Yanze",
+        "Dong"
     ],
     "206": [
         "Yanze (monitoring)"
@@ -303,9 +303,9 @@
         "Lili"
     ],
     "101": [
-        "Lili",
         "Taekhoon",
-        "Jackson"
+        "Jackson",
+        "Lili"
     ],
     "101-B": [
         "Taekhoon",
@@ -319,11 +319,11 @@
         "Hongjun"
     ],
     "102": [
-        "Jackson",
-        "Taekhoon",
-        "Hongjun",
         "Tina",
-        "Bozhi"
+        "Bozhi",
+        "Jackson",
+        "Hongjun",
+        "Taekhoon"
     ],
     "102-B": [
         "Tina",
@@ -337,8 +337,8 @@
         "Taekhoon"
     ],
     "104": [
-        "Tina",
-        "Taekhoon"
+        "Taekhoon",
+        "Tina"
     ],
     "104-B": [
         "Tina",
@@ -350,9 +350,9 @@
         "Xinyan"
     ],
     "105": [
+        "Yanze",
         "Dong",
-        "Xinyan",
-        "Yanze"
+        "Xinyan"
     ],
     "105-B": [
         "Yanze",
@@ -367,13 +367,13 @@
         "Lili"
     ],
     "107": [
-        "Xiaoming",
         "Yanze",
-        "Dong",
-        "Jackson",
-        "Lili",
         "Tina",
-        "Yunchuan"
+        "Dong",
+        "Lili",
+        "Jackson",
+        "Yunchuan",
+        "Xiaoming"
     ],
     "107-B": [
         "Jackson",
@@ -387,8 +387,8 @@
         "Jackson"
     ],
     "112": [
-        "Jackson",
-        "Yunchuan"
+        "Yunchuan",
+        "Jackson"
     ],
     "113": [
         "Tina",
@@ -411,8 +411,8 @@
         "Bozhi"
     ],
     "119": [
-        "Jackson",
-        "Yunchuan"
+        "Yunchuan",
+        "Jackson"
     ]
 };
 
@@ -717,11 +717,11 @@ const scheduleData = {
                 },
                 {
                     "name": "Gene",
-                    "text": "UE RF<br>[342] NR_low_band_CA_switching (11)<br><br>Rel-20 UAV<br>[351] NR_UAV (15)<br><br>NTN<br>[350] LTE_IoT_NTN_high_power (8)",
+                    "text": "NTN<br>[350] LTE_IoT_NTN_high_power (8)<br><br>UE RF<br>[342] NR_low_band_CA_switching (11)<br><br>Rel-20 UAV<br>[351] NR_UAV (15)",
                     "topics": [
+                        "350",
                         "342",
-                        "351",
-                        "350"
+                        "351"
                     ]
                 },
                 {
@@ -860,10 +860,9 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "Main Ad-hoc: <br>[111] 6G operation efficiency by Aijun (CATT)<br>---18:15----<br>[108] TR discussion by Joe (AT&T)",
+                    "text": "Main Ad-hoc: <br>[111] 6G operation efficiency by Aijun (CATT)<br>---18:15----<br>6G SI TR skeleton and process by Joe (AT&T)",
                     "topics": [
-                        "111",
-                        "108"
+                        "111"
                     ]
                 }
             ]
@@ -875,9 +874,10 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "[107] 6G AI",
+                    "text": "[107] 6G AI<br><br><br><br><br><br><br><br>COFFEE break[108] Spectrum sharing by Jingjing (CMCC)",
                     "topics": [
-                        "107"
+                        "107",
+                        "108"
                     ]
                 },
                 {
@@ -890,12 +890,13 @@ const scheduleData = {
                 },
                 {
                     "name": "Gene",
-                    "text": "BR2 Ad-hoc: UE RF LBCA (8:30 – 9:00)<br>[342] NR_low_band_CA_switching, chaired by James (Apple)<br><br>5G BSRF (9:00 – 10:30)<br>[345] NR_BS_RF_Ph2 (15)<br><br>Ambient IoT<br>[352] A-IoT_sys_outdoor (34)<br>(Ambient IoT may start if [345] finishes early)",
+                    "text": "BR2 Ad-hoc: UE RF LBCA (8:30 – 9:00)<br>[342] NR_low_band_CA_switching, chaired by James (Apple)<br><br>5G BSRF (9:00 – 10:30)<br>[345] NR_BS_RF_Ph2 (15)<br><br>Ambient IoT<br>[352] A-IoT_sys_outdoor (34)<br>(Ambient IoT may start if [345] finishes early)<br><br>Coffee break offline<br>[363] 6G_Sensing, chaired by Mustafa (Qualcomm)",
                     "topics": [
                         "342",
                         "345",
                         "352",
-                        "345"
+                        "345",
+                        "363"
                     ]
                 },
                 {
@@ -962,9 +963,10 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "[105] 6G RRM()",
+                    "text": "[105] 6G RRM()<br><br><br><br><br><br>COFFEE break [102-A] 6G General RF and UE RF, Chaired by Toni (Qualcomm)",
                     "topics": [
-                        "105"
+                        "105",
+                        "102-A"
                     ]
                 },
                 {
@@ -1034,9 +1036,9 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "Main Ad-hoc: <br>[107-A] 6G AI, Chaired by Jackson (Samsung)",
+                    "text": "Main Ad hoc<br>[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)",
                     "topics": [
-                        "107-A"
+                        "102-B"
                     ]
                 },
                 {
@@ -1055,9 +1057,9 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "Main Ad hoc<br>[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)",
+                    "text": "Main Ad-hoc: <br>[107-A] 6G AI, Chaired by Jackson (Samsung)",
                     "topics": [
-                        "102-B"
+                        "107-A"
                     ]
                 }
             ]
@@ -1074,9 +1076,10 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "[112] R19 NR_AIML_air (43)",
+                    "text": "[112] R19 NR_AIML_air (43)<br><br><br><br><br><br><br><br>COEFEE BREAK AH[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)",
                     "topics": [
-                        "112"
+                        "112",
+                        "102-B"
                     ]
                 },
                 {
@@ -1183,8 +1186,12 @@ const scheduleData = {
                 },
                 {
                     "name": "Shan",
-                    "text": "Ad-hoc or Early Return-to",
-                    "topics": []
+                    "text": "Ad-hoc<br>14:30 to 16:00 [205] NR_AIML_Mob_RRM<br>16:00 to 17:00 [210] [211] 6G Demod_Part1&Part2",
+                    "topics": [
+                        "205",
+                        "210",
+                        "211"
+                    ]
                 },
                 {
                     "name": "Gene",
