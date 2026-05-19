@@ -7,6 +7,7 @@
     <title>Samsung RAN4 Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* 核心网格布局 */
         .schedule-grid {
             display: grid;
             grid-template-columns: 120px repeat(4, minmax(280px, 1fr));
@@ -25,18 +26,21 @@
             align-items: flex-start;
         }
 
+        /* 房间基础样式 */
         .room-yang { border-left: 6px solid #3b82f6; background-color: #f0f7ff; border-color: #e2e8f0; }
         .room-shan { border-left: 6px solid #10b981; background-color: #f0fdf4; border-color: #e2e8f0; }
         .room-gene { border-left: 6px solid #8b5cf6; background-color: #f5f3ff; border-color: #e2e8f0; }
         .room-adhoc { border-left: 6px solid #f59e0b; background-color: #fffbeb; border-color: #e2e8f0; }
         .unowned-cell { border: 1px dashed #cbd5e1; background-color: #f8fafc; color: #94a3b8; }
         
+        /* 未选中卡片深度暗化 */
         .is-dimmed {
             opacity: 0.15 !important;
             filter: grayscale(100%);
             pointer-events: none;
         }
 
+        /* 休息行跨列 */
         .break-row {
             grid-column: 2 / -1;
             background-color: #f1f5f9;
@@ -141,41 +145,41 @@
     ],
     "308": [],
     "320": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "321": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "322": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "323": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "324": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "325": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "326": [
-        "Bozhi (monitoring)",
-        "Tina (monitoring)"
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
     ],
     "327": [
+        "Hongjun",
         "Jackson",
-        "Bozhi",
-        "Hongjun"
+        "Bozhi"
     ],
     "328": [
-        "Bozhi",
-        "Hongjun"
+        "Hongjun",
+        "Bozhi"
     ],
     "329": [],
     "340": [
@@ -201,12 +205,12 @@
         "Bozhi"
     ],
     "348": [
-        "Xinyan",
-        "Yanze"
+        "Yanze",
+        "Xinyan"
     ],
     "349": [
-        "Xinyan",
-        "Yanze"
+        "Yanze",
+        "Xinyan"
     ],
     "350": [
         "Bozhi"
@@ -215,12 +219,12 @@
     "352": [],
     "353": [],
     "360": [
-        "Jackson",
-        "Xin"
+        "Xin",
+        "Jackson"
     ],
     "361": [
-        "Jackson",
-        "Xin"
+        "Xin",
+        "Jackson"
     ],
     "362": [
         "Dong",
@@ -232,8 +236,8 @@
     ],
     "370": [],
     "201": [
-        "Xinyan",
-        "Yanze"
+        "Yanze",
+        "Xinyan"
     ],
     "202": [],
     "203": [
@@ -257,28 +261,28 @@
         "Yanze"
     ],
     "208": [
-        "Xiaoming",
-        "Lili"
+        "Lili",
+        "Xiaoming"
     ],
     "209": [
-        "Xiaoming",
-        "Lili"
+        "Lili",
+        "Xiaoming"
     ],
     "217": [
-        "Xiaoming",
-        "Lili"
+        "Lili",
+        "Xiaoming"
     ],
     "218": [
-        "Xiaoming",
-        "Lili"
+        "Lili",
+        "Xiaoming"
     ],
     "210": [
-        "Xiaoming",
-        "Lili"
+        "Lili",
+        "Xiaoming"
     ],
     "211": [
-        "Xiaoming",
-        "Lili"
+        "Lili",
+        "Xiaoming"
     ],
     "212": [
         "Bozhi"
@@ -290,8 +294,8 @@
         "Bozhi"
     ],
     "214": [
-        "Xiaoming",
-        "Jackson"
+        "Jackson",
+        "Xiaoming"
     ],
     "101-A": [
         "Taekhoon",
@@ -299,9 +303,9 @@
         "Lili"
     ],
     "101": [
-        "Jackson",
+        "Lili",
         "Taekhoon",
-        "Lili"
+        "Jackson"
     ],
     "101-B": [
         "Taekhoon",
@@ -315,11 +319,11 @@
         "Hongjun"
     ],
     "102": [
-        "Taekhoon",
-        "Bozhi",
-        "Hongjun",
         "Jackson",
-        "Tina"
+        "Taekhoon",
+        "Hongjun",
+        "Tina",
+        "Bozhi"
     ],
     "102-B": [
         "Tina",
@@ -364,12 +368,12 @@
     ],
     "107": [
         "Xiaoming",
-        "Yunchuan",
         "Yanze",
         "Dong",
         "Jackson",
         "Lili",
-        "Tina"
+        "Tina",
+        "Yunchuan"
     ],
     "107-B": [
         "Jackson",
@@ -521,7 +525,7 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "[101] System Parameter()<br><br>---3:00pm<br><br>[102] General RF and UE RF",
+                    "text": "[101] System Parameter()<br><br>---3:30pm<br><br>[102] General RF and UE RF",
                     "topics": [
                         "101",
                         "102"
@@ -577,7 +581,7 @@ const scheduleData = {
                 },
                 {
                     "name": "Gene",
-                    "text": "NTN (cont)<br>[349] LTE_TN_NR_NTN_handover (16)<br>[350] LTE_IoT_NTN_high_power (8)",
+                    "text": "NTN (cont)<br>[349] LTE_TN_NR_NTN_handover (16)<br>[350] LTE_IoT_NTN_high_power (8)  [Moved to Tues]",
                     "topics": [
                         "349",
                         "350"
@@ -669,8 +673,30 @@ const scheduleData = {
         },
         {
             "time": "10:30-11:00",
-            "isBreak": true,
-            "text": "茶歇"
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "茶歇<br>COFFEE break AH:<br>[101-B] System Parameter, Chaired by Jinqiang (OPPO)",
+                    "topics": [
+                        "101-B"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Coffee Break",
+                    "topics": []
+                }
+            ]
         },
         {
             "time": "11:00-13:00",
@@ -691,10 +717,11 @@ const scheduleData = {
                 },
                 {
                     "name": "Gene",
-                    "text": "UE RF<br>[342] NR_low_band_CA_switching (11)<br><br>Rel-20 UAV<br>[351] NR_UAV (15)",
+                    "text": "UE RF<br>[342] NR_low_band_CA_switching (11)<br><br>Rel-20 UAV<br>[351] NR_UAV (15)<br><br>NTN<br>[350] LTE_IoT_NTN_high_power (8)",
                     "topics": [
                         "342",
-                        "351"
+                        "351",
+                        "350"
                     ]
                 },
                 {
@@ -751,8 +778,30 @@ const scheduleData = {
         },
         {
             "time": "16:30-17:00",
-            "isBreak": true,
-            "text": "茶歇"
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "茶歇<br>COFFEE break Ad-hoc<br>[105] 6G RRM Chaired by Jerry (Apple)",
+                    "topics": [
+                        "105"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Coffee Break",
+                    "topics": []
+                }
+            ]
         },
         {
             "time": "17:00-18:00",
@@ -811,8 +860,11 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "Main Ad-hoc: <br>[111] 6G operation efficiency by Aijun (CATT)<br>---18:15----<br>TBD",
-                    "topics": []
+                    "text": "Main Ad-hoc: <br>[111] 6G operation efficiency by Aijun (CATT)<br>---18:15----<br>[108] TR discussion by Joe (AT&T)",
+                    "topics": [
+                        "111",
+                        "108"
+                    ]
                 }
             ]
         }
@@ -1029,11 +1081,12 @@ const scheduleData = {
                 },
                 {
                     "name": "Shan",
-                    "text": "Rel-20 RRM<br>[203] NR_LBCA_Sw_enh_RRM<br>RRM Maintenance<br>[215] RRM_Maintenance_Up_to_R17<br>[216] RRM_Maintenance_R18_R19",
+                    "text": "Rel-20 RRM<br>[203] NR_LBCA_Sw_enh_RRM<br>RRM Maintenance<br>[215] RRM_Maintenance_Up_to_R17<br>[216] RRM_Maintenance_R18_R19<br><br><br>Coffee break: [201] NR_RRM_Ph6",
                     "topics": [
                         "203",
                         "215",
-                        "216"
+                        "216",
+                        "201"
                     ]
                 },
                 {
@@ -1158,8 +1211,10 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "Main Ad-hoc: <br>[TBD",
-                    "topics": []
+                    "text": "Main Ad-hoc: <br>[107-A] 6G AI, Chaired by Jackson (Samsung)",
+                    "topics": [
+                        "107-A"
+                    ]
                 },
                 {
                     "name": "Shan",
@@ -1187,9 +1242,8 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "Main Ad-hoc: <br>[107-A] 6G AI, Chaired by Jackson (Samsung)<br>---18:15<br>[107-B] 6G AI, Chaired by Santhan (Ericsson)",
+                    "text": "Main Ad-hoc: <br>[107-B] 6G AI, Chaired by Santhan (Ericsson)",
                     "topics": [
-                        "107-A",
                         "107-B"
                     ]
                 },
@@ -1365,10 +1419,13 @@ const scheduleData = {
                             
                             let cardClass = "p-5 rounded-2xl flex flex-col gap-3 flex-card transition-all shadow-sm ";
                             cardClass += (owners.length > 0) ? "room-" + room.name.toLowerCase().replace(' ', '') : "unowned-cell ";
+                            
                             if (isDimmed) cardClass += "is-dimmed ";
 
+                            // --- 修复: 将每一行包裹在独立 div 中，防止粘连 ---
                             let lines = room.text.split('<br>');
                             let formattedLines = lines.map(line => {
+                                // 如果是空行，用带高度的空 div 占位，保持原有间距
                                 if (!line.trim()) return '<div class="h-2"></div>';
 
                                 let topicMatches = [...line.matchAll(/\[([0-9]+(?:-[A-Z])?)\]/g)];
@@ -1392,25 +1449,30 @@ const scheduleData = {
                                         return `<div class="opacity-50 grayscale mb-1">${line}</div>`;
                                     }
                                 } else {
-                                    // Logic for 'All' view
+                                    // Default All (显示所有人)
                                     if (topicMatches.length > 0) {
+                                        let hasMonitoring = false;
                                         let hasActive = false;
                                         topicMatches.forEach(match => {
                                             let tOwners = DELEGATE_MAP[match[1]] || [];
-                                            // Topic is 'Active' if it has at least one non-monitoring owner
-                                            if (tOwners.length > 0 && tOwners.some(o => !o.includes('monitoring'))) {
-                                                hasActive = true;
+                                            if (tOwners.length > 0) {
+                                                if (tOwners.every(o => o.includes('monitoring'))) {
+                                                    hasMonitoring = true;
+                                                } else {
+                                                    hasActive = true;
+                                                }
                                             }
                                         });
-
-                                        // Lowlight if there are NO active representatives driving the topic
-                                        if (!hasActive) {
+                                        // 纯 Monitoring 议题置灰
+                                        if (hasMonitoring && !hasActive) {
                                             return `<div class="text-slate-400 opacity-60 font-medium mb-1">${line}</div>`;
                                         }
                                     }
+                                    // 正常的议题（非高亮，非 monitoring）
                                     return `<div class="mb-1">${line}</div>`;
                                 }
                             });
+                            // 因为已经全部用 div 包裹，直接 join('') 即可完美换行
                             let formattedText = formattedLines.join('');
 
                             html += `
