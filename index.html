@@ -14,9 +14,7 @@ body{
   background:#050508;color:#e8e8f0;
   font-family:'微软雅黑','Microsoft YaHei','PingFang SC','Noto Sans SC','Inter',sans-serif;
   overflow-x:hidden;
-  scroll-snap-type:y proximity;height:100vh;overflow-y:scroll;
 }
-html{scroll-behavior:smooth;scroll-snap-type:y proximity}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:#050508}
 ::-webkit-scrollbar-thumb{background:rgba(16,185,129,.3);border-radius:2px}
@@ -30,13 +28,13 @@ html{scroll-behavior:smooth;scroll-snap-type:y proximity}
 /* === Sections === */
 .section{
   position:relative;z-index:1;
-  min-height:100vh;height:100vh;display:flex;align-items:center;
-  padding:80px 60px;scroll-snap-align:start;
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 60px;
 }
 .section-inner{
   max-width:1000px;margin:0 auto;width:100%;
 }
-.section.full-center{text-align:center;justify-content:center;scroll-snap-align:start}
+.section.full-center{text-align:center;justify-content:center}
 .section.full-center .section-inner{text-align:center}
 
 /* === Typography === */
@@ -225,9 +223,8 @@ h2.visible{opacity:1;transform:translateY(0)}
 .cta-card p{font-family:'JetBrains Mono',monospace;font-size:13px;color:#10b981;letter-spacing:.02em}
 
 /* === Section spacers === */
-.spacer{height:1px;max-width:60px;margin:0 auto 60px;
-  background:linear-gradient(90deg,transparent,rgba(16,185,129,.2),transparent);
-}
+.spacer{height:80px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.spacer::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(16,185,129,.15),transparent)}
 
 /* === Responsive === */
 @media(max-width:720px){
