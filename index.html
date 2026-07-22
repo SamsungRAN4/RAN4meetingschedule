@@ -14,6 +14,7 @@ body{
   background:#050508;color:#e8e8f0;
   font-family:'微软雅黑','Microsoft YaHei','PingFang SC','Noto Sans SC','Inter',sans-serif;
   overflow-x:hidden;
+  text-wrap:pretty;word-break:keep-all;
 }
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:#050508}
@@ -52,7 +53,7 @@ h1{
   font-family:'Playfair Display',Georgia,serif;
   font-weight:400;font-style:italic;
   font-size:clamp(44px,7vw,80px);line-height:1.05;
-  color:#fff;letter-spacing:-.02em;
+  color:#fff;letter-spacing:-.02em;text-wrap:balance;word-break:keep-all;
   opacity:0;transform:translateY(30px);
   transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);
 }
@@ -63,7 +64,7 @@ h2{
   font-family:'Playfair Display',Georgia,serif;
   font-weight:400;
   font-size:clamp(32px,5vw,56px);line-height:1.1;
-  color:#fff;letter-spacing:-.015em;margin-bottom:16px;
+  color:#fff;letter-spacing:-.015em;margin-bottom:16px;text-wrap:balance;word-break:keep-all;
   opacity:0;transform:translateY(24px);
   transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
 }
@@ -268,14 +269,14 @@ h2.visible{opacity:1;transform:translateY(0)}
 <section class="section" data-section="1">
   <div class="section-inner">
     <p class="kicker" data-anim>Chapter 1</p>
-    <h2 data-anim>它不是聊天机器人</h2>
-    <p class="sub" data-anim>市面上能聊天的 AI 很多。Hermes 不一样：你不在的时候它也能干活，它记得你上个月说过什么，它学会你的工作方式之后不会再忘。</p>
+    <h2 data-anim>Hermes 是什么</h2>
+    <p class="sub" data-anim>Hermes 是一个开源的 AI Agent 框架。和聊天机器人最大的区别：它在你睡觉时也能干活，它记得你上个月说过什么，它学会你的工作方式之后不会再忘。</p>
     
     <div class="card-grid">
-      <div class="card" data-anim style="transition-delay:.1s"><div class="n">01</div><h4>持久记忆</h4><p>跨会话记住 GitHub、公众号、SSH。换了新会话，它自动加载一切直接干活。那一刻它不是工具，是搭档。</p></div>
-      <div class="card" data-anim style="transition-delay:.16s"><div class="n">02</div><h4>Skill 自成长</h4><p>从经验中自动学习可复用 Skill。教一次终生不忘。做完复杂任务自动保存，下次同类任务直接复用。</p></div>
-      <div class="card" data-anim style="transition-delay:.22s"><div class="n">03</div><h4>情报搜集 + 定时任务</h4><p>每天 4点/7点/7点半自动搜索新闻、分析趋势、交叉验证、推送到飞书。你醒来读结果就行。</p></div>
-      <div class="card" data-anim style="transition-delay:.28s"><div class="n">04</div><h4>飞书接入</h4><p>聊天习惯友好，像跟同事说话一样发指令。公司里随时开聊、共享方便。终端 SSH、飞书群推送全覆盖。</p></div>
+      <div class="card" data-anim style="transition-delay:.1s"><div class="n">01</div><h4>飞书里发指令</h4><p>像跟同事说话一样，在飞书里发指令。发完放下手机，它在 NAS 上自动跑。Cron 定时任务也推到这里。</p></div>
+      <div class="card" data-anim style="transition-delay:.16s"><div class="n">02</div><h4>真实的工具链</h4><p>终端命令、文件读写、网页搜索、API 调用、图片生成、浏览器操作——不是模拟，是真实执行。</p></div>
+      <div class="card" data-anim style="transition-delay:.22s"><div class="n">03</div><h4>模型自由切换</h4><p>DeepSeek 白天贵了换 Kimi，被墙了走代理，想省钱接本地 Llama。不绑定任何厂商。</p></div>
+      <div class="card" data-anim style="transition-delay:.28s"><div class="n">04</div><h4>编排子 Agent</h4><p>指派 Claude Code、Codex 去做编程。自己只做编排和验收。它是指挥官，不是螺丝刀。</p></div>
     </div>
   </div>
 </section>
@@ -413,24 +414,24 @@ h2.visible{opacity:1;transform:translateY(0)}
 
 <div class="spacer"></div>
 
-<!-- CH7: RAN4 Workflow -->
+<!-- CH7: Workflow -->
 <section class="section" data-section="8">
   <div class="section-inner">
     <p class="kicker" data-anim>Chapter 7</p>
-    <h2 data-anim>RAN4 全流程：从 TDoc 到发邮件</h2>
-    <p class="sub" data-anim>Hermes 对你最大的价值不是写公众号，而是 RAN4 文稿全流程自动化。</p>
+    <h2 data-anim>一天五篇深度文章：从研究到发布</h2>
+    <p class="sub" data-anim>原来一篇公众号深度技术文章 2-3 天，现在 1-2 小时。</p>
     
     <div class="tl">
-      <div class="tl-item" data-anim><time>Step 1</time><h4>并行 Sub-Agent 分析</h4><p>RAN4#119 60篇 TDoc → 3 个并行 Agent 逐篇分析，提取公司立场、识别联盟关系，输出结构化摘要</p></div>
-      <div class="tl-item" data-anim><time>Step 2</time><h4>起草三星讨论稿</h4><p>基于分析结果起草 3 篇讨论稿（每篇 5000+ 字），含技术论证、公司对比、建议立场</p></div>
-      <div class="tl-item" data-anim><time>Step 3</time><h4>Verifier 交叉审核</h4><p>独立 Agent 检查覆盖度，确保任何公司的观点不被遗漏，标注存疑点</p></div>
-      <div class="tl-item" data-anim><time>Step 4</time><h4>转 Word + 发邮件</h4><p>Markdown → .docx → 自动发送到公司邮箱。全部在飞书一条指令完成</p></div>
-      <div class="tl-item" data-anim><time>Step 5</time><h4>固化 Skill</h4><p>每次会议流程自动保存为 Skill，下次 RAN4 会议直接复用，越用越精准</p></div>
+      <div class="tl-item" data-anim><time>14:52</time><h4>Starlink 物理层硬核拆解</h4><p>16 篇论文交叉验证，OFDM 帧结构全公开</p></div>
+      <div class="tl-item" data-anim><time>14:53</time><h4>NTN 芯片战争</h4><p>高通 vs 三星 vs 华为 vs Apple，四条路线对战</p></div>
+      <div class="tl-item" data-anim><time>14:53</time><h4>日本 D2D 分裂式崛起</h4><p>3 家 Starlink + 1 家 AST + 1500 亿补贴</p></div>
+      <div class="tl-item" data-anim><time>14:53</time><h4>星链 D2C 卫星进化史</h4><p>四代卫星，4 Mbps 到 150 Mbps</p></div>
+      <div class="tl-item" data-anim><time>15:45</time><h4>中美星座对决</h4><p>GW 千帆 vs Starlink，频谱物理层全对比</p></div>
     </div>
     
     <div class="quote" data-anim style="margin-top:20px">
-      <blockquote>"以前 RAN4 季会前要熬夜两周做案头工作。<br>现在 Hermes 做初稿，我只做审核和决策。"</blockquote>
-      <figcaption>RAN4 代表的实际工作流</figcaption>
+      <blockquote>"不是更快地做同样的事，<br>是让你能做以前根本不会做的事。"</blockquote>
+      <figcaption>一天五篇深度技术文章，以前想都不敢想</figcaption>
     </div>
   </div>
 </section>
