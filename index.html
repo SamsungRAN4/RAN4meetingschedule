@@ -249,7 +249,7 @@ h2.visible{opacity:1;transform:translateY(0)}
 <!-- HERO -->
 <section class="section full-center" data-section="0">
   <div class="section-inner">
-    <p class="kicker" data-anim>Experience Report</p>
+    <p class="kicker" data-anim>经验分享</p>
     <h1 data-anim>一个会<em>记住你</em>的&nbsp;AI</h1>
     <p class="sub wide" style="margin:0 auto" data-anim>
       它不是聊天机器人。它是能记住你的偏好、学会你的工作流、在你睡觉时自主干活的 AI 操作系统。
@@ -298,12 +298,12 @@ h2.visible{opacity:1;transform:translateY(0)}
     <table class="tbl">
       <tr class="tbl-row" data-anim><th>能力</th><th>Chatbot</th><th>Codex / Claude Code</th><th>Cline SR</th><th>OpenClaw</th><th>Hermes</th></tr>
       <tr class="tbl-row" data-anim><td>类别</td><td class="dim">聊天</td><td class="dim">桌面编程</td><td class="dim">桌面编程</td><td class="dim">网关</td><td class="hl">网关</td></tr>
-      <tr class="tbl-row" data-anim><td>情报搜集</td><td class="dim">❌</td><td class="dim">❌</td><td class="dim">❌ 防火墙限制</td><td class="dim">有限</td><td class="hl">✅ 搜索+抓取+验证+报告</td></tr>
+      <tr class="tbl-row" data-anim><td>定时情报搜集</td><td class="dim">❌</td><td class="dim">❌ 可按需搜一次</td><td class="dim">❌ 防火墙限制</td><td class="dim">有限</td><td class="hl">✅ 定时自动搜集+跨会话记住结果</td></tr>
       <tr class="tbl-row" data-anim><td>定时任务</td><td class="dim">❌</td><td class="dim">❌</td><td class="dim">❌</td><td class="dim">有</td><td class="hl">✅ Cron 到点自动跑</td></tr>
       <tr class="tbl-row" data-anim><td>长期记忆</td><td class="dim">❌ 会话即忘</td><td class="dim">❌ 从头开始</td><td class="dim">❌ 从头开始</td><td class="dim">手动配置</td><td class="hl">✅ 持久自动加载</td></tr>
       <tr class="tbl-row" data-anim><td>自成长</td><td class="dim">❌</td><td class="dim">❌ 教过还得教</td><td class="dim">❌</td><td class="dim">❌ 技能靠人写</td><td class="hl">✅ 从经验自动建 Skill</td></tr>
-      <tr class="tbl-row" data-anim><td>开放性</td><td class="dim">封闭生态</td><td class="dim">仅特定厂商</td><td class="dim">被防火墙限制</td><td class="dim">中等</td><td class="hl">✅ 模型/搜索/API 任意换</td></tr>
-      <tr class="tbl-row" data-anim><td>跨墙能力</td><td class="dim">被墙</td><td class="dim">被墙</td><td class="dim">❌ 三星墙内</td><td class="dim">依赖代理</td><td class="hl">✅ 代理+多后端</td></tr>
+      <tr class="tbl-row" data-anim><td>开放性</td><td class="dim">封闭生态</td><td class="dim">仅特定厂商</td><td class="dim">被防火墙限制</td><td class="dim">中等</td><td class="hl">✅ 支持主流模型厂商 API，可自由扩展</td></tr>
+      <tr class="tbl-row" data-anim><td>跨墙能力</td><td class="dim">被墙</td><td class="dim">被墙</td><td class="dim">❌ 三星墙内</td><td class="dim">需用户自配代理</td><td class="hl">⚡ 可配置代理绕过 GFW，需自行部署代理软件</td></tr>
       <tr class="tbl-row" data-anim><td>飞书/手机操控</td><td class="dim">App</td><td class="dim">❌ 只有 CLI</td><td class="dim">❌ 只有桌面 IDE</td><td class="dim">多平台</td><td class="hl">✅ 聊天发指令</td></tr>
     </table>
   </div>
@@ -328,7 +328,7 @@ h2.visible{opacity:1;transform:translateY(0)}
     </div>
     
     <div class="quote" data-anim>
-      <blockquote>"Chatbot 能聊但不能干。Codex 能写但不会搜。Cline SR 被墙挡住。<br>OpenClaw 有平台但不自成长。<br><em style='color:#10b981;'>Hermes 是唯一一个六项全能的。</em>"</blockquote>
+      <blockquote>"Chatbot 能聊但不能干活。Codex/Claude Code 能写代码但不会定时自动跑<br>Cline SR 在三星墙内出不去。OpenClaw 有平台但不自成长。<br><em style='color:#10b981;'>Hermes 是唯一一个六项全能的。</em>"</blockquote>
       <figcaption>Hermes 的不可替代性</figcaption>
     </div>
   </div>
@@ -336,8 +336,25 @@ h2.visible{opacity:1;transform:translateY(0)}
 
 <div class="spacer"></div>
 
+<!-- Collaboration -->
+<section class="section" data-section="4" id="collab">
+  <div class="section-inner">
+    <p class="kicker" data-anim>协作建议</p>
+    <h2 data-anim>该用哪个？推荐组合</h2>
+    <p class="sub wide" data-anim>三类 Agent 不是竞争关系，是不同场景的工具组合。</p>
+    
+    <div class="cmp-grid">
+      <div class="cmp-card" data-anim><span class="tag" style="color:rgba(255,255,255,.2)">💬 聊天</span><h3>日常快速问答</h3><p>ChatGPT、豆包、DeepSeek Chat。随手查资料、翻译、灵感碰撞。不存敏感信息。</p><div class="bt">随时开聊 · 关掉即忘</div></div>
+      <div class="cmp-card" data-anim><span class="tag" style="color:#c9953b">🖥️ 编程</span><h3>写代码 / Debug / 重构</h3><p>Codex、Claude Code、Cline SR。IDE 里写代码、修 bug、代码审查。Hermes 不擅长这个。</p><div class="bt">VS Code 内完成 · 专精代码</div></div>
+      <div class="cmp-card" data-anim><span class="tag" style="color:#10b981">🌐 全流程</span><h3>RAN4 文稿 / 情报 / 定时任务</h3><p>Hermes。从 TDoc 分析到起草、验证、发邮件。定时情报搜集、公众号发布。这是 Hermes 的独有阵地。</p><div class="bt">飞书+终端+Cron · 其他 Agent 做不了</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="spacer"></div>
+
 <!-- CH4: Multi-Platform -->
-<section class="section" data-section="4">
+<section class="section" data-section="5">
   <div class="section-inner">
     <p class="kicker" data-anim>Chapter 4</p>
     <h2 data-anim>飞书接入，不只是换个聊天框</h2>
@@ -354,23 +371,23 @@ h2.visible{opacity:1;transform:translateY(0)}
 <div class="spacer"></div>
 
 <!-- CH5: Tools -->
-<section class="section" data-section="5">
+<section class="section" data-section="6">
   <div class="section-inner">
     <p class="kicker" data-anim>Chapter 5</p>
     <h2 data-anim>工具箱</h2>
-    <p class="sub" data-anim>从社区挖来的精品 Skill</p>
+    <p class="sub" data-anim>实际在用的 RAN4 工作流 Skill</p>
     
     <div class="tool-wall">
-      <div class="tile" data-anim><div class="tn">github-pr-workflow</div><div class="td">PR 全生命周期：分支/提交/CI/合并</div></div>
+      <div class="tile" data-anim><div class="tn">3gpp-tdoc-locator</div><div class="td">TDoc 自动定位 FTP，识别会议+WG+编号</div></div>
+      <div class="tile" data-anim><div class="tn">ran4-parallel-analysis</div><div class="td">并行 Sub-Agent 分析公司立场、识别联盟</div></div>
+      <div class="tile" data-anim><div class="tn">email-smtp</div><div class="td">文稿自动转 .docx 发公司邮箱</div></div>
+      <div class="tile" data-anim><div class="tn">arxiv-search</div><div class="td">arXiv 论文发现+物理层调研</div></div>
       <div class="tile" data-anim><div class="tn">wechat-publish</div><div class="td">公众号全流程：转 HTML/传 CDN/推草稿</div></div>
-      <div class="tile" data-anim><div class="tn">3gpp-tdoc-locator</div><div class="td">RAN 工作组文献检索下载</div></div>
       <div class="tile" data-anim><div class="tn">tavily-search</div><div class="td">AI 搜索 + 高质量网页摘要</div></div>
-      <div class="tile" data-anim><div class="tn">comfyui</div><div class="td">文生图/视频/音频管线</div></div>
+      <div class="tile" data-anim><div class="tn">fcc-data</div><div class="td">FCC 频谱数据库查询+文档下载</div></div>
+      <div class="tile" data-anim><div class="tn">polymarket</div><div class="td">预测市场·星座公司市场情绪</div></div>
       <div class="tile" data-anim><div class="tn">obsidian</div><div class="td">知识库笔记读写</div></div>
-      <div class="tile" data-anim><div class="tn">jupyter-live</div><div class="td">远程交互式数据分析</div></div>
-      <div class="tile" data-anim><div class="tn">polymarket</div><div class="td">预测市场实时数据</div></div>
-      <div class="tile" data-anim><div class="tn">fcc-data</div><div class="td">频谱数据库查询下载</div></div>
-      <div class="tile" data-anim><div class="tn">maps/amap</div><div class="td">地理编码/POI/路线规划</div></div>
+      <div class="tile" data-anim><div class="tn">comfyui</div><div class="td">AI 配图生成</div></div>
       <div class="tile" data-anim><div class="tn">arxiv/research</div><div class="td">学术检索+多源深度调研</div></div>
       <div class="tile" data-anim><div class="tn">llama-cpp/vllm</div><div class="td">本地推理+高性能服务</div></div>
     </div>
@@ -380,7 +397,7 @@ h2.visible{opacity:1;transform:translateY(0)}
 <div class="spacer"></div>
 
 <!-- CH6: Flexibility -->
-<section class="section" data-section="6">
+<section class="section" data-section="7">
   <div class="section-inner">
     <p class="kicker" data-anim>Chapter 6</p>
     <h2 data-anim>开放架构，不被任何一家锁定</h2>
@@ -396,23 +413,24 @@ h2.visible{opacity:1;transform:translateY(0)}
 
 <div class="spacer"></div>
 
-<!-- CH7: Results -->
-<section class="section" data-section="7">
+<!-- CH7: RAN4 Workflow -->
+<section class="section" data-section="8">
   <div class="section-inner">
     <p class="kicker" data-anim>Chapter 7</p>
-    <h2 data-anim>一天五篇深度文章</h2>
+    <h2 data-anim>RAN4 全流程：从 TDoc 到发邮件</h2>
+    <p class="sub" data-anim>Hermes 对你最大的价值不是写公众号，而是 RAN4 文稿全流程自动化。</p>
     
     <div class="tl">
-      <div class="tl-item" data-anim><time>14:52</time><h4>Starlink 物理层硬核拆解</h4><p>16 篇论文交叉验证，OFDM 帧结构全公开</p></div>
-      <div class="tl-item" data-anim><time>14:53</time><h4>NTN 芯片战争</h4><p>高通 vs 三星 vs 华为 vs Apple，四条路线对战</p></div>
-      <div class="tl-item" data-anim><time>14:53</time><h4>日本 D2D 分裂式崛起</h4><p>3 家 Starlink + 1 家 AST + 1500 亿补贴</p></div>
-      <div class="tl-item" data-anim><time>14:53</time><h4>星链 D2C 卫星进化史</h4><p>四代卫星，4 Mbps 到 150 Mbps</p></div>
-      <div class="tl-item" data-anim><time>15:45</time><h4>中美星座对决</h4><p>GW 千帆 vs Starlink，频谱物理层全对比</p></div>
+      <div class="tl-item" data-anim><time>Step 1</time><h4>并行 Sub-Agent 分析</h4><p>RAN4#119 60篇 TDoc → 3 个并行 Agent 逐篇分析，提取公司立场、识别联盟关系，输出结构化摘要</p></div>
+      <div class="tl-item" data-anim><time>Step 2</time><h4>起草三星讨论稿</h4><p>基于分析结果起草 3 篇讨论稿（每篇 5000+ 字），含技术论证、公司对比、建议立场</p></div>
+      <div class="tl-item" data-anim><time>Step 3</time><h4>Verifier 交叉审核</h4><p>独立 Agent 检查覆盖度，确保任何公司的观点不被遗漏，标注存疑点</p></div>
+      <div class="tl-item" data-anim><time>Step 4</time><h4>转 Word + 发邮件</h4><p>Markdown → .docx → 自动发送到公司邮箱。全部在飞书一条指令完成</p></div>
+      <div class="tl-item" data-anim><time>Step 5</time><h4>固化 Skill</h4><p>每次会议流程自动保存为 Skill，下次 RAN4 会议直接复用，越用越精准</p></div>
     </div>
     
     <div class="quote" data-anim style="margin-top:20px">
-      <blockquote>"不是更快地做同样的事，<br>是让你能做以前根本不会做的事。"</blockquote>
-      <figcaption>一天五篇深度技术文章，以前想都不敢想</figcaption>
+      <blockquote>"以前 RAN4 季会前要熬夜两周做案头工作。<br>现在 Hermes 做初稿，我只做审核和决策。"</blockquote>
+      <figcaption>RAN4 代表的实际工作流</figcaption>
     </div>
   </div>
 </section>
@@ -420,7 +438,7 @@ h2.visible{opacity:1;transform:translateY(0)}
 <div class="spacer"></div>
 
 <!-- CTA -->
-<section class="section full-center" data-section="7">
+<section class="section full-center" data-section="9">
   <div class="section-inner">
     <h2 data-anim>开源，部署在你自己手里</h2>
     <p class="sub wide" style="margin:16px auto 32px" data-anim>模型自由切换、搜索后端可换。所有记忆和 Skill 只在你自己的服务器上。</p>
@@ -431,7 +449,8 @@ h2.visible{opacity:1;transform:translateY(0)}
 </section>
 
 <footer style="text-align:center;padding:40px;position:relative;z-index:1;font-size:11px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace;">
-Written with Hermes Agent · July 2026 · Nous Research
+Written with Hermes Agent · July 2026 · Nous Research<br>
+<a href="https://github.com/SamsungRAN4/RAN4meetingschedule" style="color:rgba(255,255,255,.2);text-decoration:none;">GitHub</a>
 </footer>
 
 <script>
