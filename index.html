@@ -1,635 +1,1484 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hermes Agent V3 · 一个会记住你的 AI</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital@0;1&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung RAN4 Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 核心网格布局 */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 120px repeat(4, minmax(280px, 1fr));
+            gap: 16px;
+            align-items: stretch;
+        }
+        
+        .time-cell {
+            padding-top: 2rem;
+            font-family: ui-monospace, monospace;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #64748b;
+            background-color: transparent;
+            display: flex;
+            align-items: flex-start;
+        }
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  background:#050508;color:#e8e8f0;
-  font-family:'微软雅黑','Microsoft YaHei','PingFang SC','Noto Sans SC','Inter',sans-serif;
-  overflow-x:hidden;
-  text-wrap:pretty;word-break:keep-all;
-}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:#050508}
-::-webkit-scrollbar-thumb{background:rgba(16,185,129,.3);border-radius:2px}
+        /* 房间基础样式 */
+        .room-yang { border-left: 6px solid #3b82f6; background-color: #f0f7ff; border-color: #e2e8f0; }
+        .room-shan { border-left: 6px solid #10b981; background-color: #f0fdf4; border-color: #e2e8f0; }
+        .room-gene { border-left: 6px solid #8b5cf6; background-color: #f5f3ff; border-color: #e2e8f0; }
+        .room-adhoc { border-left: 6px solid #f59e0b; background-color: #fffbeb; border-color: #e2e8f0; }
+        .unowned-cell { border: 1px dashed #cbd5e1; background-color: #f8fafc; color: #94a3b8; }
+        
+        /* 未选中卡片深度暗化 */
+        .is-dimmed {
+            opacity: 0.15 !important;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
 
-/* === Three.js canvas === */
-#bg-canvas{
-  position:fixed;top:0;left:0;width:100vw;height:100vh;
-  z-index:0;pointer-events:none;
-}
+        /* 休息行跨列 */
+        .break-row {
+            grid-column: 2 / -1;
+            background-color: #f1f5f9;
+            border-left: 8px solid #64748b;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-weight: 900;
+            color: #475569;
+            text-transform: uppercase;
+        }
 
-/* === Sections === */
-.section{
-  position:relative;z-index:1;
-  min-height:100vh;display:flex;align-items:center;
-  padding:100px 60px;
-}
-.section-inner{
-  max-width:1000px;margin:0 auto;width:100%;
-}
-.section.full-center{text-align:center;justify-content:center}
-.section.full-center .section-inner{text-align:center}
+        .owner-badge {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            font-weight: 800;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
 
-/* === Typography === */
-.kicker{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;font-weight:500;
-  letter-spacing:.22em;text-transform:uppercase;
-  color:#10b981;margin-bottom:24px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
-}
-.kicker.visible{opacity:1;transform:translateY(0)}
+        .active-badge {
+            background-color: #f59e0b !important;
+            color: white !important;
+            border: none;
+        }
 
-h1{
-  font-family:'Playfair Display',Georgia,serif;
-  font-weight:400;font-style:italic;
-  font-size:clamp(44px,7vw,80px);line-height:1.05;
-  color:#fff;letter-spacing:-.02em;text-wrap:balance;word-break:keep-all;
-  opacity:0;transform:translateY(30px);
-  transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);
-}
-h1.visible{opacity:1;transform:translateY(0)}
-h1 em{color:#10b981;font-style:italic}
+        .conflict-alert {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid #fecaca;
+            font-size: 10px;
+            font-weight: 900;
+            margin-top: 0.5rem;
+        }
 
-h2{
-  font-family:'Playfair Display',Georgia,serif;
-  font-weight:400;
-  font-size:clamp(32px,5vw,56px);line-height:1.1;
-  color:#fff;letter-spacing:-.015em;margin-bottom:16px;text-wrap:balance;word-break:keep-all;
-  opacity:0;transform:translateY(24px);
-  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
-}
-h2.visible{opacity:1;transform:translateY(0)}
-
-.sub{
-  font-size:17px;color:rgba(232,232,240,.55);
-  line-height:1.8;max-width:48ch;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .7s .15s cubic-bezier(.16,1,.3,1),transform .7s .15s cubic-bezier(.16,1,.3,1);
-}
-.sub.visible{opacity:1;transform:translateY(0)}
-.sub.wide{max-width:60ch}
-
-/* === Hero specific === */
-.hero h1{font-style:italic;margin-bottom:20px}
-.hero .kicker{color:#c9953b}
-.hero-meta{
-  display:flex;gap:32px;margin-top:32px;
-  font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(232,232,240,.35);
-  opacity:0;transform:translateY(16px);
-  transition:opacity .7s .3s cubic-bezier(.16,1,.3,1),transform .7s .3s cubic-bezier(.16,1,.3,1);
-}
-.hero-meta.visible{opacity:1;transform:translateY(0)}
-
-/* === Cards grid === */
-.card-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:1px;
-  background:rgba(255,255,255,.04);border-radius:12px;overflow:hidden;
-  margin-top:40px;border:1px solid rgba(255,255,255,.06);
-}
-.card{
-  background:#0a0a10;padding:44px 40px;
-  transition:background .5s, box-shadow .5s;
-  opacity:0;transform:translateY(20px);
-}
-.card.visible{opacity:1;transform:translateY(0)}
-.card:hover{background:#0e0e18;box-shadow:inset 0 0 60px rgba(16,185,129,.04)}
-.card .n{
-  font-size:44px;font-weight:300;color:rgba(232,232,240,.06);
-  font-family:'Playfair Display',serif;line-height:1;margin-bottom:12px;
-}
-.card h4{font-size:17px;font-weight:500;color:#fff;margin-bottom:8px}
-.card p{font-size:13px;color:rgba(232,232,240,.5);line-height:1.7}
-
-/* === Comparison cards === */
-.cmp-grid{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:40px;
-}
-.cmp-card{
-  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
-  border-radius:10px;padding:32px 28px;text-align:left;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .4s;
-}
-.cmp-card.visible{opacity:1;transform:translateY(0)}
-.cmp-card:hover{border-color:rgba(16,185,129,.2);box-shadow:0 0 30px rgba(16,185,129,.04)}
-.cmp-card .tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;display:block}
-.cmp-card h3{font-size:15px;font-weight:600;color:#fff;margin-bottom:10px}
-.cmp-card p{font-size:12.5px;color:rgba(232,232,240,.5);line-height:1.7}
-.cmp-card .bt{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.04);font-size:11.5px;color:rgba(232,232,240,.35)}
-
-/* === Table === */
-.tbl{
-  width:100%;border-collapse:collapse;margin-top:32px;
-  border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);
-}
-.tbl th{
-  background:rgba(16,185,129,.08);padding:12px 16px;
-  font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;
-  letter-spacing:.1em;font-weight:500;text-align:left;
-}
-.tbl td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.03);font-size:13px}
-.tbl td.hl{color:#10b981}
-.tbl td.dim{color:rgba(232,232,240,.4)}
-.tbl tr:last-child td{border-bottom:none}
-.tbl-row{opacity:0;transform:translateX(-10px);transition:opacity .5s,transform .5s}
-.tbl-row.visible{opacity:1;transform:translateX(0)}
-
-/* === Quote === */
-.quote{
-  text-align:center;padding:60px 24px;
-  opacity:0;transform:scale(.96);
-  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
-}
-.quote.visible{opacity:1;transform:scale(1)}
-.quote blockquote{
-  font-family:'Playfair Display',Georgia,serif;
-  font-style:italic;font-size:clamp(20px,3vw,30px);
-  max-width:32ch;margin:0 auto 16px;color:rgba(232,232,240,.8);
-  line-height:1.45;
-}
-.quote figcaption{font-size:12px;color:rgba(232,232,240,.3)}
-
-/* === Timeline === */
-.tl{position:relative;padding-left:36px;margin-top:32px}
-.tl::before{
-  content:'';position:absolute;left:10px;top:4px;bottom:4px;
-  width:1px;background:linear-gradient(180deg,transparent,#10b98144 10%,#10b98144 90%,transparent);
-}
-.tl-item{
-  position:relative;margin-bottom:20px;padding:14px 20px;
-  background:rgba(255,255,255,.02);border-radius:8px;
-  border:1px solid rgba(255,255,255,.04);
-  opacity:0;transform:translateX(-10px);
-  transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);
-}
-.tl-item.visible{opacity:1;transform:translateX(0)}
-.tl-item::before{
-  content:'';position:absolute;left:-31px;top:18px;
-  width:6px;height:6px;border-radius:50%;background:#10b981;
-  box-shadow:0 0 12px #10b98166;
-}
-.tl-item time{font-size:10px;color:rgba(232,232,240,.3);font-family:'JetBrains Mono',monospace;display:block;margin-bottom:2px}
-.tl-item h4{font-size:14px;font-weight:500;color:#fff;margin-bottom:2px}
-.tl-item p{font-size:12px;color:rgba(232,232,240,.4)}
-
-/* === Config grid === */
-.cfg-grid{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:40px;
-}
-.cfg-card{
-  text-align:center;padding:36px 24px;
-  background:rgba(255,255,255,.02);border-radius:10px;
-  border:1px solid rgba(255,255,255,.06);
-  opacity:0;transform:translateY(15px);
-  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
-}
-.cfg-card.visible{opacity:1;transform:translateY(0)}
-.cfg-card h4{font-size:14px;font-weight:500;color:#fff;margin-bottom:6px}
-.cfg-card p{font-size:11.5px;color:rgba(232,232,240,.4);line-height:1.7}
-.cfg-card .ic{font-size:28px;display:block;margin-bottom:12px;opacity:.6}
-
-/* === Tools wall === */
-.tool-wall{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:36px;
-}
-.tile{
-  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);
-  border-radius:8px;padding:16px 14px;text-align:left;
-  opacity:0;transform:translateY(10px);
-  transition:opacity .4s,transform .4s,background .3s;
-}
-.tile.visible{opacity:1;transform:translateY(0)}
-.tile:hover{background:rgba(16,185,129,.04);border-color:rgba(16,185,129,.12)}
-.tile .tn{font-family:'JetBrains Mono',monospace;font-size:11px;color:#10b981;margin-bottom:4px}
-.tile .td{font-size:11px;color:rgba(232,232,240,.4);line-height:1.5}
-
-/* === CTA === */
-.cta-card{
-  display:inline-block;
-  background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(16,185,129,.04));
-  border:1px solid rgba(16,185,129,.2);
-  border-radius:12px;padding:48px 56px;margin-top:24px;
-  backdrop-filter:blur(12px);
-}
-.cta-card p{font-family:'JetBrains Mono',monospace;font-size:13px;color:#10b981;letter-spacing:.02em}
-
-/* === Section spacers === */
-.spacer{height:80px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
-.spacer::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(16,185,129,.15),transparent)}
-
-/* === Responsive === */
-@media(max-width:720px){
-  .section{padding:60px 24px}
-  .card-grid,.cmp-grid,.cfg-grid,.tool-wall{grid-template-columns:1fr}
-  .hero-meta{flex-direction:column;gap:12px}
-}
-
-/* === Scanline overlay for extra flair === */
-.scanline{
-  position:fixed;top:0;left:0;width:100vw;height:100vh;
-  pointer-events:none;z-index:2;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.008) 2px,rgba(255,255,255,.008) 4px);
-}
-</style>
+        .flex-card { transition: all 0.3s ease; border: 1px solid transparent; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col antialiased">
 
-<div id="bg-canvas"></div>
-<div class="scanline"></div>
+    <header class="bg-white border-b sticky top-0 z-50 px-6 py-4 shadow-md">
+        <div class="max-w-[1800px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-6">
+            <div>
+                <h1 class="text-2xl font-black text-slate-800 tracking-tight">Samsung RAN4 Dashboard</h1>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">RAN4_120_meeting_schedule_v03_clean</p>
+            </div>
+            
+            <div class="flex items-center gap-4 bg-amber-50 p-2.5 rounded-2xl border border-amber-200">
+                <label for="delegateFilter" class="text-sm font-black text-amber-800 ml-2 whitespace-nowrap">HIGHLIGHT DELEGATE:</label>
+                <select id="delegateFilter" class="bg-white border-2 border-amber-300 text-sm font-black rounded-xl p-2 min-w-[220px] cursor-pointer focus:outline-none focus:border-amber-500">
+                    <option value="All">--- ALL ---</option>
+                </select>
+            </div>
+        </div>
+        <nav id="dayTabs" class="max-w-[1800px] mx-auto flex gap-3 mt-4 overflow-x-auto pb-1"></nav>
+    </header>
 
-<!-- HERO -->
-<section class="section full-center" data-section="0">
-  <div class="section-inner">
-    <p class="kicker" data-anim>经验分享</p>
-    <h1 data-anim>一个会<em>记住你</em>的&nbsp;AI</h1>
-    <p class="sub wide" style="margin:0 auto" data-anim>
-      它不是聊天机器人。它是能记住你的偏好、学会你的工作流、在你睡觉时自主干活的 AI 操作系统。
-    </p>
-    <div class="hero-meta" data-anim>
-      <span>2026 年 7 月</span>
-      <span>基于 Nous Research</span>
-      <span>飞书 · 终端 · Cron</span>
-    </div>
-  </div>
-</section>
+    <main class="max-w-[1800px] mx-auto p-6 w-full flex-grow">
+        <div id="scheduleGrid" class="overflow-x-auto bg-white rounded-3xl shadow-2xl border p-8 min-h-[700px]"></div>
+    </main>
 
-<div class="spacer"></div>
+    <script>
+        const DELEGATE_MAP = {
+    "301": [
+        "Bozhi (monitoring)"
+    ],
+    "302": [
+        "Bozhi (monitoring)"
+    ],
+    "303": [
+        "Xin (monitoring)"
+    ],
+    "304": [
+        "Xin (monitoring)"
+    ],
+    "305": [
+        "Bozhi (monitoring)"
+    ],
+    "306": [
+        "Xinyan (monitoring)"
+    ],
+    "308": [],
+    "320": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "321": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "322": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "323": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "324": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "325": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "326": [
+        "Tina (monitoring)",
+        "Bozhi (monitoring)"
+    ],
+    "328": [
+        "Bozhi",
+        "Hongjun"
+    ],
+    "329": [],
+    "330": [
+        "Bozhi",
+        "Hongjun"
+    ],
+    "340": [
+        "Tina",
+        "Bozhi"
+    ],
+    "342": [
+        "Taekhoon"
+    ],
+    "345": [
+        "Xin"
+    ],
+    "346": [
+        "Bozhi"
+    ],
+    "347": [
+        "Bozhi"
+    ],
+    "348": [
+        "Xinyan",
+        "Yanze"
+    ],
+    "349": [
+        "Xinyan",
+        "Yanze"
+    ],
+    "350": [
+        "Xinyan",
+        "Yanze"
+    ],
+    "351": [
+        "Bozhi"
+    ],
+    "352": [],
+    "353": [],
+    "354": [],
+    "360": [
+        "Xin"
+    ],
+    "361": [
+        "Xin"
+    ],
+    "362": [
+        "Xin",
+        "Dong"
+    ],
+    "363": [
+        "Xin",
+        "Dong"
+    ],
+    "364": [
+        "Xin",
+        "Hongjun"
+    ],
+    "201": [
+        "Xinyan",
+        "Yanze"
+    ],
+    "202": [],
+    "203": [
+        "Yanze"
+    ],
+    "204": [
+        "Yanze"
+    ],
+    "205": [
+        "Dong",
+        "Yanze"
+    ],
+    "206": [
+        "Yanze (monitoring)"
+    ],
+    "220": [
+        "Xinyan",
+        "Yanze"
+    ],
+    "207": [],
+    "215": [
+        "Yanze"
+    ],
+    "216": [
+        "Yanze"
+    ],
+    "208": [
+        "Lili",
+        "Xiaoming"
+    ],
+    "209": [
+        "Lili",
+        "Xiaoming"
+    ],
+    "217": [
+        "Lili",
+        "Xiaoming"
+    ],
+    "218": [
+        "Lili",
+        "Xiaoming"
+    ],
+    "210": [
+        "Lili",
+        "Xiaoming"
+    ],
+    "211": [
+        "Lili",
+        "Xiaoming"
+    ],
+    "212": [
+        "Bozhi"
+    ],
+    "219": [
+        "Bozhi"
+    ],
+    "213": [
+        "Bozhi"
+    ],
+    "214": [
+        "Xiaoming",
+        "Jackson"
+    ],
+    "101-A": [
+        "Taekhoon",
+        "Jackson",
+        "Lili"
+    ],
+    "101": [
+        "Taekhoon",
+        "Jackson",
+        "Lili"
+    ],
+    "101-B": [
+        "Taekhoon",
+        "Jackson",
+        "Lili"
+    ],
+    "102-A": [
+        "Tina",
+        "Bozhi",
+        "Taekhoon",
+        "Hongjun"
+    ],
+    "102": [
+        "Tina",
+        "Bozhi",
+        "Taekhoon",
+        "Hongjun",
+        "Jackson"
+    ],
+    "102-B": [
+        "Tina",
+        "Bozhi",
+        "Taekhoon",
+        "Hongjun",
+        "Jackson"
+    ],
+    "104-A": [
+        "Tina",
+        "Taekhoon"
+    ],
+    "104": [
+        "Tina",
+        "Taekhoon"
+    ],
+    "104-B": [
+        "Tina",
+        "Taekhoon"
+    ],
+    "105-A": [
+        "Yanze",
+        "Dong",
+        "Xinyan"
+    ],
+    "105": [
+        "Yanze",
+        "Dong",
+        "Xinyan"
+    ],
+    "105-B": [
+        "Yanze",
+        "Dong",
+        "Xinyan"
+    ],
+    "107-A": [
+        "Jackson",
+        "Tina",
+        "Xiaoming",
+        "Lili"
+    ],
+    "107": [
+        "Jackson",
+        "Tina",
+        "Xiaoming",
+        "Lili",
+        "Yanze",
+        "Dong"
+    ],
+    "107-B": [
+        "Jackson",
+        "Yanze",
+        "Dong"
+    ],
+    "108": [
+        "Bozhi"
+    ],
+    "111": [
+        "Jackson"
+    ],
+    "112": [
+        "Jackson"
+    ],
+    "113": [
+        "Tina",
+        "Bozhi"
+    ],
+    "114": [
+        "Tina",
+        "Bozhi"
+    ],
+    "115": [
+        "Tina",
+        "Bozhi"
+    ],
+    "116": [
+        "Tina",
+        "Bozhi"
+    ],
+    "117": [
+        "Tina",
+        "Bozhi"
+    ]
+};
 
-<!-- CH1: What Hermes is + Unique -->
-<section class="section" data-section="1">
-  <div class="section-inner">
-    <p class="kicker" data-anim>Chapter 1</p>
-    <h2 data-anim>Hermes 是什么</h2>
-    <p class="sub" data-anim>Hermes 是一个开源的 AI Agent 框架。和聊天机器人最大的区别：它在你睡觉时也能干活，它记得你上个月说过什么，它学会你的工作方式之后不会再忘。</p>
-    
-    <div class="card-grid">
-      <div class="card" data-anim style="transition-delay:.08s"><div class="n">🔍</div><h4>情报搜集 + 定时任务</h4><p>每天 4点/7点/7点半自动搜索新闻、分析趋势、交叉验证、推送到飞书。你醒来读结果就行。</p></div>
-      <div class="card" data-anim style="transition-delay:.14s"><div class="n">🧠</div><h4>长期记忆 + Skill 自成长</h4><p>跨会话记住你的名字、邮箱、SSH。做完复杂任务自动保存 Skill，下次直接复用。越用越强。</p></div>
-      <div class="card" data-anim style="transition-delay:.2s"><div class="n">🔓</div><h4>开放架构 + 翻墙</h4><p>模型自由切换、代理商翻墙、SiliconFlow 接第三方 API。Cline SR 被防火墙锁死，Hermes 出得去。</p></div>
-      <div class="card" data-anim style="transition-delay:.26s"><div class="n">📱</div><h4>飞书 + 编排子 Agent</h4><p>公司飞书发指令，NAS 自动干活。指派 Codex/Claude Code 做编程，自己做编排验收。</p></div>
-    </div>
-    
-    <div class="quote" data-anim style="margin-top:20px">
-      <blockquote>"ChatGPT 能聊但不能干活。<br>Codex 能写但不会定时跑。<br>Cline SR 在三星墙内出不去。<br><em style='color:#10b981;'>Hermes 是唯一一个同时做到这四件事的。</em>"</blockquote>
-    </div>
-  </div>
-</section>
+const scheduleData = {
+    "Monday": [
+        {
+            "time": "9:00-09:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "1. Opening of the meeting <br>2. Approval of the agenda<br>3. Letters / reports from other groups / meetings<br>4. Incoming LS<br>5. Release independency<br>6. On R21 RAN4 package (no contribution is expected)",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "9:30-10:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[111] 6G RAN4 operation efficiency",
+                    "topics": [
+                        "111"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM<br>[201] NR_RRM_Ph6",
+                    "topics": [
+                        "201"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "5G UE RF<br>[340] NR_UE_RF_Ph5 ( )<br>[342] NR_low_band_CA_switching ( )",
+                    "topics": [
+                        "340",
+                        "342"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc: <br>Rel-20 OTA<br>[212] NR_UE_OTA_Enh, chaired by Ruixin Wang (vivo)",
+                    "topics": [
+                        "212"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "10:30-11:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "11:00-13:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[101] System Parameter()",
+                    "topics": [
+                        "101"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM<br>[209] FS_NR_demod_SCM <br>[202] NR_UAV_req_RRM",
+                    "topics": [
+                        "209",
+                        "202"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "NTN<br>[346] NR_IoT_NTN_Ph2 ( )<br>[347] NR_IoT_NTN_Ph2_Part2 ( )",
+                    "topics": [
+                        "346",
+                        "347"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad-hoc<br>[105] 6G RRM Chaired by Jerry (Apple)",
+                    "topics": [
+                        "105"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "13:00-14:30",
+            "isBreak": true,
+            "text": "Lunch break"
+        },
+        {
+            "time": "14:30-16:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[101] System Parameter()<br><br>---3:00pm<br><br>[102] General RF and UE RF",
+                    "topics": [
+                        "101",
+                        "102"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 AI<br>[214] NR_AIML_air_Ph2",
+                    "topics": [
+                        "214"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "NTN (cont)<br>[349] NR_NTN_GNSS_resilient ( )<br>[350] LTE_TN_NR_NTN_handover ( )<br>[348] NR_IoT_NTN_Ph2_Part3_RRM ( )",
+                    "topics": [
+                        "349",
+                        "350",
+                        "348"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR2 Ad-hoc: 5G BSRF (14:30 – 15:30) <br>[345] NR_BS_RF_Ph2, chaired by Torbjörn (Ericsson)<br><br>BR1 Ad-hoc: 6G testability/OTA (15:30-16:30)<br>[213] 6G testability and OTA, chaired by Ruixin Wang (vivo)",
+                    "topics": [
+                        "345",
+                        "213"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "16:30-17:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "17:00-18:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[102] General RF and UE RF<br><br>[108] Spectrum sharing",
+                    "topics": [
+                        "102",
+                        "108"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM<br>[204] NR_MIMO_Ph6_RRM",
+                    "topics": [
+                        "204"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "NTN (cont)<br>[348] NR_IoT_NTN_Ph2_Part3_RRM (cont)<br>[351] LTE_IoT_NTN_high_power ( )",
+                    "topics": [
+                        "348",
+                        "351"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad-hoc: <br>[107] 6G AI, Chaired by Santhan (E///)",
+                    "topics": [
+                        "107"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "18:00-19:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Main Ad-hoc: <br>[102-A] 6G General RF and UE RF, Chaired by Toni (Qualcomm)",
+                    "topics": [
+                        "102-A"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "BR1 Ad-hoc: <br>[214] NR_AIML_air_Ph2, Chaired by Tom (E///)",
+                    "topics": [
+                        "214"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "BR2 Ad-hoc:  Sensing coexistence<br>[362] 6G_Sensing, chaired by Fei (ZTE)",
+                    "topics": [
+                        "362"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc: <br>R20 RRM<br>[201] NR_RRM_Ph6, Chaired by Zhixun Tang (E///)",
+                    "topics": [
+                        "201"
+                    ]
+                }
+            ]
+        }
+    ],
+    "Tuesday": [
+        {
+            "time": "8:30-10:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[107] 6G AI",
+                    "topics": [
+                        "107"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM<br>[206] NR_Mob_Ph5_RRM<br>[207] Ambient_IoT_Ph2_RRM",
+                    "topics": [
+                        "206",
+                        "207"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "6G SI/RAN task: NTN Coexistence<br>[364] NTN_coexistence ( )",
+                    "topics": [
+                        "364"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc: <br>6G OTA<br>[213] 6G testability and OTA, Chaired by Ruixin Wang (vivo)",
+                    "topics": [
+                        "213"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "10:30-11:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "11:00-13:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[105] 6G RRM",
+                    "topics": [
+                        "105"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 Demod<br>[208] NR_demod_Ph6",
+                    "topics": [
+                        "208"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "Rel-20 UAV<br>[352] NR_UAV (15)<br><br>6G SI: BSRF<br>[360] 6G_BSRF_requirements ( )",
+                    "topics": [
+                        "352",
+                        "360"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR2 Ad-hoc: Spectrum basket work items<br>[324] NR_CADC_SUL(including band combination database), chaired by Per (Ericsson)<br>[323] NTN_bands_Features, chaired by Daniel (Apple)",
+                    "topics": [
+                        "324",
+                        "323"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "13:00-14:30",
+            "isBreak": true,
+            "text": "Lunch break"
+        },
+        {
+            "time": "14:30-16:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[104] 6G Spectrum",
+                    "topics": [
+                        "104"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM<br>[205] NR_AIML_Mob_RRM<br>---15:30---<br>Rel-20 Demod<br>[202] NR_UAV_req_RRM",
+                    "topics": [
+                        "205",
+                        "202"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "6G SI: BSRF<br>[361] 6G_BSRF_coexistence_AAS ()",
+                    "topics": [
+                        "361"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR2 Ad-hoc: TBD",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "16:30-17:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "koffietijd",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Coffee break: [202] NR_UAV_req_RRM",
+                    "topics": [
+                        "202"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "koffietijd",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "koffietijd",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "17:00-18:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[101] System Parameter",
+                    "topics": [
+                        "101"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM Cont.<br>[205] NR_AIML_Mob_RRM",
+                    "topics": [
+                        "205"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "6G SI BSRF (cont)",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad-hoc:<br>[104] 6G Spectrum, Chaired by Johannes(Nokia)",
+                    "topics": [
+                        "104"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "18:00-19:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Main Ad hoc<br>[102-B] 6G General RF and UE RF, Chaired by Haijie (Xiaomi)",
+                    "topics": [
+                        "102-B"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "RRM Ad-hoc: <br>[205] NR_AIML_Mob_RRM, Chaired by Qiuge Guo (OPPO)",
+                    "topics": [
+                        "205"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "BR2 Adhoc: 6G BSRF requirements<br>[360] 6G_BSRF_requirements, chaired by Dominique (Ericsson)",
+                    "topics": [
+                        "360"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad-hoc:<br>[111] 6G operation efficiency by Aijun (CATT)",
+                    "topics": [
+                        "111"
+                    ]
+                }
+            ]
+        }
+    ],
+    "Wednesday": [
+        {
+            "time": "8:30-10:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[107] 6G AI",
+                    "topics": [
+                        "107"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 and 6G OTA<br>[213] 6G testability and OTA<br>[212] NR_UE_OTA_Enh",
+                    "topics": [
+                        "213",
+                        "212"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "BDaT LS (if needed)<br>[370] LS_BDaT ( ) <br><br>5G BSRF <br>[345] NR_BS_RF_Ph2 ( )<br><br>Ambient IoT<br>[353] A-IoT_sys_outdoor ( )",
+                    "topics": [
+                        "370",
+                        "345",
+                        "353"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc:<br>[209] FS_NR_demod_SCM, Chaired by Ryan (BT)<br><br>---9:30---<br><br>BR2 Ad-hoc: NTN RRM (maint or Rel-20)",
+                    "topics": [
+                        "209"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "10:30-11:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "11:00-13:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[101] System Parameter",
+                    "topics": [
+                        "101"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "6G OTA<br>[212] NR_UE_OTA_Enh<br>---12:00---<br>6G demod<br>[210] 6G Demod_Part1",
+                    "topics": [
+                        "212",
+                        "210"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "Ambient IoT (cont)<br>[354] A-IoT_indoor_test ( )<br><br>6G SI: Sensing<br>[362] 6G_Sensing coex, req, test ( )",
+                    "topics": [
+                        "354",
+                        "362"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc:<br>R20 AI<br>[214] NR_AIML_air_Ph2, Chaired by Tom (E///)",
+                    "topics": [
+                        "214"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "13:00-14:30",
+            "isBreak": true,
+            "text": "Lunch break"
+        },
+        {
+            "time": "14:30-16:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[105] 6G RRM",
+                    "topics": [
+                        "105"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "6G demod<br>[210] 6G Demod_Part1 Cont.<br>[211] 6G Demod_Part2",
+                    "topics": [
+                        "210",
+                        "211"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "6G SI: Sensing (cont)<br>[362] 6G_Sensing coex, req, test ( )<br>[363] 6G_Sensing feasibility ( )",
+                    "topics": [
+                        "362",
+                        "363"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad-hoc: [101-B] System Parameter, Chaired by Jingqiang (OPPO)<br><br>---15:30---<br>BR2 Ad-Hoc: Ambient IoT",
+                    "topics": [
+                        "101-B"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "16:30-17:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "17:00-18:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[102] General RF and UE RF",
+                    "topics": [
+                        "102"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "6G demod<br>[211] 6G Demod_Part2 Cont.",
+                    "topics": [
+                        "211"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "6G SI: Sensing (cont)",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad-hoc: <br>[105] 6G RRM Chaired by Jerry (Apple)",
+                    "topics": [
+                        "105"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "18:00-19:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Main Ad-hoc: <br>[107] 6G AI, Chaired by Jackson (Samsung)",
+                    "topics": [
+                        "107"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "BR1 Ad hoc: <br>Demod<br>[208] NR_demod_Ph6, Chaired by Jingzhou Wu (China Telecom)",
+                    "topics": [
+                        "208"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "BR2 Ad-hoc: 6G coexistence<br>[361] 6G_BSRF_coexistence_AAS, coexistence part, chaired by Michal (Huawei)",
+                    "topics": [
+                        "361"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad hoc:<br>[101-A] System Parameter, Chaired by Leo (Huawei)",
+                    "topics": [
+                        "101-A"
+                    ]
+                }
+            ]
+        }
+    ],
+    "Thursday": [
+        {
+            "time": "8:30-10:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "[112] R19 NR_AIML_air <br><br>----9:30-------<br><br>EARLY RETURN TO",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Rel-20 RRM<br>[203] NR_LBCA_Sw_enh_RRM<br>[220] NR_NTN_GNSS_resilient_RRM",
+                    "topics": [
+                        "203",
+                        "220"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "5G basket and spectrum WI<br>[320] NR_LTE_combos_Features_R20 (9)<br>[321] DC_xBLTE_yBNR_R20 (22)<br>[322] NR_bands_Features_R20 (0)<br>[323] NTN_Bands_Features_R20 (20)<br>[324] NR_CADC_SUL_R20 (51)<br>[325] NR_Bands_BW_PC_BC_RedCap (11)<br>[326] LTE_CA_xBDL_yBUL (0)<br>[328] NR_EESS_PC1_40GHz (9)<br>[329] New_CBW_5G_broadcast_over_GSO (5)<br>[330] NR_LTE_1900MHz_TN_bands ( )",
+                    "topics": [
+                        "320",
+                        "321",
+                        "322",
+                        "323",
+                        "324",
+                        "325",
+                        "326",
+                        "328",
+                        "329",
+                        "330"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc: <br>Demod<br>[210] [211] 6G Demod_Part1&Part2",
+                    "topics": [
+                        "210",
+                        "211"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "10:30-11:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "11:00-13:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Maintenance<br><br>[11x] R19_spectrum_maintenance (5)<br>[11x] R19_UERF_maintenance_Part1(3)<br>[11x] R19_UERF_maintenance_Part2 (1)<br>[11x] Upto_R17_UERF_maintenance(17)<br>[11x] R18_UERF_maintenance (3)<br>[11x] R19 NR AIML air maintenance",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "RRM Maintenance<br>[215] RRM_Maintenance_Up_to_R17<br>[216] RRM_Maintenance_R18_R19<br><br>Demod and OTA Maintenance<br>[217] Demod_Maintenance_up_to_R17<br>[218] Demod_Maintenance_R18_R19<br>[219] OTA_Maintenance",
+                    "topics": [
+                        "215",
+                        "216",
+                        "217",
+                        "218",
+                        "219"
+                    ]
+                },
+                {
+                    "name": "Gene",
+                    "text": "5G Basket and spectrum (cont)<br><br>Maintenance<br>[301] NR_IoT_NTN_Maint_Legacy_RF (40)<br>[302] NR_IoT_NTN_Maint_Legacy_Demod_TEI (5)<br>[303] BSRF_Maintenance_Legacy_TEI (18)<br>[304] BSRF_Maintenance_TEI (28)<br>[305] NR_IoT_NTN_Maintenance (21)<br>[306] NR_IoT_NTN_Maintenance_RRM (56)<br>[308] Ambient_IoT_Maintenance (9)",
+                    "topics": [
+                        "301",
+                        "302",
+                        "303",
+                        "304",
+                        "305",
+                        "306",
+                        "308"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR1 Ad-hoc: <br>R20 RRM<br>[204] NR_MIMO_Ph6_RRM, Chaired by Miao Wang (MediaTek)<br>---12:00---<br>[206] NR_Mob_Ph5_RRM, Chaired by Hua Li (Apple)",
+                    "topics": [
+                        "204",
+                        "206"
+                    ]
+                }
+            ]
+        },
+        {
+            "time": "13:00-14:30",
+            "isBreak": true,
+            "text": "Lunch break"
+        },
+        {
+            "time": "14:30-16:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "EARLY RETURN TO",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Ad-hoc or Early Return-to",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Maintenance (cont)",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "BR2 Ad-hoc: NTN Rel-20 RF",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "16:30-17:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "17:00-18:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Main Ad-hoc: <br>[105] 6G RRM Chaired by Jinyup (LGE)",
+                    "topics": [
+                        "105"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Early Return-to",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "BR2 Ad-hoc: 6G Sensing feasibility<br>[363] 6G_Sensing, chaired by Mustafa (Qualcomm)",
+                    "topics": [
+                        "363"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad hoc:<br>TBD",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "18:00-19:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Main Ad-hoc: <br>Placeholder for maintenance",
+                    "topics": [
+                        "105"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Ad-hoc or Early Return-to",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "BR2 Ad-hoc:  Rel-20 UAV<br>[351] NR_UAV chaired by Bin (Qualcomm)",
+                    "topics": [
+                        "351"
+                    ]
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Main Ad hoc: <br>TBD",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "19:00",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Social Event: Evening of Live Music and Dancing",
+                    "topics": [
+                        "105"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "",
+                    "topics": []
+                }
+            ]
+        }
+    ],
+    "Friday": [
+        {
+            "time": "8:00-10:30",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "Return to <br>6G system parameter<br>6G UE RF<br>6G spectrum<br>6G spectrum sharing",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Return to",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Return to",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "10:30-11:00",
+            "isBreak": true,
+            "text": "koffietijd"
+        },
+        {
+            "time": "11:00-12:45",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "6G RRM<br>6G AI<br>6G operation efficiency<br>5GA R19 AI<br>5GA spectrum and RF maintenance",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Return to <br>OTA",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Return to",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "",
+                    "topics": []
+                }
+            ]
+        },
+        {
+            "time": "12:45-13:45",
+            "isBreak": true,
+            "text": "Lunch break"
+        },
+        {
+            "time": "15:00-EOM",
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "13 Any other business<br>14 Close of the meeting",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Return to (final round)",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Return to (final round)",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "",
+                    "topics": []
+                }
+            ]
+        }
+    ]
+};
 
-<div class="spacer"></div>
 
-<!-- CH2: Agent Landscape -->
-<section class="section" data-section="2">
-  <div class="section-inner">
-    <p class="kicker" data-anim>Chapter 2</p>
-    <h2 data-anim>三类 Agent，不是一类东西</h2>
-    <p class="sub" data-anim>聊天机器人、桌面编程 Agent、网关 Agent——它们是三个维度的工具，不是竞争关系。</p>
-    
-    <div class="cmp-grid">
-      <div class="cmp-card" data-anim><span class="tag" style="color:rgba(255,255,255,.2)">💬 Chatbots</span><h3>聊天机器人</h3><p>ChatGPT、豆包、DeepSeek Chat。你问它答。关掉一切归零。无记忆、无工具、无自主性、不会替你干活。</p><div class="bt">✅ 快速问答 · ❌ 无记忆 · ❌ 无工具</div></div>
-      <div class="cmp-card" data-anim><span class="tag" style="color:#c9953b">🖥️ Desktop Agents</span><h3>桌面编程 Agent</h3><p>Codex、Claude Code、<strong>Cline SR</strong>。在 IDE/终端里写代码、重构、修 bug。但不会搜情报、没有定时任务、不记得你、不自成长。Cline SR 还被三星防火墙限制，没法用手机操控。</p><div class="bt">✅ 代码生成 · ❌ 情报 · ❌ 定时 · ❌ 记忆 · ❌ 自成长</div></div>
-      <div class="cmp-card" data-anim><span class="tag" style="color:#10b981">🌐 Gateway Agents</span><h3>网关 Agent</h3><p>Hermes、OpenClaw。连接消息平台、终端、API、Cron，全平台覆盖。其中 Hermes 是唯一有长期记忆、Skill 自成长、情报搜集能力的网关 Agent。</p><div class="bt">✅ 全平台 · ✅ 情报 · ✅ 定时 · ✅ 记忆 · ✅ 自成长</div></div>
-    </div>
+        let currentDay = Object.keys(scheduleData)[0] || null;
+        let currentFilter = "All";
 
-    <table class="tbl">
-      <tr class="tbl-row" data-anim><th>能力</th><th>Chatbot</th><th>Codex / Claude Code</th><th>Cline SR</th><th>OpenClaw</th><th>Hermes</th></tr>
-      <tr class="tbl-row" data-anim><td>类别</td><td class="dim">聊天</td><td class="dim">桌面编程</td><td class="dim">桌面编程</td><td class="dim">网关</td><td class="hl">网关</td></tr>
-      <tr class="tbl-row" data-anim><td>定时情报搜集</td><td class="dim">❌</td><td class="dim">❌ 可按需搜一次</td><td class="dim">❌ 防火墙限制</td><td class="dim">有限</td><td class="hl">✅ 定时自动搜集+跨会话记住结果</td></tr>
-      <tr class="tbl-row" data-anim><td>定时任务</td><td class="dim">❌</td><td class="dim">❌</td><td class="dim">❌</td><td class="dim">有</td><td class="hl">✅ Cron 到点自动跑</td></tr>
-      <tr class="tbl-row" data-anim><td>长期记忆</td><td class="dim">❌ 会话即忘</td><td class="dim">❌ 从头开始</td><td class="dim">❌ 从头开始</td><td class="dim">手动配置</td><td class="hl">✅ 持久自动加载</td></tr>
-      <tr class="tbl-row" data-anim><td>自成长</td><td class="dim">❌</td><td class="dim">❌ 教过还得教</td><td class="dim">❌</td><td class="dim">❌ 技能靠人写</td><td class="hl">✅ 从经验自动建 Skill</td></tr>
-      <tr class="tbl-row" data-anim><td>开放性</td><td class="dim">封闭生态</td><td class="dim">仅特定厂商</td><td class="dim">被防火墙限制</td><td class="dim">中等</td><td class="hl">✅ 支持主流模型厂商 API，可自由扩展</td></tr>
-      <tr class="tbl-row" data-anim><td>跨墙能力</td><td class="dim">被墙</td><td class="dim">被墙</td><td class="dim">❌ 三星墙内</td><td class="dim">需用户自配代理</td><td class="hl">⚡ 可配置代理绕过 GFW，需自行部署代理软件</td></tr>
-      <tr class="tbl-row" data-anim><td>飞书/手机操控</td><td class="dim">App</td><td class="dim">❌ 只有 CLI</td><td class="dim">❌ 只有桌面 IDE</td><td class="dim">多平台</td><td class="hl">✅ 聊天发指令</td></tr>
-    </table>
-  </div>
-</section>
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, ch => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[ch]);
+        }
 
-<div class="spacer"></div>
+        function initDelegateFilter() {
+            const select = document.getElementById('delegateFilter');
+            const names = new Set();
+            Object.values(DELEGATE_MAP).flat().forEach(owner => {
+                const clean = String(owner).replace(/\s*\(monitoring\)/gi, '').trim();
+                if (clean) names.add(clean);
+            });
+            select.replaceChildren(new Option('--- ALL ---', 'All'));
+            [...names].sort((a, b) => a.localeCompare(b)).forEach(name => {
+                select.add(new Option(name, name));
+            });
+        }
 
+        function initTabs() {
+            const container = document.getElementById('dayTabs');
+            container.innerHTML = Object.keys(scheduleData).map(day => `
+                <button onclick="switchDay('${day}')" class="px-8 py-3 rounded-xl font-black text-sm uppercase transition-all ${currentDay === day ? 'bg-slate-800 text-white shadow-lg' : 'bg-white text-slate-400 border border-slate-200 hover:bg-slate-50'}">
+                    ${escapeHtml(day)}
+                </button>
+            `).join('');
+        }
 
+        function switchDay(day) { currentDay = day; initTabs(); renderSchedule(); }
 
-<div class="spacer"></div>
+        function isPersonMatch(personStr, filterName) {
+            if (!personStr || filterName === "All") return false;
+            const cleanName = personStr.replace(/\s*\(monitoring\)/gi, "").trim();
+            return cleanName === filterName.trim();
+        }
 
-<!-- Collaboration -->
-<section class="section" data-section="3" id="collab">
-  <div class="section-inner">
-    <p class="kicker" data-anim>协作建议</p>
-    <h2 data-anim>该用哪个？推荐组合</h2>
-    <p class="sub wide" data-anim>三类 Agent 不是竞争关系，是不同场景的工具组合。</p>
-    
-    <div class="cmp-grid">
-      <div class="cmp-card" data-anim><span class="tag" style="color:rgba(255,255,255,.2)">💬 聊天</span><h3>日常快速问答</h3><p>ChatGPT、豆包、DeepSeek Chat。随手查资料、翻译、灵感碰撞。不存敏感信息。</p><div class="bt">随时开聊 · 关掉即忘</div></div>
-      <div class="cmp-card" data-anim><span class="tag" style="color:#c9953b">🖥️ 编程</span><h3>写代码 / Debug / 重构</h3><p>Codex、Claude Code、Cline SR。IDE 里写代码、修 bug、代码审查。Hermes 不擅长这个。</p><div class="bt">VS Code 内完成 · 专精代码</div></div>
-      <div class="cmp-card" data-anim><span class="tag" style="color:#10b981">🌐 全流程</span><h3>RAN4 文稿 / 情报 / 定时任务</h3><p>Hermes。从 TDoc 分析到起草、验证、发邮件。定时情报搜集、公众号发布。这是 Hermes 的独有阵地。</p><div class="bt">飞书+终端+Cron · 其他 Agent 做不了</div></div>
-    </div>
-  </div>
-</section>
+        function getOwners(topics) {
+            let o = []; (topics || []).forEach(t => o.push(...(DELEGATE_MAP[t] || [])));
+            return [...new Set(o)];
+        }
 
-<div class="spacer"></div>
+        function renderSchedule() {
+            const container = document.getElementById('scheduleGrid');
+            const data = scheduleData[currentDay] || [];
+            if (!data.length) {
+                container.textContent = 'No schedule data was found.';
+                return;
+            }
+            
+            let html = `<div class="schedule-grid">
+                <div class="text-[10px] font-black text-slate-300 uppercase p-2 flex items-end">Time</div>
+                <div class="text-[10px] font-black text-blue-500 p-2 border-b-4 border-blue-500">Yang</div>
+                <div class="text-[10px] font-black text-emerald-500 p-2 border-b-4 border-emerald-500">Shan</div>
+                <div class="text-[10px] font-black text-violet-500 p-2 border-b-4 border-violet-500">Gene</div>
+                <div class="text-[10px] font-black text-orange-500 p-2 border-b-4 border-orange-500">Ad-hoc</div>`;
 
-<!-- CH3: Multi-Platform -->
-<section class="section" data-section="4">
-  <div class="section-inner">
-    <p class="kicker" data-anim>Chapter 3</p>
-    <h2 data-anim>飞书接入，不只是换个聊天框</h2>
-    <p class="sub wide" data-anim>在飞书里跟它聊，它后台在 NAS 上跑命令。Telegram 收到推送。Cron 到点自动跑。同一套记忆。</p>
-    
-    <div class="cfg-grid">
-      <div class="cfg-card" data-anim><span class="ic">📱</span><h4>飞书</h4><p>日常对话，像跟同事聊天。Markdown、图片、文件发送。</p></div>
-      <div class="cfg-card" data-anim><span class="ic">🖥️</span><h4>终端</h4><p>SSH 进服务器，直接在 Hermes 容器里跑命令。运维和开发模式。</p></div>
-      <div class="cfg-card" data-anim><span class="ic">⏰</span><h4>Cron</h4><p>无人值守定时任务，自动搜索分析推送，醒来读结果。</p></div>
-    </div>
-  </div>
-</section>
+            data.forEach(row => {
+                html += `<div class="time-cell">${escapeHtml(row.time)}</div>`;
+                
+                if (row.isBreak) {
+                    const breakText = String(row.text || '').split('<br>').map(escapeHtml).join('<br>');
+                    html += `<div class="break-row shadow-inner my-2">${breakText}</div>`;
+                } else {
+                    const rowMap = {};
+                    row.rooms.forEach(room => {
+                        getOwners(room.topics).forEach(o => {
+                            const n = o.replace(/\s*\(monitoring\)/gi, "").trim();
+                            rowMap[n] = (rowMap[n] || 0) + 1;
+                        });
+                    });
 
-<div class="spacer"></div>
+                    for (let i = 0; i < 4; i++) {
+                        const room = row.rooms[i];
+                        if (room) {
+                            const owners = getOwners(room.topics);
+                            const isHit = currentFilter !== "All" && owners.some(o => isPersonMatch(o, currentFilter));
+                            const isDimmed = currentFilter !== "All" && !isHit;
+                            const conflicts = owners.filter(o => rowMap[o.replace(/\s*\(monitoring\)/gi, "").trim()] > 1);
+                            
+                            let cardClass = "p-5 rounded-2xl flex flex-col gap-3 flex-card transition-all shadow-sm ";
+                            cardClass += (owners.length > 0) ? "room-" + room.name.toLowerCase().replace(' ', '') : "unowned-cell ";
+                            
+                            if (isDimmed) cardClass += "is-dimmed ";
 
-<!-- CH4: Tools -->
-<section class="section" data-section="5">
-  <div class="section-inner">
-    <p class="kicker" data-anim>Chapter 4</p>
-    <h2 data-anim>工具箱</h2>
-    <p class="sub" data-anim>实际在用的 RAN4 工作流 Skill</p>
-    
-    <div class="tool-wall">
-      <div class="tile" data-anim><div class="tn">3gpp-tdoc-locator</div><div class="td">TDoc 自动定位 FTP，识别会议+WG+编号</div></div>
-      <div class="tile" data-anim><div class="tn">ran4-parallel-analysis</div><div class="td">并行 Sub-Agent 分析公司立场、识别联盟</div></div>
-      <div class="tile" data-anim><div class="tn">email-smtp</div><div class="td">文稿自动转 .docx 发公司邮箱</div></div>
-      <div class="tile" data-anim><div class="tn">arxiv-search</div><div class="td">arXiv 论文发现+物理层调研</div></div>
-      <div class="tile" data-anim><div class="tn">wechat-publish</div><div class="td">公众号全流程：转 HTML/传 CDN/推草稿</div></div>
-      <div class="tile" data-anim><div class="tn">tavily-search</div><div class="td">AI 搜索 + 高质量网页摘要</div></div>
-      <div class="tile" data-anim><div class="tn">fcc-data</div><div class="td">FCC 频谱数据库查询+文档下载</div></div>
-      <div class="tile" data-anim><div class="tn">polymarket</div><div class="td">预测市场·星座公司市场情绪</div></div>
-      <div class="tile" data-anim><div class="tn">obsidian</div><div class="td">知识库笔记读写</div></div>
-      <div class="tile" data-anim><div class="tn">comfyui</div><div class="td">AI 配图生成</div></div>
-      <div class="tile" data-anim><div class="tn">arxiv/research</div><div class="td">学术检索+多源深度调研</div></div>
-      <div class="tile" data-anim><div class="tn">llama-cpp/vllm</div><div class="td">本地推理+高性能服务</div></div>
-    </div>
-  </div>
-</section>
+                            // --- 修复: 将每一行包裹在独立 div 中，防止粘连 ---
+                            let lines = room.text.split('<br>');
+                            let formattedLines = lines.map(line => {
+                                // 如果是空行，用带高度的空 div 占位，保持原有间距
+                                if (!line.trim()) return '<div class="h-2"></div>';
 
-<div class="spacer"></div>
+                                let topicMatches = [...line.matchAll(/\[([0-9]+(?:-[A-Z])?)\]/g)];
+                                
+                                if (currentFilter !== "All") {
+                                    if (topicMatches.length > 0) {
+                                        let isLineHit = false;
+                                        topicMatches.forEach(match => {
+                                            let tOwners = DELEGATE_MAP[match[1]] || [];
+                                            if (tOwners.some(o => isPersonMatch(o, currentFilter))) {
+                                                isLineHit = true;
+                                            }
+                                        });
 
-<!-- CH5: Flexibility -->
-<section class="section" data-section="6">
-  <div class="section-inner">
-    <p class="kicker" data-anim>Chapter 5</p>
-    <h2 data-anim>开放架构，不被任何一家锁定</h2>
-    <p class="sub wide" data-anim>模型、搜索、记忆——全部可换。DeepSeek 贵了换 Kimi，被墙了走代理。不绑定任何厂商。</p>
-    
-    <div class="cfg-grid">
-      <div class="cfg-card" data-anim><span class="ic">🧠</span><h4>模型自由切换</h4><p>DeepSeek V4 / Flash<br>Kimi K3 / Coding<br>Claude Sonnet / Opus<br>本地 Llama.cpp<br>忙时闲时不同价——白天换便宜的</p></div>
-      <div class="cfg-card" data-anim><span class="ic">🔌</span><h4>开放 API + 代理</h4><p>20+ 第三方 API 可接<br>mihomo 代理翻墙<br>SiliconFlow Kolors 生成配图<br>绕过公司监控，灵活部署</p></div>
-      <div class="cfg-card" data-anim><span class="ic">🛠️</span><h4>工具按需加载</h4><p>toolsets 机制<br>只加载需要的工具<br>减少 token 消耗<br>不同场景不同组合</p></div>
-    </div>
-  </div>
-</section>
+                                        if (isLineHit) {
+                                            return `<div class="bg-yellow-100 border-l-4 border-orange-500 text-orange-900 font-bold px-3 py-1.5 rounded-r-md shadow-sm my-1 transition-all">${escapeHtml(line)}</div>`;
+                                        } else {
+                                            return `<div class="opacity-30 grayscale mb-1">${escapeHtml(line)}</div>`;
+                                        }
+                                    } else {
+                                        return `<div class="opacity-50 grayscale mb-1">${escapeHtml(line)}</div>`;
+                                    }
+                                } else {
+                                    // Default All (显示所有人)
+                                    if (topicMatches.length > 0) {
+                                        let hasMonitoring = false;
+                                        let hasActive = false;
+                                        topicMatches.forEach(match => {
+                                            let tOwners = DELEGATE_MAP[match[1]] || [];
+                                            if (tOwners.length > 0) {
+                                                if (tOwners.every(o => o.includes('monitoring'))) {
+                                                    hasMonitoring = true;
+                                                } else {
+                                                    hasActive = true;
+                                                }
+                                            }
+                                        });
+                                        // 纯 Monitoring 议题置灰
+                                        if (hasMonitoring && !hasActive) {
+                                            return `<div class="text-slate-400 opacity-60 font-medium mb-1">${escapeHtml(line)}</div>`;
+                                        }
+                                    }
+                                    // 正常的议题（非高亮，非 monitoring）
+                                    return `<div class="mb-1">${escapeHtml(line)}</div>`;
+                                }
+                            });
+                            // 因为已经全部用 div 包裹，直接 join('') 即可完美换行
+                            let formattedText = formattedLines.join('');
 
-<div class="spacer"></div>
+                            html += `
+                                <div class="${cardClass}" style="min-height: 180px;">
+                                    <div class="text-[10px] font-black uppercase opacity-40">${escapeHtml(room.name)}</div>
+                                    <div class="text-[13px] leading-relaxed flex-grow text-slate-800">${formattedText}</div>
+                                    ${owners.length > 0 ? `
+                                        <div class="mt-4 flex flex-wrap gap-2 pt-3 border-t border-black/5">
+                                            ${owners.map(o => {
+                                                let isMatch = currentFilter !== 'All' && isPersonMatch(o, currentFilter);
+                                                let activeClass = isMatch ? 'active-badge' : '';
+                                                let dimClass = (currentFilter !== 'All' && !isMatch) ? 'opacity-30 grayscale' : '';
+                                                let monClass = o.includes('monitoring') ? 'monitoring' : '';
+                                                return `<span class="owner-badge ${activeClass} ${dimClass} ${monClass}">👤 ${escapeHtml(o)}</span>`;
+                                            }).join('')}
+                                        </div>
+                                    ` : ''}
+                                    ${conflicts.length > 0 ? `<div class="conflict-alert">⚠️ CONFLICT: ${conflicts.map(c => escapeHtml(c.replace(/\s*\(monitoring\)/gi, "").trim())).join(', ')}</div>` : ''}
+                                </div>`;
+                        } else {
+                            html += `<div class="unowned-cell rounded-2xl"></div>`;
+                        }
+                    }
+                }
+            });
+            container.innerHTML = html + `</div>`;
+        }
 
-<!-- CH6: Workflow -->
-<section class="section" data-section="7">
-  <div class="section-inner">
-    <p class="kicker" data-anim>Chapter 6</p>
-    <h2 data-anim>一天五篇深度文章：从研究到发布</h2>
-    <p class="sub" data-anim>原来一篇公众号深度技术文章 2-3 天，现在 1-2 小时。</p>
-    
-    <div class="tl">
-      <div class="tl-item" data-anim><time>14:52</time><h4>Starlink 物理层硬核拆解</h4><p>16 篇论文交叉验证，OFDM 帧结构全公开</p></div>
-      <div class="tl-item" data-anim><time>14:53</time><h4>NTN 芯片战争</h4><p>高通 vs 三星 vs 华为 vs Apple，四条路线对战</p></div>
-      <div class="tl-item" data-anim><time>14:53</time><h4>日本 D2D 分裂式崛起</h4><p>3 家 Starlink + 1 家 AST + 1500 亿补贴</p></div>
-      <div class="tl-item" data-anim><time>14:53</time><h4>星链 D2C 卫星进化史</h4><p>四代卫星，4 Mbps 到 150 Mbps</p></div>
-      <div class="tl-item" data-anim><time>15:45</time><h4>中美星座对决</h4><p>GW 千帆 vs Starlink，频谱物理层全对比</p></div>
-    </div>
-    
-    <div class="quote" data-anim style="margin-top:20px">
-      <blockquote>"不是更快地做同样的事，<br>是让你能做以前根本不会做的事。"</blockquote>
-      <figcaption>一天五篇深度技术文章，以前想都不敢想</figcaption>
-    </div>
-  </div>
-</section>
-
-<div class="spacer"></div>
-
-<!-- CTA -->
-<section class="section full-center" data-section="8">
-  <div class="section-inner">
-    <h2 data-anim>开源，部署在你自己手里</h2>
-    <p class="sub wide" style="margin:16px auto 32px" data-anim>模型自由切换、搜索后端可换。所有记忆和 Skill 只在你自己的服务器上。</p>
-    <div class="cta-card" data-anim>
-      <p>hermes-agent.nousresearch.com</p>
-    </div>
-  </div>
-</section>
-
-<footer style="text-align:center;padding:40px;position:relative;z-index:1;font-size:11px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace;">
-Written with Hermes Agent · July 2026 · Nous Research<br>
-<a href="https://github.com/SamsungRAN4/RAN4meetingschedule" style="color:rgba(255,255,255,.2);text-decoration:none;">GitHub</a>
-</footer>
-
-<script>
-// === Three.js Starfield ===
-(function(){
-  const container = document.getElementById('bg-canvas');
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
-  const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-
-  // Stars
-  const starCount = 3000;
-  const positions = new Float32Array(starCount * 3);
-  const colors = new Float32Array(starCount * 3);
-  const sizes = new Float32Array(starCount);
-  for(let i=0; i<starCount; i++){
-    const radius = 200 + Math.random() * 800;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    positions[i*3] = radius * Math.sin(phi) * Math.cos(theta);
-    positions[i*3+1] = radius * Math.cos(phi);
-    positions[i*3+2] = radius * Math.sin(phi) * Math.sin(theta);
-    
-    const c = 0.4 + Math.random() * 0.6;
-    const tint = Math.random();
-    if(tint < 0.1){ // warm stars
-      colors[i*3]=c; colors[i*3+1]=c*0.7; colors[i*3+2]=c*0.3;
-    } else if(tint < 0.2){ // cool stars
-      colors[i*3]=c*0.6; colors[i*3+1]=c*0.7; colors[i*3+2]=c;
-    } else {
-      colors[i*3]=c; colors[i*3+1]=c; colors[i*3+2]=c;
-    }
-    sizes[i] = 0.5 + Math.random() * 1.5;
-  }
-
-  const geom = new THREE.BufferGeometry();
-  geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  geom.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-  const mat = new THREE.PointsMaterial({
-    size: 1.2, vertexColors: true, transparent: true, opacity: 0.8,
-    blending: THREE.AdditiveBlending, depthWrite: false,
-    sizeAttenuation: true,
-  });
-  const stars = new THREE.Points(geom, mat);
-  scene.add(stars);
-
-  // Nebula particles
-  const nebulaCount = 800;
-  const npos = new Float32Array(nebulaCount * 3);
-  const ncolors = new Float32Array(nebulaCount * 3);
-  for(let i=0; i<nebulaCount; i++){
-    const r = 100 + Math.random() * 400;
-    const a1 = Math.random() * Math.PI * 2;
-    const a2 = Math.acos(2 * Math.random() - 1);
-    npos[i*3] = r * Math.sin(a2) * Math.cos(a1);
-    npos[i*3+1] = r * Math.cos(a2);
-    npos[i*3+2] = r * Math.sin(a2) * Math.sin(a1);
-    ncolors[i*3] = 16/255 + Math.random() * 0.03;
-    ncolors[i*3+1] = 185/255 + Math.random() * 0.03;
-    ncolors[i*3+2] = 129/255 + Math.random() * 0.03;
-  }
-  const ng = new THREE.BufferGeometry();
-  ng.setAttribute('position', new THREE.BufferAttribute(npos, 3));
-  ng.setAttribute('color', new THREE.BufferAttribute(ncolors, 3));
-  const nm = new THREE.PointsMaterial({
-    size: 3, vertexColors: true, transparent: true, opacity: 0.06,
-    blending: THREE.AdditiveBlending, depthWrite: false,
-    sizeAttenuation: true,
-  });
-  const nebula = new THREE.Points(ng, nm);
-  scene.add(nebula);
-
-  // Shooting stars
-  const shooting = [];
-  function createShootingStar(){
-    const p = new THREE.Vector3(
-      (Math.random() - 0.5) * 600,
-      100 + Math.random() * 300,
-      -200 - Math.random() * 400
-    );
-    const dir = new THREE.Vector3(
-      (Math.random() - 0.5) * 2,
-      -2 - Math.random() * 3,
-      1 + Math.random() * 2
-    ).normalize();
-    const pts = [p.clone(), p.clone().add(dir.clone().multiplyScalar(30))];
-    const g = new THREE.BufferGeometry().setFromPoints(pts);
-    const m = new THREE.LineBasicMaterial({
-      color: new THREE.Color(0.7, 0.9, 0.8),
-      transparent: true, opacity: 0,
-      blending: THREE.AdditiveBlending,
-    });
-    const line = new THREE.Line(g, m);
-    scene.add(line);
-    return {line, dir, life:0, maxLife: 40 + Math.random() * 30, dead:false};
-  }
-
-  // Periodic shooting stars
-  function spawnShootingStar(){
-    if(shooting.length < 5){
-      const s = createShootingStar();
-      shooting.push(s);
-    }
-  }
-  setInterval(spawnShootingStar, 2000 + Math.random() * 4000);
-  // Initial burst
-  for(let i=0; i<3; i++) setTimeout(spawnShootingStar, i * 500);
-
-  let scrollY = 0;
-  let targetY = 0;
-  const clock = new THREE.Clock();
-  camera.position.z = 350;
-
-  function animate(){
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-    
-    // Parallax on scroll
-    targetY = window.pageYOffset || window.scrollY || 0;
-    scrollY += (targetY - scrollY) * 0.02;
-    
-    stars.rotation.y = t * 0.015;
-    stars.rotation.x = Math.sin(t * 0.005) * 0.05;
-    stars.position.y = -scrollY * 0.15;
-    
-    nebula.rotation.y = t * 0.008;
-    nebula.rotation.x = Math.sin(t * 0.003) * 0.03;
-    nebula.position.y = -scrollY * 0.08;
-    
-    // Shooting stars
-    for(let i=shooting.length-1; i>=0; i--){
-      const s = shooting[i];
-      s.life++;
-      const progress = s.life / s.maxLife;
-      if(progress >= 1){ scene.remove(s.line); shooting.splice(i,1); continue; }
-      s.line.material.opacity = Math.sin(progress * Math.PI) * 0.6;
-      const pts = s.line.geometry.attributes.position.array;
-      pts[0] += s.dir.x * 1.2;
-      pts[1] += s.dir.y * 1.2;
-      pts[2] += s.dir.z * 1.2;
-      pts[3] = pts[0] + s.dir.x * 30;
-      pts[4] = pts[1] + s.dir.y * 30;
-      pts[5] = pts[2] + s.dir.z * 30;
-      s.line.geometry.attributes.position.needsUpdate = true;
-    }
-    
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', ()=>{
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-})();
-
-// === Scroll Animations ===
-(function(){
-  const els = document.querySelectorAll('[data-anim]');
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        // Stagger children
-        const parent = e.target.closest('[data-section]');
-        const items = parent ? parent.querySelectorAll('[data-anim]') : [e.target];
-        const baseDelay = (e.target.dataset.section || 0) * 0.04;
-        items.forEach((el, i)=>{
-          const delay = baseDelay + i * 0.06;
-          setTimeout(()=>{ el.classList.add('visible'); }, delay * 1000);
+        document.getElementById('delegateFilter').addEventListener('change', (e) => {
+            currentFilter = e.target.value;
+            renderSchedule();
         });
-      }
-    });
-  }, {threshold: 0.08, rootMargin: '0px 0px -40px 0px'});
-  
-  // Set initial stagger delays
-  document.querySelectorAll('[data-section]').forEach(section=>{
-    const items = section.querySelectorAll('[data-anim]');
-    items.forEach((el, i)=>{
-      el.style.transitionDelay = `${i * 0.06}s`;
-    });
-  });
-  
-  els.forEach(el=>observer.observe(el));
-  
-  // Trigger hero immediately
-  setTimeout(()=>{
-    document.querySelectorAll('.hero [data-anim], [data-section="0"] [data-anim]').forEach(el=>el.classList.add('visible'));
-  }, 100);
-})();
-</script>
+
+        initDelegateFilter(); initTabs(); renderSchedule();
+    </script>
 </body>
 </html>
+    
