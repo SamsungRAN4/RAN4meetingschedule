@@ -92,7 +92,7 @@
         <div class="max-w-[1800px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-6">
             <div>
                 <h1 class="text-2xl font-black text-slate-800 tracking-tight">Samsung RAN4 Dashboard</h1>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">RAN4_120_meeting_schedule_v03_clean</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">RAN4_120_meeting_schedule_after Tuesday_clean</p>
             </div>
             
             <div class="flex items-center gap-4 bg-amber-50 p-2.5 rounded-2xl border border-amber-200">
@@ -404,7 +404,7 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "1. Opening of the meeting <br>2. Approval of the agenda<br>3. Letters / reports from other groups / meetings<br>4. Incoming LS<br>5. Release independency<br>6. On R21 RAN4 package (no contribution is expected)",
+                    "text": "1. Opening of the meeting <br>2. Approval of the agenda<br>3. Letters / reports from other groups / meetings<br>4. Incoming LS<br>5. Release independency （12125, 12231）<br>6. SSB design time line (12230)<br>7. On R21 RAN4 package (no contribution is expected)",
                     "topics": []
                 },
                 {
@@ -475,10 +475,9 @@ const scheduleData = {
                 },
                 {
                     "name": "Shan",
-                    "text": "Rel-20 RRM<br>[209] FS_NR_demod_SCM <br>[202] NR_UAV_req_RRM",
+                    "text": "Rel-20 RRM<br>[209] FS_NR_demod_SCM",
                     "topics": [
-                        "209",
-                        "202"
+                        "209"
                     ]
                 },
                 {
@@ -491,9 +490,10 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "Main Ad-hoc<br>[105] 6G RRM Chaired by Jerry (Apple)",
+                    "text": "Main Ad-hoc<br>[105] 6G RRM Chaired by Jerry (Apple)<br>[105-B] 6G RRM Chaired by Jinyup (LGE)",
                     "topics": [
-                        "105"
+                        "105",
+                        "105-B"
                     ]
                 }
             ]
@@ -532,9 +532,10 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "BR2 Ad-hoc: 5G BSRF (14:30 – 15:30) <br>[345] NR_BS_RF_Ph2, chaired by Torbjörn (Ericsson)<br><br>BR1 Ad-hoc: 6G testability/OTA (15:30-16:30)<br>[213] 6G testability and OTA, chaired by Ruixin Wang (vivo)",
+                    "text": "BR2 Ad-hoc: 5G BSRF (14:30 – 15:30) <br>[345] NR_BS_RF_Ph2, chaired by Torbjörn (Ericsson)<br>[304] BSRF_Maintenance_TEI on Coex/Colo simplification, chaired by Aurelian (if time allows)<br><br>BR1 Ad-hoc: 6G testability/OTA (15:30-16:30)<br>[213] 6G testability and OTA, chaired by Ruixin Wang (vivo)",
                     "topics": [
                         "345",
+                        "304",
                         "213"
                     ]
                 }
@@ -651,16 +652,39 @@ const scheduleData = {
         },
         {
             "time": "10:30-11:00",
-            "isBreak": true,
-            "text": "koffietijd"
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "koffietijd<br>Coffee break: [101-B] System Parameter, Chaired by Jingqiang (OPPO)",
+                    "topics": [
+                        "101-B"
+                    ]
+                },
+                {
+                    "name": "Shan",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Coffee Break",
+                    "topics": []
+                }
+            ]
         },
         {
             "time": "11:00-13:00",
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "[105] 6G RRM",
+                    "text": "[108] Spectrum sharing<br><br>[105] 6G RRM",
                     "topics": [
+                        "108",
                         "105"
                     ]
                 },
@@ -699,14 +723,15 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "[104] 6G Spectrum",
+                    "text": "[105] 6G RRM<br><br>[104] 6G Spectrum",
                     "topics": [
+                        "105",
                         "104"
                     ]
                 },
                 {
                     "name": "Shan",
-                    "text": "Rel-20 RRM<br>[205] NR_AIML_Mob_RRM<br>---15:30---<br>Rel-20 Demod<br>[202] NR_UAV_req_RRM",
+                    "text": "Rel-20 RRM<br>[205] NR_AIML_Mob_RRM<br>---15:30---<br>Rel-20 Demod<br><br>[202] NR_UAV_req_RRM",
                     "topics": [
                         "205",
                         "202"
@@ -721,8 +746,12 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "BR2 Ad-hoc: TBD",
-                    "topics": []
+                    "text": "BR2 Ad-hoc: Spectrum (14:30 – 15:00)<br>[328] NR_EESS_PC1_40GHz chaired by Ryu (NTT DoCoMo)<br><br>BR2 Ad-hoc: UAV (15:00 – 15:30)<br>[351] NR_UAV chaired by Bin (Qualcomm)<br><br>BR2 Ad-hoc: NTN HD-FDD and DL CA RRM (15:30 – 16:30)<br>[348] NR_IoT_NTN_Ph2_Part3_RRM chaired by Jinyeoung (LGE)",
+                    "topics": [
+                        "328",
+                        "351",
+                        "348"
+                    ]
                 }
             ]
         },
@@ -731,7 +760,7 @@ const scheduleData = {
             "rooms": [
                 {
                     "name": "Yang",
-                    "text": "koffietijd",
+                    "text": "koffietijd<br>Coffee break AH: 6G AI general part charied by Jackson (Samsung)",
                     "topics": []
                 },
                 {
@@ -743,13 +772,15 @@ const scheduleData = {
                 },
                 {
                     "name": "Gene",
-                    "text": "koffietijd",
+                    "text": "Coffee Break",
                     "topics": []
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "koffietijd",
-                    "topics": []
+                    "text": "Coffee break: [105] 6G RRM UE group simulations Chaired by Manasa (Apple)",
+                    "topics": [
+                        "105"
+                    ]
                 }
             ]
         },
@@ -848,17 +879,39 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "BR1 Ad-hoc:<br>[209] FS_NR_demod_SCM, Chaired by Ryan (BT)<br><br>---9:30---<br><br>BR2 Ad-hoc: NTN RRM (maint or Rel-20)",
+                    "text": "BR1 Ad-hoc:<br>[209] FS_NR_demod_SCM, Chaired by Ryan (BT)<br><br>---9:30---<br><br>BR2 Ad-hoc: NTN RRM<br>[306] NR_IoT_NTN_Maintenance_RRM, Chaired by Derrick (ZTE) (9:30 – 10:00)<br><br>[350] LTE_TN_NR_NTN_handover, Chaired by Lingyu (CATT) (10:00 – 10:30)",
                     "topics": [
-                        "209"
+                        "209",
+                        "306",
+                        "350"
                     ]
                 }
             ]
         },
         {
             "time": "10:30-11:00",
-            "isBreak": true,
-            "text": "koffietijd"
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "koffietijd<br>Coffee break AH: Tx EVM (Chaired by Haijie)",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Coffee break ad-hoc: NTN coexistence victim model and parameters, chaired by Shubham (Ericsson)",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Coffee break AH: gapless measurement Chaired by Jinyup (LGE)",
+                    "topics": []
+                }
+            ]
         },
         {
             "time": "11:00-13:00",
@@ -928,17 +981,38 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "Main Ad-hoc: [101-B] System Parameter, Chaired by Jingqiang (OPPO)<br><br>---15:30---<br>BR2 Ad-Hoc: Ambient IoT",
+                    "text": "Main Ad-hoc: [101-B] System Parameter, Chaired by Jingqiang (OPPO)<br><br>---15:30---<br>BR2 Ad-Hoc: Ambient IoT sys param and D4T1<br>[353] A-IoT_sys_outdoor chaired by Linling (Huawei)",
                     "topics": [
-                        "101-B"
+                        "101-B",
+                        "353"
                     ]
                 }
             ]
         },
         {
             "time": "16:30-17:00",
-            "isBreak": true,
-            "text": "koffietijd"
+            "rooms": [
+                {
+                    "name": "Yang",
+                    "text": "koffietijd<br>Coffee break AH: 6G Tx requirements (Chaired by Toni)",
+                    "topics": []
+                },
+                {
+                    "name": "Shan",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Gene",
+                    "text": "Coffee Break",
+                    "topics": []
+                },
+                {
+                    "name": "Ad-hoc",
+                    "text": "Coffee Break",
+                    "topics": []
+                }
+            ]
         },
         {
             "time": "17:00-18:00",
@@ -983,8 +1057,9 @@ const scheduleData = {
                 },
                 {
                     "name": "Shan",
-                    "text": "BR1 Ad hoc: <br>Demod<br>[208] NR_demod_Ph6, Chaired by Jingzhou Wu (China Telecom)",
+                    "text": "BR1 Ad hoc: RRM<br>[216] RRM_Maintenance_R18_R19, Chaired by Li Zhang (Huawei)<br><br>Demod<br>[208] NR_demod_Ph6, Chaired by Jingzhou Wu (China Telecom)",
                     "topics": [
+                        "216",
                         "208"
                     ]
                 },
@@ -1120,8 +1195,11 @@ const scheduleData = {
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "BR2 Ad-hoc: NTN Rel-20 RF",
-                    "topics": []
+                    "text": "BR2 Ad-hoc: NTN Rel-20 RF DL CA and HD-FDD<br>[346] NR_IoT_NTN_Ph2 chaired by Tank (CHTTL)<br>[347] NR_IoT_NTN_Ph2_Part2 chaired by Jeffery (MTK)",
+                    "topics": [
+                        "346",
+                        "347"
+                    ]
                 }
             ]
         },
@@ -1176,15 +1254,17 @@ const scheduleData = {
                 },
                 {
                     "name": "Gene",
-                    "text": "BR2 Ad-hoc:  Rel-20 UAV<br>[351] NR_UAV chaired by Bin (Qualcomm)",
+                    "text": "BR2 Ad-hoc: Ambient IoT D2T2<br>[354] A-IoT_indoor_test chaired by Huiping (Xiaomi)",
                     "topics": [
-                        "351"
+                        "354"
                     ]
                 },
                 {
                     "name": "Ad-hoc",
-                    "text": "Main Ad hoc: <br>TBD",
-                    "topics": []
+                    "text": "Main Ad hoc: <br>[107] 6G AI, Chaired by Santhan (E///)",
+                    "topics": [
+                        "107"
+                    ]
                 }
             ]
         },
